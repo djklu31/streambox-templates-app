@@ -12,7 +12,6 @@ body {
 .container {
     border-radius: 5px;
     padding: .5em;
-    padding-left: 1em;
     background-color: rgb(243, 243, 247);
 }
 
@@ -22,6 +21,10 @@ body {
     grid-template-columns: repeat(4, 1fr);
     margin: 1em;
     margin-top: 3em;
+}
+
+.container-title {
+    margin-left: 1em;
 }
 
 body {
@@ -69,8 +72,6 @@ header {
     box-shadow: 1px 1px black;
 }
 
-
-
 .small-button:hover {
     cursor: pointer;
     background-color: #dddddd;
@@ -83,9 +84,19 @@ header {
     justify-content: center;
 }
 
+.big-button {
+    padding: 10px 20px;
+    border-radius: 7px;
+    border: 0px;
+    background-color: #05386B;
+    color: white;
+    letter-spacing: .05rem;
+    box-shadow: 2px 1px #555;
+}
+
 .big-button:hover {
     cursor: pointer;
-    background-color: #032547;
+    background-color: #042951;
 }
 
 .big-button:active:hover, .small-button:active:hover {
@@ -126,11 +137,12 @@ header {
 }
 
 .flex-container .container {
-    min-width: 300px;
+    min-width: 400px;
 }
 
 .video {
-    margin-right: .5em;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 1em;
     margin-bottom: 1em;
     display: flex;
