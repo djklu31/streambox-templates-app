@@ -12,7 +12,7 @@ export default function Container(props) {
     //handle different field types
     const mappedFields = fields.map(field => {
         if (field.type === "text") {
-            return <p className="fields" key={nanoid()}>{field.value}: {field.type}</p>
+            return <p className="fields" key={nanoid()}>{<span className="field-label">{field.value}</span>}: {field.mapping ? field.mapping: field.type}</p>
         } else if (field.type === "video") {
             return <Video key={nanoid()} height={field.height} width={field.width}/>
         } else if (field.type ==="button") {
@@ -26,6 +26,7 @@ export default function Container(props) {
     return (
         <div className="container" style={style}>
             <h4 className="container-title">{title}</h4>
+            <hr />
             {mappedFields}
         </div>
     )

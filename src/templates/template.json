@@ -27,23 +27,63 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "value": "Source Video Format",
+                                    "mapping": "1080p"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "value": "Video Resolution",
+                                    "mapping": "1080p"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "value": "Color Profile",
+                                    "mapping": "RGB"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "value": "Bitrate",
+                                    "mapping": "3600K"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "value": "Quality",
+                                    "mapping": "HD"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Captured Frames",
+                                    "mapping": "0"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Encoder Frames",
+                                    "mapping": "2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "SDI errors",
+                                    "mapping": "0"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Frame Delay",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Frame Rate",
+                                    "mapping": "30fps"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dolby Vision",
+                                    "mapping": "off"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Watermark",
+                                    "mapping": "none"
                                 }
                             ]
                         },
@@ -53,20 +93,43 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
+                                    "value": "Name",
+                                    "mapping": "Adhoc"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "value": "Name: Delete"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Name: Add"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Destination IP",
+                                    "mapping": "185.82.86.129"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Destination IP: Remote"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Destination Port",
+                                    "mapping": "3291"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "IP Packet Size",
+                                    "mapping": "230kb"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Apply Changes"
                                 }
                             ]
                         }
