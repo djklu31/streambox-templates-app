@@ -1,0 +1,342 @@
+{
+    "template": {
+        "navbar": {
+            "routes": [
+                {
+                    "routeName": "Mutichannel Page",
+                    "containers": [
+                        {
+                            "title": "Encoder 1",
+                            "backgroundColor": "#eeffff",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn Off",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder 2",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn On",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder 3",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn On",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder 4",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn On",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder 5",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn On",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder 6",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn On",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder 7",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn On",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder 8",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": ""
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Signal",
+                                    "mapping": "N/A"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Title",
+                                    "mapping": "CH1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dest",
+                                    "mapping": "127.0.0.1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Port",
+                                    "mapping": "1770"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "CDI Port",
+                                    "mapping": "5000"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Turn On",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

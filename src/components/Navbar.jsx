@@ -16,7 +16,7 @@ export default function Navbar(props) {
                     </div>
 
                     <div className="logout-section">
-                        Logged in:&nbsp;<span>User here</span><a className="logout-btn" href="/">Logout</a>
+                        Logged in:&nbsp;<span>Kenny</span><a className="logout-btn" href="/">Logout</a>
                     </div>
                 </nav>
             </header>

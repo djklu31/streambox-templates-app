@@ -3,7 +3,7 @@
         "navbar": {
             "routes": [
                 {
-                    "routeName": "Video",
+                    "routeName": "Encoder",
                     "containers": [
                         {
                             "title": "Video",
