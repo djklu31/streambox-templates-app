@@ -23,11 +23,14 @@ export default function Container(props) {
                     if (filteredStat && filteredStat.length > 0) {
                         result = filteredStat[0].val
                     } else {
-                        result = <span className="mapping-not-found">Field couldn't be mapped to a value from the API <br/>(please check if cname from API matches the "mapping" field of <br/> the JSON template)</span>
+                        result = <span className="mapping-not-found">Field couldn't be mapped to a value from the API 
+                        <br/>(please check if cname from API matches the "mapping" field of 
+                        <br/> the JSON template)</span>
                     }
                 }
             }
-            return <p className="fields" key={nanoid()}>{<span className="field-label">{field.value}</span>}: {(field.mapping && filteredStat) ? result: <span className="mapping-not-found">{field.mapping ? "API src not included in JSON template" : "No mapping field found in JSON template"}</span>}</p>
+            return <p className="fields" key={nanoid()}>{<span className="field-label">{field.value}</span>}: {(field.mapping && apiObj) ? result:
+                 <span className="mapping-not-found">{field.mapping ? "API src not included in JSON template" : "No mapping field found in JSON template"}</span>}</p>
         } else if (field.type === "video") {
             return <Video key={nanoid()} height={field.height} width={field.width}/>
         } else if (field.type ==="button") {

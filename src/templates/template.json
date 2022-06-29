@@ -1,5 +1,6 @@
 {
     "template": {
+        "darkMode": true,
         "navbar": {
             "routes": [
                 {

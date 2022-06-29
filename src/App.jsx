@@ -14,6 +14,12 @@ export default function App() {
   const combinedApiArray = [];
   const endpoint = "http://localhost:3000/"
 
+  if (typeof currentTemplate.template.darkMode !== "undefined") {
+    if (currentTemplate.template.darkMode) {
+      document.body.classList.add('dark-mode')
+    }
+  }
+
   //watch for route changes
   useEffect(() => {
     const fullRouteObj = navBtns.filter((navBtn) => navBtn.routeName === currentPageName)
