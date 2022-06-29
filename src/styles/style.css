@@ -53,6 +53,7 @@ nav {
 
 .fields  {
     margin-left: 2em;
+    margin-right: 2em;
 }
 
 header {
@@ -83,7 +84,6 @@ header {
 }
 
 .flex-outer-container {
-    height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
