@@ -1,0 +1,158 @@
+{
+    "current_stat": [
+        {
+            "cname": "inputsignal",
+            "type": 0,
+            "label": "Signal",
+            "val": "1080p60",
+            "read_only": 1
+        },
+        {
+            "cname": "cnetworkmode",
+            "type": 0,
+            "label": "Net Mode",
+            "val": "LAN",
+            "read_only": 1
+        },
+        {
+            "cname": "cur_bitrate",
+            "type": 0,
+            "label": "Bitrate",
+            "val": "0Kbps",
+            "read_only": 1
+        },
+        {
+            "cname": "isStreaming",
+            "type": 3,
+            "label": "Is streaming?",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "isRecording",
+            "type": 3,
+            "label": "Is recording?",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "isRestarting",
+            "type": 3,
+            "label": "Is restarting?",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "abn_status",
+            "type": 1,
+            "label": "ABN Status",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "sdi_error",
+            "type": 1,
+            "label": "SDI Error",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "dropCapture",
+            "type": 1,
+            "label": "Dropped Capture Frames",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "dropEnc",
+            "type": 1,
+            "label": "Dropped Encoder Frames",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "vquality",
+            "type": 0,
+            "label": "Quality",
+            "val": "0-0",
+            "read_only": 1
+        },
+        {
+            "cname": "frame_delay",
+            "type": 1,
+            "label": "Frame Delay",
+            "val": 5,
+            "read_only": 1
+        },
+        {
+            "cname": "cshuffle",
+            "type": 1,
+            "label": "Shuffle",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "cbuffer",
+            "type": 0,
+            "label": "Buffer",
+            "val": "0%",
+            "read_only": 1
+        },
+        {
+            "cname": "cbytes",
+            "type": 0,
+            "label": "Bytes",
+            "val": "0K",
+            "read_only": 1
+        },
+        {
+            "cname": "sent_packets",
+            "type": 1,
+            "label": "Packets Sent",
+            "val": 0,
+            "read_only": 1
+        },
+        {
+            "cname": "c_packetsize",
+            "type": 1,
+            "label": "Packets Size",
+            "val": 1392,
+            "read_only": 1
+        },
+        {
+            "cname": "c_decoderIP",
+            "type": 0,
+            "label": "Decoder IP",
+            "val": "52.25.129.48",
+            "read_only": 1
+        },
+        {
+            "cname": "c_decoderIP2",
+            "type": 0,
+            "label": "Decoder IP(2)",
+            "val": "N\/A",
+            "read_only": 1
+        },
+        {
+            "cname": "c_encoderIP",
+            "type": 0,
+            "label": "Encoder IP",
+            "val": "10.0.0.21",
+            "read_only": 1
+        },
+        {
+            "cname": "c_encoderIP2",
+            "type": 0,
+            "label": "Encoder IP(2)",
+            "val": "N\/A",
+            "read_only": 1
+        },
+        {
+            "cname": "is_ldmp",
+            "type": 3,
+            "label": "Is LDMP?",
+            "val": 1,
+            "read_only": 1
+        }
+    ]
+}

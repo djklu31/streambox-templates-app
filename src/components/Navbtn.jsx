@@ -5,7 +5,6 @@ export default function NavBtn(props) {
 
     if (props.currentPageName === props.navBtn) {
         classList = "nav-btn selected-route"
-        console.log("PRESENT");
     }
 
     return (

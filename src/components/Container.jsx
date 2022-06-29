@@ -5,6 +5,8 @@ import Button from "./Button"
 
 export default function Container(props) {
     const container = props.container
+    const apiObj = props.apiObj
+    console.log(apiObj)
     const title = container.title
     const fields = container.fields
     let style = {}
@@ -12,7 +14,20 @@ export default function Container(props) {
     //handle different field types
     const mappedFields = fields.map(field => {
         if (field.type === "text") {
-            return <p className="fields" key={nanoid()}>{<span className="field-label">{field.value}</span>}: {field.mapping ? field.mapping: field.type}</p>
+            let filteredStat
+            let result
+
+            if (field.mapping) {
+                if (apiObj){
+                    filteredStat = apiObj.current_stat.filter(stat => field.mapping === stat.cname)
+                    if (filteredStat && filteredStat.length > 0) {
+                        result = filteredStat[0].val
+                    } else {
+                        result = <span className="mapping-not-found">Field couldn't be mapped to a value from the API <br/>(please check if cname from API matches the "mapping" field of <br/> the JSON template)</span>
+                    }
+                }
+            }
+            return <p className="fields" key={nanoid()}>{<span className="field-label">{field.value}</span>}: {(field.mapping && filteredStat) ? result: <span className="mapping-not-found">{field.mapping ? "API src not included in JSON template" : "No mapping field found in JSON template"}</span>}</p>
         } else if (field.type === "video") {
             return <Video key={nanoid()} height={field.height} width={field.width}/>
         } else if (field.type ==="button") {

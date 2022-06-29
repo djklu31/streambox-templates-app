@@ -10,29 +10,55 @@ export default function App() {
 
   const navBtns = currentTemplate.template.navbar.routes
   const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
-  const [currentContainers, setCurrentContainers] = useState([]);
+  const [currentContainers, setCurrentContainers] = useState([])
+  const combinedApiArray = [];
+  const endpoint = "http://localhost:3000/"
 
   //watch for route changes
   useEffect(() => {
     const fullRouteObj = navBtns.filter((navBtn) => navBtn.routeName === currentPageName)
     const navBtnDOMObj = document.getElementsByClassName("nav-btn")
-    const routeContainers = fullRouteObj[0].containers.map((container) => <Container key={nanoid()} container={container}/>)
-    setCurrentContainers(routeContainers);
+    //index of apiSrcs matches routeContainers
+    const apiSrcs = fullRouteObj[0].containers.map((container) => container.apiSrc)
 
+    //highlight link
     for (let i = 0; i < navBtnDOMObj.length; i++) {
       if (navBtnDOMObj[i].innerText === currentPageName) {
-        //highlight link and set co state
         navBtnDOMObj[i].classList.add("selected-route")
       }
     }
+  
+    //fetch all api objects for this page and plop into an array
+    async function fetchApiPages(apiSrcs) {
+        let fullEndpoint
+        let response      
+        let jsonResult
+
+        for (let src of apiSrcs) {
+          if (src) {
+            fullEndpoint = endpoint + src;
+            response = await fetch(fullEndpoint)
+            jsonResult = await response.json()
+            combinedApiArray.push(jsonResult)
+          } else {
+            combinedApiArray.push(null);
+          }
+        }
+    }
+
+    //when all api pages are put into a variable, set containers and pass our api objects down
+    fetchApiPages(apiSrcs).then(() => {
+      const routeContainers = fullRouteObj[0].containers.map((container, index) => <Container key={nanoid()} apiObj={combinedApiArray[index]} container={container}/>)
+      setCurrentContainers(routeContainers);
+    })
 
   }, [currentPageName])
-
 
   function changeRoute(routeName) {
     setCurrentPageName(routeName)
   }
 
+  //style rules for if less than 4 containers
   let innerClassList = "containers"
   let outerClassList = "outer-container"
 

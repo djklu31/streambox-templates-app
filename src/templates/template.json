@@ -3,11 +3,11 @@
         "navbar": {
             "routes": [
                 {
-                    "routeName": "Encoder",
+                    "routeName": "Info",
                     "containers": [
                         {
                             "title": "Video",
-                            "backgroundColor": "#FAEBEFFF",
+                            "apiSrc": "rest/fakerest.json",
                             "fields": [
                                 {
                                     "type": "video",
@@ -15,128 +15,185 @@
                                     "height": "400px"
                                 },
                                 {
-                                    "type": "button",
-                                    "size": "big",
-                                    "value": "Start Streaming",
-                                    "_comment1": "Add button logic here"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "Encoder Info",
-                            "fields": [
-                                {
                                     "type": "text",
                                     "value": "Source Video Format",
-                                    "mapping": "1080p"
+                                    "mapping": "inputsignal"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Video Resolution",
-                                    "mapping": "1080p"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "Color Profile",
-                                    "mapping": "RGB"
+                                    "value": "Network Mode",
+                                    "mapping": "cnetworkmode"
                                 },
                                 {
                                     "type": "text",
                                     "value": "Bitrate",
-                                    "mapping": "3600K"
+                                    "mapping": "cur_bitrate"
                                 },
                                 {
                                     "type": "text",
                                     "value": "Quality",
-                                    "mapping": "HD"
+                                    "mapping": "vquality"
+                                },
+                                {
+                                    "type": "boolean",
+                                    "value": "Is Streaming?",
+                                    "mapping": "isStreaming"
                                 },
                                 {
                                     "type": "text",
                                     "value": "Dropped Captured Frames",
-                                    "mapping": "0"
+                                    "mapping": "dropCapture"
                                 },
                                 {
                                     "type": "text",
                                     "value": "Dropped Encoder Frames",
-                                    "mapping": "2"
+                                    "mapping": "dropEnc"
                                 },
                                 {
                                     "type": "text",
                                     "value": "SDI errors",
-                                    "mapping": "0"
+                                    "mapping": "sdi_error"
                                 },
                                 {
                                     "type": "text",
                                     "value": "Frame Delay",
-                                    "mapping": "N/A"
+                                    "mapping": "frame_delay"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Frame Rate",
-                                    "mapping": "30fps"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "Dolby Vision",
-                                    "mapping": "off"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "Watermark",
+                                    "value": "Missing Value",
                                     "mapping": "none"
                                 }
                             ]
                         },
                         {
-                            "title": "Decoder Info",
+                            "title": "Network",
+                            "apiSrc": "rest/fakerest.json",
                             "backgroundColor": "#C7D3D4FF",
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Name",
-                                    "mapping": "Adhoc"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Name: Delete"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Name: Add"
+                                    "value": "Encoder IP",
+                                    "mapping": "c_encoderIP"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Destination IP",
-                                    "mapping": "185.82.86.129"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Destination IP: Remote"
+                                    "value": "Decoder IP",
+                                    "mapping": "c_decoderIP"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Destination Port",
-                                    "mapping": "3291"
+                                    "value": "Packet Size",
+                                    "mapping": "c_packetsize"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "IP Packet Size",
-                                    "mapping": "230kb"
+                                    "value": "Shuffle",
+                                    "mapping": "cshuffle"
+                                },{
+                                    "type": "text",
+                                    "value": "Buffer",
+                                    "mapping": "cbuffer"
                                 },
                                 {
+                                    "type": "text",
+                                    "value": "Bytes",
+                                    "mapping": "cbytes"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Packets Sent",
+                                    "mapping": "sent_packets"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Transmission",
+                                    "mapping": "is_ldmp"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Start Streaming",
+                            "apiSrc": "rest/fakerest.json",
+                            "backgroundColor": "rgb(250, 208, 201)",
+                            "fields": [
+                                {
                                     "type": "button",
-                                    "size": "small",
-                                    "value": "Apply Changes"
+                                    "size": "big",
+                                    "value": "Start Streaming"
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "routeName": "Info",
+                    "routeName": "Network",
+                    "containers": [
+                        {
+                            "title": "Encoder Info",
+                            "apiSrc": "rest/fakerest.json",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Encoder IP:",
+                                    "mapping": "c_encoderIP"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Source Video Format",
+                                    "mapping": "inputsignal"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Network Mode",
+                                    "mapping": "cnetworkmode"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": "cur_bitrate"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Quality",
+                                    "mapping": "vquality"
+                                },
+                                {
+                                    "type": "boolean",
+                                    "value": "Is Streaming?",
+                                    "mapping": "isStreaming"
+                                },
+                                {
+                                    "type": "boolean",
+                                    "value": "Is LDMP?",
+                                    "mapping": "is_ldmp"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Captured Frames",
+                                    "mapping": "dropCapture"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Encoder Frames",
+                                    "mapping": "dropEnc"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "SDI errors",
+                                    "mapping": "sdi_error"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Frame Delay",
+                                    "mapping": "frame_delay"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Metadata",
                     "containers": [
                         {
                             "title": "Video (400px)",
@@ -161,7 +218,8 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "value": "Label 1",
+                                    "mapping": "OIIIII"
                                 }, 
                                 {
                                     "type": "text",
@@ -688,257 +746,7 @@
                     ]
                 },
                 {
-                    "routeName": "Network",
-                    "containers": [
-                        {
-                            "title": "Encoder Info",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "Label 1"
-                                }, 
-                                {
-                                    "type": "text",
-                                    "value": "Label 2"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "Decoder Info",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "Encoder Info",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "Label 1"
-                                }, 
-                                {
-                                    "type": "text",
-                                    "value": "Label 2"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "Decoder Info",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                }
-                            ]
-                        },{
-                            "title": "Encoder Info",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "Label 1"
-                                }, 
-                                {
-                                    "type": "text",
-                                    "value": "Label 2"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "Decoder Info",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "LDMP Settings",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "Start Video",
-                            "fields": [
-                                {
-                                    "type": "text",
-                                    "value": "field1"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "small",
-                                    "value": "Generic Button"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
                     "routeName": "Config",
-                    "containers": [
-                        {
-                            "title": "Video",
-                            "fields": [
-                                {
-                                    "type": "video",
-                                    "width": "400px",
-                                    "height": "400px"
-                                },
-                                {
-                                    "type": "button",
-                                    "size": "big",
-                                    "value": "Start Streaming",
-                                    "_comment1": "Add button logic here"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "routeName": "Metadata",
                     "containers": [
                         {
                             "title": "Video",
