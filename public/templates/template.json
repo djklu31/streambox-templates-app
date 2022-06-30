@@ -8,7 +8,7 @@
                     "containers": [
                         {
                             "title": "Video",
-                            "apiSrc": "rest/fakerest.json",
+                            "apiSrc": "/rest-mockup/encoder/status",
                             "fields": [
                                 {
                                     "type": "video",
@@ -69,7 +69,7 @@
                         },
                         {
                             "title": "Network",
-                            "apiSrc": "rest/fakerest.json",
+                            "apiSrc": "/rest-mockup/encoder/status",
                             "backgroundColor": "#C7D3D4FF",
                             "fields": [
                                 {
@@ -115,7 +115,7 @@
                         },
                         {
                             "title": "Start Streaming",
-                            "apiSrc": "rest/fakerest.json",
+                            "apiSrc": "/rest-mockup/encoder/status",
                             "backgroundColor": "rgb(250, 208, 201)",
                             "fields": [
                                 {
@@ -132,7 +132,7 @@
                     "containers": [
                         {
                             "title": "Encoder Info",
-                            "apiSrc": "rest/fakerest.json",
+                            "apiSrc": "/rest-mockup/encoder/status",
                             "fields": [
                                 {
                                     "type": "text",

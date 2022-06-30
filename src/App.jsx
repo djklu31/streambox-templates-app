@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import Navbar from "./components/Navbar"
 import Container from "./components/Container"
-import customTemplate from './templates/template.json'
+import customTemplate from '/public/templates/devTemplate.json'
 import { nanoid } from 'nanoid'
 
 export default function App() {
@@ -12,7 +12,11 @@ export default function App() {
   const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
   const [currentContainers, setCurrentContainers] = useState([])
   const combinedApiArray = [];
-  const endpoint = "http://localhost:3000/"
+  //dev endpoint
+  // const endpoint = "http://localhost:3000/"
+
+  //prod endpoint
+  const endpoint = location.origin
 
   if (typeof currentTemplate.template.darkMode !== "undefined") {
     if (currentTemplate.template.darkMode) {
@@ -68,10 +72,10 @@ export default function App() {
   let innerClassList = "containers"
   let outerClassList = "outer-container"
 
-  if (currentContainers.length < 4) {
-    innerClassList += " flex-container"
-    outerClassList += " flex-outer-container"
-  }
+  // if (currentContainers.length < 4) {
+  //   innerClassList += " flex-container"
+  //   outerClassList += " flex-outer-container"
+  // }
 
   return (
     <>

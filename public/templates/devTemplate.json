@@ -1,0 +1,1234 @@
+{
+    "template": {
+        "darkMode": true,
+        "navbar": {
+            "routes": [
+                {
+                    "routeName": "Info",
+                    "containers": [
+                        {
+                            "title": "Video",
+                            "apiSrc": "/rest/fakerest.json",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "400px",
+                                    "height": "400px"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Source Video Format",
+                                    "mapping": "inputsignal"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Network Mode",
+                                    "mapping": "cnetworkmode"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": "cur_bitrate"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Quality",
+                                    "mapping": "vquality"
+                                },
+                                {
+                                    "type": "boolean",
+                                    "value": "Is Streaming?",
+                                    "mapping": "isStreaming"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Captured Frames",
+                                    "mapping": "dropCapture"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Encoder Frames",
+                                    "mapping": "dropEnc"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "SDI errors",
+                                    "mapping": "sdi_error"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Frame Delay",
+                                    "mapping": "frame_delay"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Missing Value",
+                                    "mapping": "none"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Network",
+                            "apiSrc": "/rest/fakerest.json",
+                            "backgroundColor": "#C7D3D4FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Encoder IP",
+                                    "mapping": "c_encoderIP"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Decoder IP",
+                                    "mapping": "c_decoderIP"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Packet Size",
+                                    "mapping": "c_packetsize"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Shuffle",
+                                    "mapping": "cshuffle"
+                                },{
+                                    "type": "text",
+                                    "value": "Buffer",
+                                    "mapping": "cbuffer"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Bytes",
+                                    "mapping": "cbytes"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Packets Sent",
+                                    "mapping": "sent_packets"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Transmission",
+                                    "mapping": "is_ldmp"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Start Streaming",
+                            "apiSrc": "/rest/fakerest.json",
+                            "backgroundColor": "rgb(250, 208, 201)",
+                            "fields": [
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Start Streaming"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Network",
+                    "containers": [
+                        {
+                            "title": "Encoder Info",
+                            "apiSrc": "/rest/fakerest.json",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Encoder IP:",
+                                    "mapping": "c_encoderIP"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Source Video Format",
+                                    "mapping": "inputsignal"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Network Mode",
+                                    "mapping": "cnetworkmode"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Bitrate",
+                                    "mapping": "cur_bitrate"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Quality",
+                                    "mapping": "vquality"
+                                },
+                                {
+                                    "type": "boolean",
+                                    "value": "Is Streaming?",
+                                    "mapping": "isStreaming"
+                                },
+                                {
+                                    "type": "boolean",
+                                    "value": "Is LDMP?",
+                                    "mapping": "is_ldmp"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Captured Frames",
+                                    "mapping": "dropCapture"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Dropped Encoder Frames",
+                                    "mapping": "dropEnc"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "SDI errors",
+                                    "mapping": "sdi_error"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "Frame Delay",
+                                    "mapping": "frame_delay"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Metadata",
+                    "containers": [
+                        {
+                            "title": "Video (400px)",
+                            "backgroundColor": "#F2EDD7FF",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "400px",
+                                    "height": "400px"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Start Streaming",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "backgroundColor": "#E3CD81FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1",
+                                    "mapping": "OIIIII"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "backgroundColor": "#B1B3B3FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "backgroundColor": "#DAA03DFF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "backgroundColor": "#616247FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "backgroundColor": "#E94B3CFF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "backgroundColor": "#C7D3D4FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "backgroundColor": "#FAD0C9FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "backgroundColor": "#F2AA4CFF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Video (200px)",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "200px",
+                                    "height": "200px"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Start Streaming (Generic button)",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Settings",
+                            "backgroundColor": "#603F83FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Stuff",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "backgroundColor": "#C7D3D4FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "backgroundColor": "#195190FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "backgroundColor": "#F2AA4CFF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "backgroundColor": "#D4B996FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "backgroundColor": "#A2A2A1FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Start Video",
+                            "backgroundColor": "#FCF6F5FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "backgroundColor": "#A07855FF",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Config",
+                    "containers": [
+                        {
+                            "title": "Video",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "400px",
+                                    "height": "400px"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Start Streaming",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Accounts",
+                    "containers": [
+                        {
+                            "title": "Encoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Encryption",
+                    "containers": [
+                        {
+                            "title": "Video",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "400px",
+                                    "height": "400px"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Start Streaming",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "System",
+                    "containers": [
+                        {
+                            "title": "Video",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "400px",
+                                    "height": "400px"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Start Streaming",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Features",
+                    "containers": [
+                        {
+                            "title": "Video",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "400px",
+                                    "height": "400px"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Start Streaming",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Log",
+                    "containers": [
+                        {
+                            "title": "Video",
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "width": "400px",
+                                    "height": "400px"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "big",
+                                    "value": "Start Streaming",
+                                    "_comment1": "Add button logic here"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Encoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "Label 1"
+                                }, 
+                                {
+                                    "type": "text",
+                                    "value": "Label 2"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Decoder Info",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "text",
+                                    "value": "field1"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                },
+                                {
+                                    "type": "button",
+                                    "size": "small",
+                                    "value": "Generic Button"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
