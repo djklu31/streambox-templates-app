@@ -11,6 +11,7 @@ export default function App() {
   const navBtns = currentTemplate.template.navbar.routes
   const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
   const [currentContainers, setCurrentContainers] = useState([])
+  const [containerStyles, setContainerStyles] = useState([navBtns[0].containersStyle])
   const combinedApiArray = [];
   //dev endpoint
   // const endpoint = "http://localhost:3000/"
@@ -30,6 +31,8 @@ export default function App() {
     const navBtnDOMObj = document.getElementsByClassName("nav-btn")
     //index of apiSrcs matches routeContainers
     const apiSrcs = fullRouteObj[0].containers.map((container) => container.apiSrc)
+
+    setContainerStyles(fullRouteObj[0].containersStyle)
 
     //highlight link
     for (let i = 0; i < navBtnDOMObj.length; i++) {
@@ -71,17 +74,25 @@ export default function App() {
   //style rules for if less than 4 containers
   let innerClassList = "containers"
   let outerClassList = "outer-container"
+  let style = {}
+
+  if (containerStyles) {
+    if (typeof containerStyles.numberOfColumns !== "undefined") {
+      style = {
+        gridTemplateColumns: `repeat(${containerStyles.numberOfColumns}, 1fr)`
+      }
+    } 
+  }
 
   // if (currentContainers.length < 4) {
   //   innerClassList += " flex-container"
   //   outerClassList += " flex-outer-container"
   // }
-
   return (
     <>
       <Navbar changeRoute={changeRoute} currentPageName={currentPageName} navBtns={navBtns}/>
       <div className={outerClassList}>
-        <div className={innerClassList}>
+        <div className={innerClassList} style={style}>
           {currentContainers}
         </div>
       </div>

@@ -5,15 +5,23 @@
             "routes": [
                 {
                     "routeName": "Info",
+                    "containersStyle": {
+                        "numberOfColumns": 2
+                    },
                     "containers": [
                         {
                             "title": "Video",
                             "apiSrc": "/rest/fakerest.json",
+                            "containerStyle": {
+                                "stretchVertically": 2
+                            },
                             "fields": [
                                 {
                                     "type": "video",
-                                    "width": "400px",
-                                    "height": "400px"
+                                    "styles": {
+                                        "width": "400px",
+                                        "height": "400px"
+                                    }
                                 },
                                 {
                                     "type": "text",
@@ -120,7 +128,7 @@
                             "fields": [
                                 {
                                     "type": "button",
-                                    "size": "big",
+                                    "size": "giant",
                                     "value": "Start Streaming"
                                 }
                             ]
@@ -195,9 +203,15 @@
                 },
                 {
                     "routeName": "Metadata",
+                    "containersStyle": {
+                        "numberOfColumns": 2
+                    },
                     "containers": [
                         {
                             "title": "Video (400px)",
+                            "containerStyle": {
+                                "stretchVertically": 3
+                            },
                             "backgroundColor": "#F2EDD7FF",
                             "fields": [
                                 {

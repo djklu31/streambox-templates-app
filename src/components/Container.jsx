@@ -32,7 +32,7 @@ export default function Container(props) {
             return <p className="fields" key={nanoid()}>{<span className="field-label">{field.value}</span>}: {(field.mapping && apiObj) ? result:
                  <span className="mapping-not-found">{field.mapping ? "API src not included in JSON template" : "No mapping field found in JSON template"}</span>}</p>
         } else if (field.type === "video") {
-            return <Video key={nanoid()} height={field.height} width={field.width}/>
+            return <Video key={nanoid()} videoStyles={field.style}/>
         } else if (field.type ==="button") {
             return <Button key={nanoid()} size={field.size} value={field.value}/>
         }
@@ -40,6 +40,14 @@ export default function Container(props) {
 
     if (container.backgroundColor) {
         style = {backgroundColor: container.backgroundColor}
+    }
+
+    if (container.containerStyle) {
+        if (container.containerStyle.stretchVertically) {
+            style = {...style,
+                "gridRow": "span " + container.containerStyle.stretchVertically
+            }
+        }
     }
     return (
         <div className="container" style={style}>

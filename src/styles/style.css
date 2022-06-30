@@ -21,8 +21,7 @@ body {
 
 .containers {
     display: grid;
-    gap: 1em;
-    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5em;
     margin: 1em;
     margin-top: 3em;
 }
@@ -97,6 +96,25 @@ header {
     color: white;
     letter-spacing: .05rem;
     box-shadow: 2px 1px #555;
+}
+
+.giant-button {
+    padding: 20px 45px;
+    border-radius: 7px;
+    font-size: 1.4em;
+    border: 0px;
+    background-color: #05386B;
+    color: white;
+    letter-spacing: .05rem;
+    box-shadow: 2px 1px #555;
+}
+
+.giant-button-container {   
+    display: flex;
+    height: 150px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .5em;
 }
 
 .field-label {

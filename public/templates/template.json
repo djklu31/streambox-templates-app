@@ -5,6 +5,9 @@
             "routes": [
                 {
                     "routeName": "Info",
+                    "containersStyling": {
+                        "gridTemplateColumns": "repeat(2, 1fr)"
+                    },
                     "containers": [
                         {
                             "title": "Video",
@@ -12,13 +15,18 @@
                             "fields": [
                                 {
                                     "type": "video",
-                                    "width": "400px",
-                                    "height": "400px"
+                                    "style": {
+                                        "width": "400px",
+                                        "height": "400px"
+                                    }
                                 },
                                 {
                                     "type": "text",
                                     "value": "Source Video Format",
-                                    "mapping": "inputsignal"
+                                    "mapping": "inputsignal",
+                                    "style": {
+                                        "stretchVertically": 2
+                                    }
                                 }, 
                                 {
                                     "type": "text",
