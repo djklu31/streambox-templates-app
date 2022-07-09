@@ -22,7 +22,7 @@ body {
 .containers {
     display: grid;
     gap: 1.5em;
-    margin: 1em;
+    margin: 2em;
     margin-top: 3em;
 }
 
@@ -106,7 +106,20 @@ header {
     background-color: #05386B;
     color: white;
     letter-spacing: .05rem;
-    box-shadow: 2px 1px #555;
+    box-shadow: 2px 2px #000;
+}
+
+.giant-button:hover {
+    cursor: pointer;
+}
+
+footer {
+    font-size: .7em;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 .giant-button-container {   
@@ -126,7 +139,7 @@ header {
     background-color: #042951;
 }
 
-.big-button:active:hover, .small-button:active:hover {
+.big-button:active:hover, .small-button:active:hover, .giant-button:active:hover {
     box-shadow: none;
 }
 
@@ -177,6 +190,16 @@ hr {
 
 .flex-container .container {
     min-width: 400px;
+}
+
+.input-label {
+    font-weight: bold;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.input-div {
+    padding: .5em;
 }
 
 .video {

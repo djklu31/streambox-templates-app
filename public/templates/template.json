@@ -5,17 +5,20 @@
             "routes": [
                 {
                     "routeName": "Info",
-                    "containersStyling": {
-                        "gridTemplateColumns": "repeat(2, 1fr)"
+                    "containersStyle": {
+                        "numberOfColumns": 2
                     },
                     "containers": [
                         {
                             "title": "Video",
-                            "apiSrc": "/rest-mockup/encoder/status",
+                            "apiSrc": "/REST/encoder/status",
+                            "containerStyle": {
+                                "stretchVertically": 2
+                            },
                             "fields": [
                                 {
                                     "type": "video",
-                                    "style": {
+                                    "styles": {
                                         "width": "400px",
                                         "height": "400px"
                                     }
@@ -23,10 +26,7 @@
                                 {
                                     "type": "text",
                                     "value": "Source Video Format",
-                                    "mapping": "inputsignal",
-                                    "style": {
-                                        "stretchVertically": 2
-                                    }
+                                    "mapping": "inputsignal"
                                 }, 
                                 {
                                     "type": "text",
@@ -70,14 +70,14 @@
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Missing Value",
+                                    "value": "Missing Value On Purpose",
                                     "mapping": "none"
                                 }
                             ]
                         },
                         {
                             "title": "Network",
-                            "apiSrc": "/rest-mockup/encoder/status",
+                            "apiSrc": "/REST/encoder/status",
                             "backgroundColor": "#C7D3D4FF",
                             "fields": [
                                 {
@@ -123,13 +123,13 @@
                         },
                         {
                             "title": "Start Streaming",
-                            "apiSrc": "/rest-mockup/encoder/status",
+                            "apiSrc": "/REST/encoder/status",
                             "backgroundColor": "rgb(250, 208, 201)",
                             "fields": [
                                 {
                                     "type": "button",
-                                    "size": "big",
-                                    "value": "Start Streaming"
+                                    "size": "giant",
+                                    "mapping": "isStreaming"
                                 }
                             ]
                         }
@@ -140,7 +140,7 @@
                     "containers": [
                         {
                             "title": "Encoder Info",
-                            "apiSrc": "/rest-mockup/encoder/status",
+                            "apiSrc": "/REST/encoder/status",
                             "fields": [
                                 {
                                     "type": "text",
@@ -203,9 +203,16 @@
                 },
                 {
                     "routeName": "Metadata",
+                    "containersStyle": {
+                        "numberOfColumns": 3
+                    },
                     "containers": [
                         {
                             "title": "Video (400px)",
+                            "apiSrc": "/REST/encoder/status",
+                            "containerStyle": {
+                                "stretchVertically": 2
+                            },
                             "backgroundColor": "#F2EDD7FF",
                             "fields": [
                                 {
@@ -232,7 +239,8 @@
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "value": "Label 2",
+                                    "mapping": "OIIIII"
                                 },
                                 {
                                     "type": "text",

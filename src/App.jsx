@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from "react"
 import Navbar from "./components/Navbar"
 import Container from "./components/Container"
+//dev template
 import customTemplate from '/public/templates/devTemplate.json'
+
+//prod template
+//import customTemplate from '/public/templates/template.json'
 import { nanoid } from 'nanoid'
 
 export default function App() {
-  //set up initial state
+  //set up initial state with template
   const [currentTemplate, setCurrentTemplate] = useState(customTemplate)
 
   const navBtns = currentTemplate.template.navbar.routes
@@ -47,12 +51,28 @@ export default function App() {
         let response      
         let jsonResult
 
-        for (let src of apiSrcs) {
-          if (src) {
-            fullEndpoint = endpoint + src;
-            response = await fetch(fullEndpoint)
-            jsonResult = await response.json()
-            combinedApiArray.push(jsonResult)
+        for (let sources of apiSrcs) {
+          if (sources) {
+            if (typeof sources === "object" && sources.length > 1) {
+              let tempObj = {
+                "current_stat": [
+
+                ]
+              }
+              for (let source of sources) {
+                fullEndpoint = endpoint + source;
+                response = await fetch(fullEndpoint)
+                jsonResult = await response.json()
+                tempObj.current_stat = [...tempObj.current_stat, ...jsonResult.current_stat];
+              }
+              combinedApiArray.push(tempObj)
+            } else {
+              //if just a single string
+              fullEndpoint = endpoint + sources;
+              response = await fetch(fullEndpoint)
+              jsonResult = await response.json()
+              combinedApiArray.push(jsonResult)
+            }
           } else {
             combinedApiArray.push(null);
           }

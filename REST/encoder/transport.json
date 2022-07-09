@@ -1,0 +1,115 @@
+{
+    "current_stat": [
+        {
+            "cname": "ldmp-use",
+            "type": 2,
+            "label": "Transport Protocol",
+            "val": 1,
+            "sub_values": [
+                0,
+                1
+            ],
+            "val_labels": [
+                "UDP",
+                "LDMP"
+            ],
+            "read_only": 0
+        },
+        {
+            "cname": "ldmp-manual",
+            "type": 3,
+            "label": "Manual LDMP",
+            "val": 0,
+            "read_only": 0
+        },
+        {
+            "cname": "ldmp-cwnd",
+            "type": 5,
+            "label": "Cwnd",
+            "val": 100,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 20000
+        },
+        {
+            "cname": "ldmp-cwndmin",
+            "type": 5,
+            "label": "LDMP Min Cwnd",
+            "val": 100,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 20000
+        },
+        {
+            "cname": "ldmp-cwndmax",
+            "type": 5,
+            "label": "LDMP Max Cwnd",
+            "val": 100,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 20000
+        },
+        {
+            "cname": "ldmp-ackto",
+            "type": 5,
+            "label": "LDMP ACK Timeout",
+            "val": 300,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 20000
+        },
+        {
+            "cname": "ldmp-sndto",
+            "type": 5,
+            "label": "LDMP Send Timeout",
+            "val": 4000,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 20000
+        },
+        {
+            "cname": "ldmp-rttm",
+            "type": 5,
+            "label": "RTT Multiplier",
+            "val": 200,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 20000
+        },
+        {
+            "cname": "ldmp-jitter2p",
+            "type": 5,
+            "label": "LDMP jitter %",
+            "val": 0,
+            "read_only": 0,
+            "vmin": 0,
+            "vmax": 300
+        },
+        {
+            "cname": "ldmp-maxbrt",
+            "type": 5,
+            "label": "Shaping Percent",
+            "val": 100,
+            "read_only": 0,
+            "vmin": 0,
+            "vmax": 300
+        },
+        {
+            "cname": "multiplex",
+            "type": 2,
+            "label": "Multiplexing",
+            "val": 2,
+            "sub_values": [
+                0,
+                1,
+                2
+            ],
+            "val_labels": [
+                "Broadcast",
+                "Multiplex",
+                "Single"
+            ],
+            "read_only": 0
+        }
+    ]
+}
