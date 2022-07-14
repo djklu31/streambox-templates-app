@@ -10,6 +10,8 @@ export default function Button(props) {
         } else if (props.label === "Stop Streaming") {
             action = "stopStreaming"
         }
+    } else if (props.action === "submitForm") {
+        
     }
 
     if (props.size === "giant") {

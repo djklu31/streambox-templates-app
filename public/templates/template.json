@@ -25,52 +25,52 @@
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Source Video Format",
+                                    "label": "Source Video Format",
                                     "mapping": "inputsignal"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Network Mode",
+                                    "label": "Network Mode",
                                     "mapping": "cnetworkmode"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Bitrate",
+                                    "label": "Bitrate",
                                     "mapping": "cur_bitrate"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Quality",
+                                    "label": "Quality",
                                     "mapping": "vquality"
                                 },
                                 {
                                     "type": "boolean",
-                                    "value": "Is Streaming?",
+                                    "label": "Is Streaming?",
                                     "mapping": "isStreaming"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Dropped Captured Frames",
+                                    "label": "Dropped Captured Frames",
                                     "mapping": "dropCapture"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Dropped Encoder Frames",
+                                    "label": "Dropped Encoder Frames",
                                     "mapping": "dropEnc"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "SDI errors",
+                                    "label": "SDI errors",
                                     "mapping": "sdi_error"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Frame Delay",
+                                    "label": "Frame Delay",
                                     "mapping": "frame_delay"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Missing Value On Purpose",
+                                    "label": "Missing label On Purpose",
                                     "mapping": "none"
                                 }
                             ]
@@ -82,41 +82,41 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Encoder IP",
+                                    "label": "Encoder IP",
                                     "mapping": "c_encoderIP"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Decoder IP",
+                                    "label": "Decoder IP",
                                     "mapping": "c_decoderIP"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Packet Size",
+                                    "label": "Packet Size",
                                     "mapping": "c_packetsize"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Shuffle",
+                                    "label": "Shuffle",
                                     "mapping": "cshuffle"
                                 },{
                                     "type": "text",
-                                    "value": "Buffer",
+                                    "label": "Buffer",
                                     "mapping": "cbuffer"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Bytes",
+                                    "label": "Bytes",
                                     "mapping": "cbytes"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Packets Sent",
+                                    "label": "Packets Sent",
                                     "mapping": "sent_packets"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "Transmission",
+                                    "label": "Transmission",
                                     "mapping": "is_ldmp"
                                 }
                             ]
@@ -129,7 +129,8 @@
                                 {
                                     "type": "button",
                                     "size": "giant",
-                                    "mapping": "isStreaming"
+                                    "mapping": "isStreaming",
+                                    "action": "toggleStreaming"
                                 }
                             ]
                         }
@@ -137,66 +138,121 @@
                 },
                 {
                     "routeName": "Network",
+                    "containersStyle": {
+                        "numberOfColumns": 2
+                    },
                     "containers": [
                         {
-                            "title": "Encoder Info",
-                            "apiSrc": "/REST/encoder/status",
+                            "title": "Bitrate and Buffer Settings",
+                            "apiSrc": ["/REST/encoder/network", "/REST/encoder/video"],
                             "fields": [
                                 {
-                                    "type": "text",
-                                    "value": "Encoder IP:",
-                                    "mapping": "c_encoderIP"
-                                }, 
-                                {
-                                    "type": "text",
-                                    "value": "Source Video Format",
-                                    "mapping": "inputsignal"
-                                }, 
-                                {
-                                    "type": "text",
-                                    "value": "Network Mode",
-                                    "mapping": "cnetworkmode"
+                                    "type": "input",
+                                    "label": "Target Bitrate",
+                                    "mapping": "TargetBitrate"
                                 },
                                 {
-                                    "type": "text",
-                                    "value": "Bitrate",
-                                    "mapping": "cur_bitrate"
+                                    "type": "input",
+                                    "label": "VBR Buffer",
+                                    "mapping": "VBR"
                                 },
                                 {
-                                    "type": "text",
-                                    "value": "Quality",
-                                    "mapping": "vquality"
-                                },
-                                {
-                                    "type": "boolean",
-                                    "value": "Is Streaming?",
-                                    "mapping": "isStreaming"
-                                },
-                                {
-                                    "type": "boolean",
-                                    "value": "Is LDMP?",
-                                    "mapping": "is_ldmp"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "Dropped Captured Frames",
-                                    "mapping": "dropCapture"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "Dropped Encoder Frames",
-                                    "mapping": "dropEnc"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "SDI errors",
-                                    "mapping": "sdi_error"
-                                },
-                                {
-                                    "type": "text",
-                                    "value": "Frame Delay",
-                                    "mapping": "frame_delay"
+                                    "type": "checkbox",
+                                    "label": "Packet Stuffing",
+                                    "mapping": "stuffing"
                                 }
+                            ]
+                        },
+                        {
+                            "title": "Transport Settings",
+                            "apiSrc": "/REST/encoder/transport",
+                            "containerStyle": {
+                                "stretchVertically": 2
+                            },
+                            "fields": [
+                                {
+                                    "type": "select",
+                                    "label": "Protocol",
+                                    "mapping": "ldmp-use"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "CWND",
+                                    "mapping": "ldmp-cwnd"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "CWND MIN",
+                                    "mapping": "ldmp-cwndmin"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "CWND MAX",
+                                    "mapping": "ldmp-cwndmax"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "ACK Timeout",
+                                    "mapping": "ldmp-ackto"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "Send Timeout",
+                                    "mapping": "ldmp-sndto"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "RTT Multiplier",
+                                    "mapping": "ldmp-rttm"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "Pre-buffer for packet delay (jitter)",
+                                    "mapping": "ldmp-jitter2p"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "Shaping Percent",
+                                    "mapping": "ldmp-maxbrt"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Target Decoder",
+                            "apiSrc": "/REST/encoder/network",
+                            "fields": [
+                                {
+                                    "type": "input",
+                                    "label": "Destination IP",
+                                    "mapping": "decoderIP"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "Destination Port",
+                                    "mapping": "port"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "IP Packet Size",
+                                    "mapping": "packetsize"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Forward Error Correction",
+                            "apiSrc": "/REST/encoder/network",
+                            "fields": [
+                                {
+                                    "type": "select",
+                                    "label": "FEC",
+                                    "mapping": "FEC"
+                                },
+                                {
+                                    "type": "select",
+                                    "label": "Shuffle",
+                                    "mapping": "shuffle"
+                                }
+
                             ]
                         }
                     ]
@@ -223,7 +279,7 @@
                                 {
                                     "type": "button",
                                     "size": "big",
-                                    "value": "Start Streaming",
+                                    "label": "Start Streaming",
                                     "_comment1": "Add button logic here"
                                 }
                             ]
@@ -234,25 +290,25 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1",
+                                    "label": "Label 1",
                                     "mapping": "OIIIII"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2",
+                                    "label": "Label 2",
                                     "mapping": "OIIIII"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -262,35 +318,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -300,23 +356,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -326,61 +382,60 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
                         {
                             "title": "Encoder Info",
-                            "backgroundColor": "#E94B3CFF",
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -390,35 +445,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -428,23 +483,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -454,35 +509,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -497,7 +552,7 @@
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Start Streaming (Generic button)",
+                                    "label": "Start Streaming (Generic button)",
                                     "_comment1": "Add button logic here"
                                 }
                             ]
@@ -508,23 +563,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -533,23 +588,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -559,23 +614,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -585,35 +640,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -623,23 +678,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -649,35 +704,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -687,23 +742,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -713,12 +768,12 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -728,35 +783,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         }
@@ -776,7 +831,7 @@
                                 {
                                     "type": "button",
                                     "size": "big",
-                                    "value": "Start Streaming",
+                                    "label": "Start Streaming",
                                     "_comment1": "Add button logic here"
                                 }
                             ]
@@ -791,23 +846,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -816,35 +871,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -853,23 +908,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -878,35 +933,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -915,23 +970,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -940,35 +995,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         },
@@ -977,23 +1032,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -1002,35 +1057,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         }
@@ -1050,7 +1105,7 @@
                                 {
                                     "type": "button",
                                     "size": "big",
-                                    "value": "Start Streaming",
+                                    "label": "Start Streaming",
                                     "_comment1": "Add button logic here"
                                 }
                             ]
@@ -1060,23 +1115,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -1085,35 +1140,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         }
@@ -1133,7 +1188,7 @@
                                 {
                                     "type": "button",
                                     "size": "big",
-                                    "value": "Start Streaming",
+                                    "label": "Start Streaming",
                                     "_comment1": "Add button logic here"
                                 }
                             ]
@@ -1154,7 +1209,7 @@
                                 {
                                     "type": "button",
                                     "size": "big",
-                                    "value": "Start Streaming",
+                                    "label": "Start Streaming",
                                     "_comment1": "Add button logic here"
                                 }
                             ]
@@ -1175,7 +1230,7 @@
                                 {
                                     "type": "button",
                                     "size": "big",
-                                    "value": "Start Streaming",
+                                    "label": "Start Streaming",
                                     "_comment1": "Add button logic here"
                                 }
                             ]
@@ -1185,23 +1240,23 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "Label 1"
+                                    "label": "Label 1"
                                 }, 
                                 {
                                     "type": "text",
-                                    "value": "Label 2"
+                                    "label": "Label 2"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 }
                             ]
                         },
@@ -1210,35 +1265,35 @@
                             "fields": [
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "text",
-                                    "value": "field1"
+                                    "label": "field1"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 },
                                 {
                                     "type": "button",
                                     "size": "small",
-                                    "value": "Generic Button"
+                                    "label": "Generic Button"
                                 }
                             ]
                         }

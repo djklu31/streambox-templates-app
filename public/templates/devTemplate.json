@@ -12,6 +12,7 @@
                         {
                             "title": "Video",
                             "apiSrc": "/REST/encoder/status.json",
+                            "type": "readonly",
                             "containerStyle": {
                                 "stretchVertically": 2
                             },
@@ -166,6 +167,7 @@
                         {
                             "title": "Transport Settings",
                             "apiSrc": "/REST/encoder/transport.json",
+                            "type": "form",
                             "containerStyle": {
                                 "stretchVertically": 2
                             },
@@ -267,7 +269,7 @@
                             "title": "Video (400px)",
                             "apiSrc": "/REST/encoder/status.json",
                             "containerStyle": {
-                                "stretchVertically": 2
+                                "stretchVertically": 3
                             },
                             "backgroundColor": "#F2EDD7FF",
                             "fields": [
@@ -285,30 +287,15 @@
                             ]
                         },
                         {
-                            "title": "Encoder Info",
-                            "backgroundColor": "#E3CD81FF",
+                            "title": "Start Streaming",
+                            "apiSrc": "/REST/encoder/status.json",
+                            "backgroundColor": "rgb(250, 208, 201)",
                             "fields": [
                                 {
-                                    "type": "text",
-                                    "label": "Label 1",
-                                    "mapping": "OIIIII"
-                                }, 
-                                {
-                                    "type": "text",
-                                    "label": "Label 2",
-                                    "mapping": "OIIIII"
-                                },
-                                {
-                                    "type": "text",
-                                    "label": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "label": "field1"
-                                },
-                                {
-                                    "type": "text",
-                                    "label": "field1"
+                                    "type": "button",
+                                    "size": "giant",
+                                    "mapping": "isStreaming",
+                                    "action": "toggleStreaming"
                                 }
                             ]
                         },

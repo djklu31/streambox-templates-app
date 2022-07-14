@@ -6,6 +6,8 @@ import Input from "./Input"
 import Checkbox from "./Checkbox"
 import Select from "./Select"
 
+const endpoint = location.origin
+
 export default function Container(props) {
     const container = props.container
     const apiObj = props.apiObj
@@ -23,12 +25,29 @@ export default function Container(props) {
         }
     }
 
-    function startStreaming() {
-        console.log("start")
+    async function startStreaming() {
+        POSTData(endpoint + '/REST/encoder/action', { "action_list": ["restart", "msleep:200", "wait4restart", "start"] })
+        .then(data => {
+            console.log(data); 
+        });
+     }
+    
+
+    async function stopStreaming() {
+        POSTData(endpoint + '/REST/encoder/action', { "action_list": ["stop"] })
+        .then(data => {
+            console.log(data); 
+        });
     }
 
-    function stopStreaming() {
-        console.log("stop")
+    async function POSTData(url = '', data = {}) {
+        let formData = new FormData();
+        formData.append("c", JSON.stringify(data));
+        const response = await fetch(url, {
+            method: 'POST', 
+            body: formData
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
     }
 
     //handle different field types
