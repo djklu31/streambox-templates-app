@@ -5,6 +5,7 @@ import Button from "./Button"
 import Input from "./Input"
 import Checkbox from "./Checkbox"
 import Select from "./Select"
+import Form from "./Form"
 
 const endpoint = location.origin
 
@@ -15,6 +16,7 @@ export default function Container(props) {
     const title = container.title
     const fields = container.fields
     let style = {}
+    const isForm = container.type === "form" ? true : false
 
     //handle button presses with appropriate action
     function buttonPressed(action) {
@@ -25,18 +27,46 @@ export default function Container(props) {
         }
     }
 
+    async function handleFormSubmit(event) {
+        event.preventDefault()
+        let target = event.target;
+        let postEndpoint = ""
+        let tempObj = {
+            "cname": "",
+            "val": ""
+        }
+        let arr = []
+
+        for (let field of target) {
+            if (field.name) {
+                tempObj.cname = field.name
+                tempObj.val = field.value
+                arr = [...arr, {...tempObj}]
+            }
+
+            if (field.type === "submit") {
+                postEndpoint = field.dataset.postendpoint
+            }
+        }
+
+        POSTData(endpoint + postEndpoint, { "val_list": arr })
+        .then(data => {
+            console.log("Data POSTED to " + endpoint + postEndpoint + ": " + JSON.stringify(data)); 
+        });
+    }
+
     async function startStreaming() {
         POSTData(endpoint + '/REST/encoder/action', { "action_list": ["restart", "msleep:200", "wait4restart", "start"] })
         .then(data => {
-            console.log(data); 
+            console.log("Streaming started" + JSON.stringify(data)); 
         });
-     }
+    }
     
 
     async function stopStreaming() {
         POSTData(endpoint + '/REST/encoder/action', { "action_list": ["stop"] })
         .then(data => {
-            console.log(data); 
+            console.log("Streaming stopped" + JSON.stringify(data)); 
         });
     }
 
@@ -67,7 +97,7 @@ export default function Container(props) {
                 if (filteredStat && filteredStat.length > 0) {
                     result = filteredStat[0].val
                 } else {
-                    result = <span className="mapping-not-found">Field couldn't be mapped to a value from the API 
+                    result = <span className="error-text">Field couldn't be mapped to a value from the API 
                     <br/>(please check if cname from API matches the "mapping" field of 
                     <br/> the JSON template)</span>
                 }
@@ -78,10 +108,10 @@ export default function Container(props) {
 
         //if mapping field is missing from container or api src is missing then print that out in it's respective type
         if (fieldMapMissing) {
-            result = <span className="mapping-not-found">No mapping field found in JSON template</span>
+            result = <span className="error-text">No mapping field found in JSON template</span>
         }
         if (apiObjMissing) {
-            result = <span className="mapping-not-found">API src not included in JSON template</span>
+            result = <span className="error-text">API src not included in JSON template</span>
         }
         if (apiObjMissing || fieldMapMissing && (field.type !== "button" && field.type !== "video")) {
             return <p className="fields"><span className="field-label">{field.label}</span>: {result}</p>
@@ -111,18 +141,22 @@ export default function Container(props) {
             } else {
                 result = field.label
             }
-            return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+            if (isForm) {
+                return <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+            } else {
+                return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+            }
         } else if (field.type === "input") {
             if (filteredStat) {
-                return <Input key={nanoid()} label={field.label} value={filteredStat[0].val} />
+                return <Input key={nanoid()} name={filteredStat[0].cname} endLabel={field.endLabel} label={field.label} value={filteredStat[0].val} />
             }
         } else if (field.type === "checkbox") {
             if (filteredStat) {
-                return <Checkbox key={nanoid()} label={field.label} />
+                return <Checkbox key={nanoid()} label={field.label} checked={filteredStat[0].val} endLabel={field.endLabel} />
             }
         } else if (field.type === "select") {
             if (filteredStat) {
-                return <Select key={nanoid()} label={field.label} />
+                return <Select key={nanoid()} label={field.label} endLabel={field.endLabel} />
             }
         }
     })
@@ -142,7 +176,7 @@ export default function Container(props) {
         <div className="container" style={style}>
             <h4 className="container-title">{title}</h4>
             <hr />
-            {mappedFields}
+            {isForm ? <Form mappedFields={mappedFields} handleFormSubmit={handleFormSubmit} /> : mappedFields}
         </div>
     )
 }

@@ -118,7 +118,7 @@
             "cname": "stuffing",
             "type": 3,
             "label": "Packet Stuffing",
-            "val": 0,
+            "val": 1,
             "read_only": 0
         },
         {

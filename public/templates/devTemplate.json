@@ -146,27 +146,38 @@
                         {
                             "title": "Bitrate and Buffer Settings",
                             "apiSrc": ["/REST/encoder/network.json", "/REST/encoder/video.json"],
+                            "type": "form",
+                            "postEndpoint": "/REST/encoder/video",
                             "fields": [
                                 {
                                     "type": "input",
                                     "label": "Target Bitrate",
-                                    "mapping": "TargetBitrate"
+                                    "mapping": "TargetBitrate",
+                                    "endLabel": "kbps"
                                 },
                                 {
                                     "type": "input",
                                     "label": "VBR Buffer",
-                                    "mapping": "VBR"
+                                    "mapping": "VBR",
+                                    "endLabel": "seconds"
                                 },
                                 {
                                     "type": "checkbox",
                                     "label": "Packet Stuffing",
                                     "mapping": "stuffing"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": "submitLocalForm",
+                                    "size": "small",
+                                    "label": "Apply Changes"
                                 }
                             ]
                         },
                         {
                             "title": "Transport Settings",
                             "apiSrc": "/REST/encoder/transport.json",
+                            "postEndpoint": "/REST/encoder/transport",
                             "type": "form",
                             "containerStyle": {
                                 "stretchVertically": 2
@@ -216,12 +227,20 @@
                                     "type": "input",
                                     "label": "Shaping Percent",
                                     "mapping": "ldmp-maxbrt"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": "submitLocalForm",
+                                    "size": "small",
+                                    "label": "Apply Changes"
                                 }
                             ]
                         },
                         {
                             "title": "Target Decoder",
-                            "apiSrc": "/REST/encoder/network.json",
+                            "apiSrc": ["/REST/encoder/network.json", "/REST/encoder/status.json"],
+                            "postEndpoint": "/REST/encoder/network.json",
+                            "type": "form",
                             "fields": [
                                 {
                                     "type": "input",
@@ -231,18 +250,27 @@
                                 {
                                     "type": "input",
                                     "label": "Destination Port",
-                                    "mapping": "port"
+                                    "mapping": "port",
+                                    "endLabel": "UDP (default: 1770)"
                                 },
                                 {
                                     "type": "input",
                                     "label": "IP Packet Size",
-                                    "mapping": "packetsize"
+                                    "mapping": "packetsize",
+                                    "endLabel": "bytes (default: 1392)"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": "submitLocalForm",
+                                    "size": "small",
+                                    "label": "Apply Changes"
                                 }
                             ]
                         },
                         {
                             "title": "Forward Error Correction",
                             "apiSrc": "/REST/encoder/network.json",
+                            "type": "form",
                             "fields": [
                                 {
                                     "type": "select",
@@ -253,8 +281,13 @@
                                     "type": "select",
                                     "label": "Shuffle",
                                     "mapping": "shuffle"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": "submitLocalForm",
+                                    "size": "small",
+                                    "label": "Apply Changes"
                                 }
-
                             ]
                         }
                     ]

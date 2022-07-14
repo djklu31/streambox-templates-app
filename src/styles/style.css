@@ -148,7 +148,11 @@ footer {
     margin-bottom: .5em;
 }
 
-.mapping-not-found {
+.endLabel {
+    margin-left: .5em;
+}
+
+.error-text {
     color: red;
 }
 
