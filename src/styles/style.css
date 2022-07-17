@@ -53,6 +53,7 @@ nav {
 .fields  {
     margin-left: 2em;
     margin-right: 2em;
+    padding-left: 0.75em;
 }
 
 header {
@@ -200,23 +201,45 @@ hr {
     font-weight: bold;
     margin-left: 2em;
     margin-right: 2em;
+    width: 150px;
+    display: inline-block;
+}
+
+/*
+custom input widths
+*/
+input[name=Meta_Slug] {
+    width: 200px;
+}
+
+input[name=decoderIP]{
+    width: 150px;
+}
+
+.input-box {
+    height: 30px;
 }
 
 .input-div {
-    padding: .5em;
+    padding: .75em;
+}
+
+select, .input-box {
+    height: 30px;
+    width: 100px;
 }
 
 .video {
     margin-left: auto;
     margin-right: auto;
+    height: 400px;
+    width: 400px;
     margin-top: 1em;
     margin-bottom: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1em;
-    border: 1px solid black;
-    background-color: #229ad5;
     color: white;
 }
 

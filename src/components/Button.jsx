@@ -11,7 +11,7 @@ export default function Button(props) {
         } else if (props.label === "Stop Streaming") {
             action = "stopStreaming"
         }
-        button = <div className="giant-button-container"><button onClick={() => props.buttonPressed(action)}  className="giant-button">{props.label}</button></div>
+        button = <div className="giant-button-container"><button onClick={() => {props.buttonPressed(action); props.triggerBackgroundFetch(); }}  className="giant-button">{props.label}</button></div>
     } else if (props.action === "submitLocalForm") {
         action = "submitLocalForm"
         if (props.postEndpoint) {

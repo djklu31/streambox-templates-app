@@ -1,0 +1,67 @@
+{
+    "current_stat": [
+        {
+            "cname": "AudioCodec",
+            "type": 2,
+            "label": "Audio Codec",
+            "val": 0,
+            "sub_values": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            "val_labels": [
+                "AAC",
+                "GSM",
+                "AAC lowbitrate",
+                "GSM lowbitrate",
+                "CELP",
+                "CELP lowbitrate",
+                "PCM"
+            ],
+            "read_only": 0
+        },
+        {
+            "cname": "AudioChannels",
+            "type": 2,
+            "label": "Audio Channels",
+            "val": 8,
+            "sub_values": [
+                1,
+                2,
+                4,
+                6,
+                8,
+                16
+            ],
+            "val_labels": [
+                "Mono",
+                "2-ch(Stereo)",
+                "4-ch",
+                "5.1ch",
+                "8-ch",
+                "16-ch"
+            ],
+            "read_only": 0
+        },
+        {
+            "cname": "SampleRate",
+            "type": 2,
+            "label": "Audio Sampling Rate",
+            "val": 48000,
+            "sub_values": [
+                44100,
+                48000
+            ],
+            "val_labels": [
+                "44.1k",
+                "48k"
+            ],
+            "read_only": 0
+        }
+    ]
+}

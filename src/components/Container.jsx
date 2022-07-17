@@ -12,7 +12,6 @@ const endpoint = location.origin
 export default function Container(props) {
     const container = props.container
     const apiObj = props.apiObj
-    console.log(apiObj)
     const title = container.title
     const fields = container.fields
     let style = {}
@@ -51,7 +50,8 @@ export default function Container(props) {
 
         POSTData(endpoint + postEndpoint, { "val_list": arr })
         .then(data => {
-            console.log("Data POSTED to " + endpoint + postEndpoint + ": " + JSON.stringify(data)); 
+            console.log("Data POSTED to " + endpoint + postEndpoint + ": " + JSON.stringify(data));
+            props.triggerBackgroundFetch() 
         });
     }
 
@@ -129,7 +129,12 @@ export default function Container(props) {
             }
             return <p className="fields" key={nanoid()}><span className="field-label">{field.label}</span>: {result}</p>
         } else if (field.type === "video") {
-            return <Video key={nanoid()} videoStyles={field.style}/>
+            if (field.previewImageRoute) {
+                return <Video key={nanoid()} location={endpoint} previewImageRoute={field.previewImageRoute}/>
+            } else {
+                return <p className="fields">
+                    <span className="error-text">Missing parameter for video preview: previewImageRoute</span></p>
+            }
         } else if (field.type ==="button") {
             //custom button rules
             if (field.mapping === "isStreaming") {
@@ -142,9 +147,9 @@ export default function Container(props) {
                 result = field.label
             }
             if (isForm) {
-                return <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                return <Button key={nanoid()} postEndpoint={container.postEndpoint} triggerBackgroundFetch={props.triggerBackgroundFetch} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
             } else {
-                return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                return <Button key={nanoid()} size={field.size} triggerBackgroundFetch={props.triggerBackgroundFetch} label={result} action={field.action} buttonPressed={buttonPressed}/>
             }
         } else if (field.type === "input") {
             if (filteredStat) {
@@ -152,11 +157,11 @@ export default function Container(props) {
             }
         } else if (field.type === "checkbox") {
             if (filteredStat) {
-                return <Checkbox key={nanoid()} label={field.label} checked={filteredStat[0].val} endLabel={field.endLabel} />
+                return <Checkbox key={nanoid()} name={filteredStat[0].cname} label={field.label} checked={filteredStat[0].val} endLabel={field.endLabel} />
             }
         } else if (field.type === "select") {
             if (filteredStat) {
-                return <Select key={nanoid()} label={field.label} endLabel={field.endLabel} />
+                return <Select key={nanoid()} name={filteredStat[0].cname} subValues={filteredStat[0].sub_values} value={filteredStat[0].val} valLabels={filteredStat[0].val_labels} label={field.label} endLabel={field.endLabel} />
             }
         }
     })

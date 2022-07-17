@@ -1,21 +1,16 @@
-import React from "react"
+import React, {useEffect} from "react"
 
 export default function Video(props) {
-    //default video size 400 x 400 px
-    let styles = {
-        height: 400,
-        width: 400
+    var img_tag = new Image()
+    let previewEndpoint = props.location + props.previewImageRoute + "?t=" + new Date().getTime()
+
+    img_tag.onload = function() {
+        document.getElementById("video-preview").style.backgroundImage = `url(${previewEndpoint})`;
     }
-    if (props.videoStyles) {
-        styles = {
-            height: props.videoStyles.styleheight,
-            width: props.videoStyles.width
-        }
-    }
+
+    img_tag.src = previewEndpoint
     
     return (
-        <div className="video" style={styles}>
-            Video Here
-        </div>
+        <div id="video-preview" className="video"></div>
     )
 }

@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from "react"
 import Navbar from "./components/Navbar"
 import Container from "./components/Container"
-//dev template
-import customTemplate from '/public/templates/devTemplate.json'
-
-//prod template
-//import customTemplate from '/public/templates/template.json'
+import customTemplate from '/public/templates/devTemplate.json' //dev template
+//import customTemplate from '/public/templates/template.json' //prod template
 import { nanoid } from 'nanoid'
 
 export default function App() {
@@ -16,11 +13,10 @@ export default function App() {
   const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
   const [currentContainers, setCurrentContainers] = useState([])
   const [containerStyles, setContainerStyles] = useState([navBtns[0].containersStyle])
+  const [backgroundFetchCount, setBackgroundFetchCount] = useState(0);
   const combinedApiArray = [];
-  //dev endpoint
-  // const endpoint = "http://localhost:3000/"
+  const backgroundRefreshTime = 3000 //timer to fetch background data in milliseconds
 
-  //prod endpoint
   const endpoint = location.origin
 
   if (typeof currentTemplate.template.darkMode !== "undefined") {
@@ -50,6 +46,7 @@ export default function App() {
         let fullEndpoint
         let response      
         let jsonResult
+        startTimer();
 
         for (let sources of apiSrcs) {
           if (sources) {
@@ -81,14 +78,36 @@ export default function App() {
 
     //when all api pages are put into a variable, set containers and pass our api objects down
     fetchApiPages(apiSrcs).then(() => {
-      const routeContainers = fullRouteObj[0].containers.map((container, index) => <Container key={nanoid()} apiObj={combinedApiArray[index]} container={container}/>)
+      const routeContainers = fullRouteObj[0].containers.map((container, index) => <Container key={nanoid()} triggerBackgroundFetch={triggerBackgroundFetch} apiObj={combinedApiArray[index]} container={container}/>)
       setCurrentContainers(routeContainers);
     })
 
-  }, [currentPageName])
+    return () => {
+      clearTimer()
+    }
+  }, [currentPageName, backgroundFetchCount])
 
   function changeRoute(routeName) {
     setCurrentPageName(routeName)
+  }
+
+  let timer;
+
+  function startTimer() {
+    clearTimer()
+    timer = setInterval(() => {
+      triggerBackgroundFetch()
+    }, backgroundRefreshTime)
+  }
+
+  function clearTimer() {
+    if (timer) {
+      clearInterval(timer)
+    }
+  }
+
+  function triggerBackgroundFetch() {
+    setBackgroundFetchCount(backgroundFetchCount + 1)
   }
 
   //style rules for if less than 4 containers
