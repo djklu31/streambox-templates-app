@@ -10,7 +10,6 @@ export default function RootWrapper() {
 
     const navBtns = currentTemplate.template.navbar.routes
     const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
-    const [fullRouteObj, setFullRouteObj] = useState({})
 
     function changeRoute(routeName) {
         setCurrentPageName(routeName)

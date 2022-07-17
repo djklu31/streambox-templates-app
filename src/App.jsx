@@ -7,9 +7,11 @@ export default function App(props) {
   const currentTemplate = props.currentTemplate
   const navBtns = currentTemplate.template.navbar.routes
   const currentPageName = props.currentPageName
+
   const [currentContainers, setCurrentContainers] = useState([])
   const [containerStyles, setContainerStyles] = useState([navBtns[0].containersStyle])
   const [backgroundFetchCount, setBackgroundFetchCount] = useState(0);
+  
   const combinedApiArray = [];
   const backgroundRefreshTime = 3000 //timer to fetch background data in milliseconds
 
