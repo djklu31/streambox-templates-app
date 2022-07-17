@@ -104,7 +104,6 @@ header {
     border-radius: 7px;
     font-size: 1.4em;
     border: 0px;
-    background-color: #05386B;
     color: white;
     letter-spacing: .05rem;
     box-shadow: 2px 2px #000;
@@ -232,8 +231,9 @@ select, .input-box {
 .video {
     margin-left: auto;
     margin-right: auto;
-    height: 400px;
-    width: 400px;
+    height: 300px;
+    width: 500px;
+    background-repeat: no-repeat;
     margin-top: 1em;
     margin-bottom: 1em;
     display: flex;

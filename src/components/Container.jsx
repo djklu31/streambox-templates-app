@@ -51,14 +51,16 @@ export default function Container(props) {
         POSTData(endpoint + postEndpoint, { "val_list": arr })
         .then(data => {
             console.log("Data POSTED to " + endpoint + postEndpoint + ": " + JSON.stringify(data));
+            alert("Changes have been applied")
             props.triggerBackgroundFetch() 
         });
     }
 
     async function startStreaming() {
-        POSTData(endpoint + '/REST/encoder/action', { "action_list": ["restart", "msleep:200", "wait4restart", "start"] })
+        POSTData(endpoint + '/REST/encoder/action', { "action_list": ["start"] })
         .then(data => {
             console.log("Streaming started" + JSON.stringify(data)); 
+            props.triggerBackgroundFetch();
         });
     }
     
@@ -67,6 +69,7 @@ export default function Container(props) {
         POSTData(endpoint + '/REST/encoder/action', { "action_list": ["stop"] })
         .then(data => {
             console.log("Streaming stopped" + JSON.stringify(data)); 
+            props.triggerBackgroundFetch();
         });
     }
 
@@ -147,9 +150,9 @@ export default function Container(props) {
                 result = field.label
             }
             if (isForm) {
-                return <Button key={nanoid()} postEndpoint={container.postEndpoint} triggerBackgroundFetch={props.triggerBackgroundFetch} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                return <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
             } else {
-                return <Button key={nanoid()} size={field.size} triggerBackgroundFetch={props.triggerBackgroundFetch} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
             }
         } else if (field.type === "input") {
             if (filteredStat) {

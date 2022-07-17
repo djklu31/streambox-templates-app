@@ -6,12 +6,15 @@ export default function Button(props) {
     let isSubmitLocalForm = false
 
     if (props.action === "toggleStreaming") {
+        let styles = {}
         if (props.label === "Start Streaming") {
             action = "startStreaming"
+            styles = {backgroundColor: "#05386B"}
         } else if (props.label === "Stop Streaming") {
             action = "stopStreaming"
+            styles = {backgroundColor: "#b71c1c"}
         }
-        button = <div className="giant-button-container"><button onClick={() => {props.buttonPressed(action); props.triggerBackgroundFetch(); }}  className="giant-button">{props.label}</button></div>
+        button = <div className="giant-button-container"><button onClick={() => {props.buttonPressed(action)}}  className="giant-button" style={styles}>{props.label}</button></div>
     } else if (props.action === "submitLocalForm") {
         action = "submitLocalForm"
         if (props.postEndpoint) {

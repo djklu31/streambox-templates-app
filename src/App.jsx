@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from "react"
-import Navbar from "./components/Navbar"
 import Container from "./components/Container"
-import customTemplate from '/public/templates/devTemplate.json' //dev template
-//import customTemplate from '/public/templates/template.json' //prod template
 import { nanoid } from 'nanoid'
 
-export default function App() {
+export default function App(props) {
   //set up initial state with template
-  const [currentTemplate, setCurrentTemplate] = useState(customTemplate)
-
+  const currentTemplate = props.currentTemplate
   const navBtns = currentTemplate.template.navbar.routes
-  const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
+  const currentPageName = props.currentPageName
   const [currentContainers, setCurrentContainers] = useState([])
   const [containerStyles, setContainerStyles] = useState([navBtns[0].containersStyle])
   const [backgroundFetchCount, setBackgroundFetchCount] = useState(0);
@@ -28,18 +24,10 @@ export default function App() {
   //watch for route changes
   useEffect(() => {
     const fullRouteObj = navBtns.filter((navBtn) => navBtn.routeName === currentPageName)
-    const navBtnDOMObj = document.getElementsByClassName("nav-btn")
     //index of apiSrcs matches routeContainers
     const apiSrcs = fullRouteObj[0].containers.map((container) => container.apiSrc)
 
     setContainerStyles(fullRouteObj[0].containersStyle)
-
-    //highlight link
-    for (let i = 0; i < navBtnDOMObj.length; i++) {
-      if (navBtnDOMObj[i].innerText === currentPageName) {
-        navBtnDOMObj[i].classList.add("selected-route")
-      }
-    }
   
     //fetch all api objects for this page and plop into an array
     async function fetchApiPages(apiSrcs) {
@@ -87,10 +75,6 @@ export default function App() {
     }
   }, [currentPageName, backgroundFetchCount])
 
-  function changeRoute(routeName) {
-    setCurrentPageName(routeName)
-  }
-
   let timer;
 
   function startTimer() {
@@ -129,7 +113,6 @@ export default function App() {
   // }
   return (
     <>
-      <Navbar changeRoute={changeRoute} currentPageName={currentPageName} navBtns={navBtns}/>
       <div className={outerClassList}>
         <div className={innerClassList} style={style}>
           {currentContainers}
