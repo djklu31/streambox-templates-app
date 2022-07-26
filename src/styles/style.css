@@ -13,17 +13,22 @@ body {
     font-family: 'Open Sans', 'san-serif';
 }
 
+.preset-btn-field {
+    text-align: center;
+}
+
 .container {
     border-radius: 5px;
     padding: .5em;
     background-color: rgb(243, 243, 247);
+    min-width: 500px;
+    max-width: 700px;
 }
 
 .containers {
     display: grid;
-    gap: 1.5em;
-    margin: 2em;
-    margin-top: 3em;
+    gap: 1.8em;
+    margin: 3em 5em 2em;
 }
 
 .container-title {
@@ -54,10 +59,16 @@ nav {
     margin-left: 2em;
     margin-right: 2em;
     padding-left: 0.75em;
+    padding-bottom: 5px;
 }
 
 header {
     border-bottom: 1px solid #333;
+}
+
+input[type=submit] {
+    padding: 10px 20px;
+    letter-spacing: 1px;
 }
 
 .nav-btn {
@@ -85,7 +96,6 @@ header {
 
 .flex-outer-container {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
@@ -150,6 +160,7 @@ footer {
 
 .endLabel {
     margin-left: .5em;
+    font-size: 14px;
 }
 
 .error-text {
@@ -188,12 +199,7 @@ hr {
 }
 
 .flex-container {
-    display: flex;
-    justify-content: center;
-}
-
-.flex-container .container {
-    min-width: 400px;
+    min-width: 600px;
 }
 
 .input-label {

@@ -10,10 +10,11 @@ export default function App(props) {
 
   const [currentContainers, setCurrentContainers] = useState([])
   const [containerStyles, setContainerStyles] = useState([navBtns[0].containersStyle])
-  const [backgroundFetchCount, setBackgroundFetchCount] = useState(0);
-  
-  const combinedApiArray = [];
-  const backgroundRefreshTime = 3000 //timer to fetch background data in milliseconds
+  const [backgroundFetchCount, setBackgroundFetchCount] = useState(0)
+
+  const combinedApiArray = []
+  let presetObj
+  const backgroundRefreshTime = 5000 //timer to fetch background data in milliseconds
 
   const endpoint = location.origin
 
@@ -50,7 +51,12 @@ export default function App(props) {
                 fullEndpoint = endpoint + source;
                 response = await fetch(fullEndpoint)
                 jsonResult = await response.json()
-                tempObj.current_stat = [...tempObj.current_stat, ...jsonResult.current_stat];
+
+                if (jsonResult.current_stat) {
+                  tempObj.current_stat = [...tempObj.current_stat, ...jsonResult.current_stat];
+                } else if (jsonResult.preset_list) {
+                  presetObj = jsonResult
+                }
               }
               combinedApiArray.push(tempObj)
             } else {
@@ -68,7 +74,14 @@ export default function App(props) {
 
     //when all api pages are put into a variable, set containers and pass our api objects down
     fetchApiPages(apiSrcs).then(() => {
-      const routeContainers = fullRouteObj[0].containers.map((container, index) => <Container key={nanoid()} triggerBackgroundFetch={triggerBackgroundFetch} apiObj={combinedApiArray[index]} container={container}/>)
+      const routeContainers = fullRouteObj[0].containers.map((container, index) => {
+        if (presetObj) {
+          return <Container presetObj={presetObj} key={nanoid()} clearTimer={clearTimer} startTimer={startTimer} triggerBackgroundFetch={triggerBackgroundFetch} apiObj={combinedApiArray[index]} container={container}/>
+        } else {
+          return <Container key={nanoid()} clearTimer={clearTimer} startTimer={startTimer} triggerBackgroundFetch={triggerBackgroundFetch} apiObj={combinedApiArray[index]} container={container}/>
+        }
+      })
+      
       setCurrentContainers(routeContainers);
     })
 
@@ -106,13 +119,16 @@ export default function App(props) {
       style = {
         gridTemplateColumns: `repeat(${containerStyles.numberOfColumns}, 1fr)`
       }
+      if (containerStyles.numberOfColumn == 1) {
+        innerClassList += " flex-container"
+        outerClassList += " flex-outer-container"
+      }
     } 
+  } else {
+    innerClassList += " flex-container"
+    outerClassList += " flex-outer-container"
   }
 
-  // if (currentContainers.length < 4) {
-  //   innerClassList += " flex-container"
-  //   outerClassList += " flex-outer-container"
-  // }
   return (
     <>
       <div className={outerClassList}>

@@ -421,7 +421,7 @@
                                     "mapping": "Meta_Producer"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "input",
                                     "label": "DRM",
                                     "mapping": "Meta_Network1"
                                 },

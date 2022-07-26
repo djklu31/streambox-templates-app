@@ -14,14 +14,15 @@ export default function Button(props) {
             action = "stopStreaming"
             styles = {backgroundColor: "#b71c1c"}
         }
-        button = <div className="giant-button-container"><button onClick={() => {props.buttonPressed(action)}}  className="giant-button" style={styles}>{props.label}</button></div>
+        button = <div className="giant-button-container"><button onClick={() => {props.buttonPressed(action)}} className="giant-button" style={styles}>{props.label}</button></div>
     } else if (props.action === "submitLocalForm") {
-        action = "submitLocalForm"
         if (props.postEndpoint) {
-            button = <p className="fields"><input name={props.cname} data-postendpoint={props.postEndpoint} type="submit" value={props.label}/></p>
+            button = <p className="fields"><input data-postendpoint={props.postEndpoint} type="submit" value={props.label}/></p>
         } else {
             button = <p className="fields"><span className="error-text">Post endpoint is missing in template is required for forms</span></p>
         }
+    } else if (props.action === "applyPreset") {
+        button = <p className="fields preset-btn-field"><button onClick={() => {props.buttonPressed(props.action)}}>{props.label}</button></p>
     }
 
     // if (props.size === "giant") {

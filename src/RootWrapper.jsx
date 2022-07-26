@@ -3,6 +3,7 @@ import App from './App'
 import Navbar from './components/Navbar'
 import customTemplate from '/public/templates/devTemplate.json' //dev template
 //import customTemplate from '/public/templates/template.json' //prod template
+//import customTemplate from '/public/templates/temporaryTemplate.json'
 
 export default function RootWrapper() {
     //set up initial state with template

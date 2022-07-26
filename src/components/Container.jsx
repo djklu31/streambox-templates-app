@@ -23,17 +23,35 @@ export default function Container(props) {
             startStreaming()
         } else if (action === "stopStreaming") {
             stopStreaming()
+        } else if (action === "applyPreset") {
+            const pid = document.getElementById("preset-select").value
+            if (pid === "not-selected") {
+                alert('Please choose a preset from the preset select box')
+            } else {
+                applyPreset(parseInt(pid))
+            }
         }
+    }
+
+    async function applyPreset(pid) {
+        POSTData(endpoint + '/REST/encoder/presets', { "command": "apply", "pid": pid })
+        .then(data => {
+            alert('Preset Changed Successfully')
+            console.log("Preset changed" + JSON.stringify(data)); 
+            props.triggerBackgroundFetch();
+        });
     }
 
     async function handleFormSubmit(event) {
         event.preventDefault()
         let target = event.target;
         let postEndpoint = ""
+
         let tempObj = {
             "cname": "",
             "val": ""
         }
+        
         let arr = []
 
         for (let field of target) {
@@ -41,8 +59,8 @@ export default function Container(props) {
                 tempObj.cname = field.name
                 tempObj.val = field.value
                 arr = [...arr, {...tempObj}]
-            }
-
+            } 
+            
             if (field.type === "submit") {
                 postEndpoint = field.dataset.postendpoint
             }
@@ -89,6 +107,7 @@ export default function Container(props) {
         let result
         let apiObjMissing = false;
         let fieldMapMissing = false;
+        let isPresetBtn = false;
 
         if (!apiObj) {
             apiObjMissing = true;
@@ -139,6 +158,9 @@ export default function Container(props) {
                     <span className="error-text">Missing parameter for video preview: previewImageRoute</span></p>
             }
         } else if (field.type ==="button") {
+            if (field.applyPreset && field.applyPreset === "applyPreset") {
+                isPresetBtn = true
+            }
             //custom button rules
             if (field.mapping === "isStreaming") {
                 if (filteredStat && filteredStat[0].val == 1) {
@@ -151,12 +173,14 @@ export default function Container(props) {
             }
             if (isForm) {
                 return <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+            } else if (isPresetBtn) {
+                return <Button key={nanoid()} presetSrc={field.presetSrc} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
             } else {
                 return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
             }
         } else if (field.type === "input") {
             if (filteredStat) {
-                return <Input key={nanoid()} name={filteredStat[0].cname} endLabel={field.endLabel} label={field.label} value={filteredStat[0].val} />
+                return <Input key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} endLabel={field.endLabel} label={field.label} value={filteredStat[0].val} />
             }
         } else if (field.type === "checkbox") {
             if (filteredStat) {
@@ -164,8 +188,10 @@ export default function Container(props) {
             }
         } else if (field.type === "select") {
             if (filteredStat) {
-                return <Select key={nanoid()} name={filteredStat[0].cname} subValues={filteredStat[0].sub_values} value={filteredStat[0].val} valLabels={filteredStat[0].val_labels} label={field.label} endLabel={field.endLabel} />
+                return <Select key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} subValues={filteredStat[0].sub_values} value={filteredStat[0].val} valLabels={filteredStat[0].val_labels} label={field.label} endLabel={field.endLabel} />
             }
+        } else if (field.type === "presetSelect" && props.presetObj) {
+            return <Select key={nanoid()} name="none" value="none" clearTimer={props.clearTimer} startTimer={props.startTimer} presetObj={props.presetObj} label={field.label} endLabel={field.endLabel} />
         }
     })
 

@@ -116,7 +116,7 @@
                         },
                         {
                             "title": "Start Streaming",
-                            "apiSrc": ["/REST/encoder/status.json", "/REST/encoder/presets.json"],
+                            "apiSrc": "/REST/encoder/status.json",
                             "backgroundColor": "rgb(250, 208, 201)",
                             "fields": [
                                 {
@@ -124,18 +124,6 @@
                                     "size": "giant",
                                     "mapping": "isStreaming",
                                     "action": "toggleStreaming"
-                                },
-                                {
-                                    "type": "presetSelect",
-                                    "label": "Preset",
-                                    "mapping": "none"
-                                },
-                                {
-                                    "type": "button",
-                                    "presetSrc": "/REST/encoder/presets.json",
-                                    "action": "applyPreset",
-                                    "size": "small",
-                                    "label": "Apply Preset"
                                 }
                             ]
                         }
@@ -197,7 +185,8 @@
                                 {
                                     "type": "input",
                                     "label": "CWND",
-                                    "mapping": "ldmp-cwnd"
+                                    "mapping": "ldmp-cwnd",
+                                    "endLabel": "packets; Maximum packets in flight for all interfaces"
                                 },
                                 {
                                     "type": "input",
@@ -433,52 +422,7 @@
                                     "mapping": "Meta_Producer"
                                 },
                                 {
-                                    "type": "input",
-                                    "label": "DRM",
-                                    "mapping": "Meta_Network1"
-                                },
-                                {
-                                    "type": "button",
-                                    "action": "submitLocalForm",
-                                    "size": "small",
-                                    "label": "Apply Changes"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "routeName": "Encryption",
-                    "containers": [
-                        {
-                            "title": "Metadata Settings",
-                            "apiSrc": "/REST/encoder/metadata.json",
-                            "type": "form",
-                            "backgroundColor": "#FFE4E1",
-                            "postEndpoint": "/REST/encoder/metadata.json",
-                            "fields": [
-                                {
-                                    "type": "input",
-                                    "label": "Title",
-                                    "mapping": "Meta_Slug"
-                                },
-                                {
-                                    "type": "input",
-                                    "label": "Location",
-                                    "mapping": "Meta_Location"
-                                },
-                                {
-                                    "type": "input",
-                                    "label": "Reporter",
-                                    "mapping": "Meta_Reporter"
-                                },
-                                {
-                                    "type": "input",
-                                    "label": "Producer",
-                                    "mapping": "Meta_Producer"
-                                },
-                                {
-                                    "type": "input",
+                                    "type": "text",
                                     "label": "DRM",
                                     "mapping": "Meta_Network1"
                                 },
