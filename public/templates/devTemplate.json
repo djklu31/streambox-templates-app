@@ -403,6 +403,25 @@
                     ]
                 },
                 {
+                    "routeName": "Audio",
+                    "containers": [
+                        {
+                            "title": "Audio",
+                            "apiSrc": "/REST/encoder/audiolevels.json",
+                            "type": "form",
+                            "backgroundColor": "#C7D3D4FF",
+                            "postEndpoint": "/REST/encoder/audiolevels.json",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "label": "Audio Levels",
+                                    "mapping": "audiolevels"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
                     "routeName": "Metadata",
                     "containers": [
                         {
@@ -451,36 +470,21 @@
                     "routeName": "Encryption",
                     "containers": [
                         {
-                            "title": "Metadata Settings",
-                            "apiSrc": "/REST/encoder/metadata.json",
+                            "title": "Encryption",
+                            "apiSrc": "/REST/encoder/encryption.json",
                             "type": "form",
-                            "backgroundColor": "#FFE4E1",
-                            "postEndpoint": "/REST/encoder/metadata.json",
+                            "backgroundColor": "#f6d8ac",
+                            "postEndpoint": "/REST/encoder/encryption.json",
                             "fields": [
                                 {
-                                    "type": "input",
-                                    "label": "Title",
-                                    "mapping": "Meta_Slug"
+                                    "type": "select",
+                                    "label": "AES-128 Encryption",
+                                    "mapping": "crypt_mode"
                                 },
                                 {
                                     "type": "input",
-                                    "label": "Location",
-                                    "mapping": "Meta_Location"
-                                },
-                                {
-                                    "type": "input",
-                                    "label": "Reporter",
-                                    "mapping": "Meta_Reporter"
-                                },
-                                {
-                                    "type": "input",
-                                    "label": "Producer",
-                                    "mapping": "Meta_Producer"
-                                },
-                                {
-                                    "type": "input",
-                                    "label": "DRM",
-                                    "mapping": "Meta_Network1"
+                                    "label": "Encryption Key",
+                                    "mapping": "crypt_key"
                                 },
                                 {
                                     "type": "button",

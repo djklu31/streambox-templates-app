@@ -116,7 +116,7 @@
                         },
                         {
                             "title": "Start Streaming",
-                            "apiSrc": "/REST/encoder/status",
+                            "apiSrc": ["/REST/encoder/status", "/REST/encoder/presets"],
                             "backgroundColor": "rgb(250, 208, 201)",
                             "fields": [
                                 {
@@ -124,6 +124,18 @@
                                     "size": "giant",
                                     "mapping": "isStreaming",
                                     "action": "toggleStreaming"
+                                },
+                                {
+                                    "type": "presetSelect",
+                                    "label": "Preset",
+                                    "mapping": "none"
+                                },
+                                {
+                                    "type": "button",
+                                    "presetSrc": "/REST/encoder/presets",
+                                    "action": "applyPreset",
+                                    "size": "small",
+                                    "label": "Apply Preset"
                                 }
                             ]
                         }
@@ -391,6 +403,25 @@
                     ]
                 },
                 {
+                    "routeName": "Audio",
+                    "containers": [
+                        {
+                            "title": "Audio",
+                            "apiSrc": "/REST/encoder/audiolevels",
+                            "type": "form",
+                            "backgroundColor": "#C7D3D4FF",
+                            "postEndpoint": "/REST/encoder/audiolevels",
+                            "fields": [
+                                {
+                                    "type": "text",
+                                    "label": "Audio Levels",
+                                    "mapping": "audiolevels"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
                     "routeName": "Metadata",
                     "containers": [
                         {
@@ -424,6 +455,36 @@
                                     "type": "input",
                                     "label": "DRM",
                                     "mapping": "Meta_Network1"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": "submitLocalForm",
+                                    "size": "small",
+                                    "label": "Apply Changes"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "routeName": "Encryption",
+                    "containers": [
+                        {
+                            "title": "Encryption",
+                            "apiSrc": "/REST/encoder/encryption",
+                            "type": "form",
+                            "backgroundColor": "#f6d8ac",
+                            "postEndpoint": "/REST/encoder/encryption",
+                            "fields": [
+                                {
+                                    "type": "select",
+                                    "label": "AES-128 Encryption",
+                                    "mapping": "crypt_mode"
+                                },
+                                {
+                                    "type": "input",
+                                    "label": "Encryption Key",
+                                    "mapping": "crypt_key"
                                 },
                                 {
                                     "type": "button",

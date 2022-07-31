@@ -109,6 +109,12 @@ input[type=submit] {
     box-shadow: 2px 1px #555;
 }
 
+.outer-container {
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .giant-button {
     padding: 20px 45px;
     border-radius: 7px;

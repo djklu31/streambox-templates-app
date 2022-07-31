@@ -1,0 +1,11 @@
+{
+    "current_stat": [
+        {
+            "cname": "audiolevels",
+            "type": 0,
+            "label": "Audio Levels",
+            "val": "16:185:185:0:0:0:0:0:0:0:0:0:0:0:0:0:0",
+            "read_only": 1
+        }
+    ]
+}
