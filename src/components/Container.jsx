@@ -151,8 +151,6 @@ export default function Container(props) {
             }
         }
 
-        console.log(inlineElementsArray)
-        
         let returnArr = []
 
         //handle all types of input

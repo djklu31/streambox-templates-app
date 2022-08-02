@@ -83,17 +83,6 @@ input[type=submit] {
     cursor: pointer;
 }
 
-.small-button {
-    border-radius: 5px;
-    border: 0px;
-    box-shadow: 1px 1px black;
-}
-
-.small-button:hover {
-    cursor: pointer;
-    background-color: #dddddd;
-}
-
 .flex-outer-container {
     display: flex;
     justify-content: center;

@@ -1,6 +1,7 @@
 {
     "template": {
         "darkMode": true,
+        "backgroundRefreshTime": 7000,
         "navbar": {
             "routes": [
                 {
@@ -22,22 +23,24 @@
                                     "previewImageRoute": "/REST/encoder/preview/JPG"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Source Video Format",
-                                    "mapping": "inputsignal"
+                                    "mapping": "inputsignal",
+                                    "inlineElements": [
+                                        {
+                                            "type": "mappedText",
+                                            "label": "Network Mode",
+                                            "mapping": "cnetworkmode"
+                                        },
+                                        {
+                                            "type": "mappedText",
+                                            "label": "Bitrate",
+                                            "mapping": "cur_bitrate"
+                                        }
+                                    ]
                                 }, 
                                 {
-                                    "type": "text",
-                                    "label": "Network Mode",
-                                    "mapping": "cnetworkmode"
-                                },
-                                {
-                                    "type": "text",
-                                    "label": "Bitrate",
-                                    "mapping": "cur_bitrate"
-                                },
-                                {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Quality",
                                     "mapping": "vquality"
                                 },
@@ -47,22 +50,22 @@
                                     "mapping": "isStreaming"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Dropped Captured Frames",
                                     "mapping": "dropCapture"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Dropped Encoder Frames",
                                     "mapping": "dropEnc"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "SDI errors",
                                     "mapping": "sdi_error"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Frame Delay",
                                     "mapping": "frame_delay"
                                 }
@@ -74,41 +77,41 @@
                             "backgroundColor": "#C7D3D4FF",
                             "fields": [
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Encoder IP",
                                     "mapping": "c_encoderIP"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Decoder IP",
                                     "mapping": "c_decoderIP"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Packet Size",
                                     "mapping": "c_packetsize"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Shuffle",
                                     "mapping": "cshuffle"
                                 },{
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Buffer",
                                     "mapping": "cbuffer"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Bytes",
                                     "mapping": "cbytes"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Packets Sent",
                                     "mapping": "sent_packets"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Transmission",
                                     "mapping": "is_ldmp"
                                 }
@@ -128,14 +131,10 @@
                                 {
                                     "type": "presetSelect",
                                     "label": "Preset",
+                                    "btnPresetSrc": "/REST/encoder/presets",
+                                    "btnLabel": "Apply Preset",
+                                    "btnAction": "applyPreset",
                                     "mapping": "none"
-                                },
-                                {
-                                    "type": "button",
-                                    "presetSrc": "/REST/encoder/presets",
-                                    "action": "applyPreset",
-                                    "size": "small",
-                                    "label": "Apply Preset"
                                 }
                             ]
                         }
@@ -413,7 +412,7 @@
                             "postEndpoint": "/REST/encoder/audiolevels",
                             "fields": [
                                 {
-                                    "type": "text",
+                                    "type": "mappedText",
                                     "label": "Audio Levels",
                                     "mapping": "audiolevels"
                                 }
