@@ -186,9 +186,9 @@ export default function Container(props) {
                 result = field.label
             }
             if (isForm) {
-                returnArr = <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                returnArr = <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} backgroundColor={field.backgroundColor} label={result} action={field.action} buttonPressed={buttonPressed}/>
             } else {
-                returnArr = <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                returnArr = <Button key={nanoid()} size={field.size} label={result} action={field.action} backgroundColor={field.backgroundColor} buttonPressed={buttonPressed}/>
             }
         } else if (field.type === "input") {
             if (filteredStat) {
@@ -301,7 +301,7 @@ export default function Container(props) {
     }
     return (
         <div className={isMultiChannelSelection ? "container multichannel-container": "container"} style={style}>
-            <h4 className="container-title">{title}{isMultiChannelSelection && <button className="big-button">Open</button>}</h4>
+            <h4 className="container-title">{title}{isMultiChannelSelection && <button className="big-button multichannel-title-btn">Open</button>}</h4>
             <hr />
             {isForm ? <Form mappedFields={mappedFields} handleFormSubmit={handleFormSubmit} /> : mappedFields}
         </div>

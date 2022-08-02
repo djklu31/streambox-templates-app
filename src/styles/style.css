@@ -152,7 +152,7 @@ footer {
 
 .big-button:hover {
     cursor: pointer;
-    background-color: #042951;
+    background-color: red;
 }
 
 .big-button:active:hover, .small-button:active:hover, .giant-button:active:hover {
@@ -296,4 +296,8 @@ Multichannel Page Styles
     display: flex;
     justify-content: space-between;
     margin-right: 10px;
+}
+
+.multichannel-title-btn {
+    background-color: #4d84c4;
 }
