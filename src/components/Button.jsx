@@ -21,8 +21,10 @@ export default function Button(props) {
         } else {
             button = <p className="fields"><span className="error-text">Post endpoint is missing in template is required for forms</span></p>
         }
-    } else if (props.action === "applyPreset") {
-        button = <p className="fields preset-btn-field"><button onClick={() => {props.buttonPressed(props.action)}}>{props.label}</button></p>
+    } else {
+        if (props.size === "small") {
+            button = <p className="fields"><button className="big-button" onClick={() => {props.buttonPressed(props.action)}}>{props.label}</button></p>
+        }
     }
 
     // if (props.size === "giant") {

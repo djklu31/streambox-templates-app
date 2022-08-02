@@ -16,6 +16,7 @@ export default function Container(props) {
     const fields = container.fields
     let style = {}
     const isForm = container.type === "form" ? true : false
+    const isMultiChannelSelection = container.type === "multichannel-container" ? true : false
 
     //handle button presses with appropriate action
     function buttonPressed(action) {
@@ -101,14 +102,14 @@ export default function Container(props) {
         return response.json(); // parses JSON response into native JavaScript objects
     }
 
-    //handle different field types
-    const mappedFields = fields.map(field => {
+    function handleFieldTypes(field) {
         let filteredStat
         let result
         let apiObjMissing = false;
         let fieldMapMissing = false;
-        let isPresetBtn = false;
+        let isPlainText = field.type === "plaintext" ? true : false
 
+        //set up error message if api object is missing or mapping field is missing or can't be mapped
         if (!apiObj) {
             apiObjMissing = true;
         }
@@ -128,20 +129,36 @@ export default function Container(props) {
             fieldMapMissing = true;
         }
 
-        //if mapping field is missing from container or api src is missing then print that out in it's respective type
-        if (fieldMapMissing) {
-            result = <span className="error-text">No mapping field found in JSON template</span>
+        if (!isPlainText) {
+            //if mapping field is missing from container or api src is missing then print that out in it's respective type
+            if (fieldMapMissing) {
+                result = <span className="error-text">No mapping field found in JSON template</span>
+            }
+            if (apiObjMissing) {
+                result = <span className="error-text">API src not included in JSON template</span>
+            }
+            if (apiObjMissing || fieldMapMissing && (field.type !== "button" && field.type !== "video")) {
+                return <p className="fields"><span className="field-label">{field.label}</span>: {result}</p>
+            } 
         }
-        if (apiObjMissing) {
-            result = <span className="error-text">API src not included in JSON template</span>
-        }
-        if (apiObjMissing || fieldMapMissing && (field.type !== "button" && field.type !== "video")) {
-            return <p className="fields"><span className="field-label">{field.label}</span>: {result}</p>
-        } 
 
+        let inlineElementsArray = []
+
+        if (field.inlineElements && field.inlineElements.length > 0) {
+            const inlineElements = field.inlineElements
+            for (let element of inlineElements) {
+                inlineElementsArray.push(handleFieldTypes(element))
+            }
+        }
+
+        console.log(inlineElementsArray)
+        
+        let returnArr = []
 
         //handle all types of input
-        if (field.type === "text") {
+        if (isPlainText) {
+            returnArr = <p className="fields" key={nanoid()}><span className="plain-text">{field.text}</span></p>
+        } else if (field.type === "mappedText") {
             if (field.mapping === "is_ldmp" && (!apiObjMissing && !fieldMapMissing)) {
                 if (filteredStat && filteredStat[0].val == 1) {
                     result = "LDMP"
@@ -149,18 +166,15 @@ export default function Container(props) {
                     result = "UDP"
                 }
             }
-            return <p className="fields" key={nanoid()}><span className="field-label">{field.label}</span>: {result}</p>
+            returnArr = <p className="fields" key={nanoid()}><span className="field-label">{field.label}</span>: {result}</p>
         } else if (field.type === "video") {
             if (field.previewImageRoute) {
-                return <Video key={nanoid()} location={endpoint} previewImageRoute={field.previewImageRoute}/>
+                returnArr = <Video key={nanoid()} location={endpoint} previewImageRoute={field.previewImageRoute}/>
             } else {
-                return <p className="fields">
+                returnArr = <p className="fields">
                     <span className="error-text">Missing parameter for video preview: previewImageRoute</span></p>
             }
         } else if (field.type ==="button") {
-            if (field.applyPreset && field.applyPreset === "applyPreset") {
-                isPresetBtn = true
-            }
             //custom button rules
             if (field.mapping === "isStreaming") {
                 if (filteredStat && filteredStat[0].val == 1) {
@@ -172,27 +186,99 @@ export default function Container(props) {
                 result = field.label
             }
             if (isForm) {
-                return <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
-            } else if (isPresetBtn) {
-                return <Button key={nanoid()} presetSrc={field.presetSrc} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                returnArr = <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
             } else {
-                return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+                returnArr = <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
             }
         } else if (field.type === "input") {
             if (filteredStat) {
-                return <Input key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} endLabel={field.endLabel} label={field.label} value={filteredStat[0].val} />
+                returnArr = <Input key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} endLabel={field.endLabel} label={field.label} value={filteredStat[0].val} />
             }
         } else if (field.type === "checkbox") {
             if (filteredStat) {
-                return <Checkbox key={nanoid()} name={filteredStat[0].cname} label={field.label} checked={filteredStat[0].val} endLabel={field.endLabel} />
+                returnArr = <Checkbox key={nanoid()} name={filteredStat[0].cname} label={field.label} checked={filteredStat[0].val} endLabel={field.endLabel} />
             }
         } else if (field.type === "select") {
             if (filteredStat) {
-                return <Select key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} subValues={filteredStat[0].sub_values} value={filteredStat[0].val} valLabels={filteredStat[0].val_labels} label={field.label} endLabel={field.endLabel} />
+                returnArr = <Select key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} subValues={filteredStat[0].sub_values} value={filteredStat[0].val} valLabels={filteredStat[0].val_labels} label={field.label} endLabel={field.endLabel} />
             }
         } else if (field.type === "presetSelect" && props.presetObj) {
-            return <Select key={nanoid()} name="none" value="none" clearTimer={props.clearTimer} startTimer={props.startTimer} presetObj={props.presetObj} label={field.label} endLabel={field.endLabel} />
+            returnArr = <div key={nanoid()} className="preset-div">
+                <Select key={nanoid()} name="none" value="none" clearTimer={props.clearTimer} startTimer={props.startTimer} presetObj={props.presetObj} label={field.label} endLabel={field.endLabel} /><Button key={nanoid()} presetSrc={field.btnPresetSrc} size={field.btnSize} label={field.btnLabel} action={field.btnAction} buttonPressed={buttonPressed}/>
+            </div>
         }
+
+        if (inlineElementsArray && inlineElementsArray.length > 0) {
+            return <div className="inline-field">
+                {returnArr}{inlineElementsArray}
+            </div>
+        } else {
+            return returnArr
+        }
+    }
+
+    //handle different field types
+    const mappedFields = fields.map(field => {
+
+        return handleFieldTypes(field)
+
+        // //handle all types of input
+        // if (field.type === "plainText") {
+        //     return <p className="fields" key={nanoid()}><span className="plain-text">{field.text}</span></p>
+        // } else if (field.type === "mappedText") {
+        //     if (field.mapping === "is_ldmp" && (!apiObjMissing && !fieldMapMissing)) {
+        //         if (filteredStat && filteredStat[0].val == 1) {
+        //             result = "LDMP"
+        //         } else {
+        //             result = "UDP"
+        //         }
+        //     }
+        //     return <p className="fields" key={nanoid()}><span className="field-label">{field.label}</span>: {result}</p>
+        // } else if (field.type === "video") {
+        //     if (field.previewImageRoute) {
+        //         return <Video key={nanoid()} location={endpoint} previewImageRoute={field.previewImageRoute}/>
+        //     } else {
+        //         return <p className="fields">
+        //             <span className="error-text">Missing parameter for video preview: previewImageRoute</span></p>
+        //     }
+        // } else if (field.type ==="button") {
+        //     if (field.applyPreset && field.applyPreset === "applyPreset") {
+        //         isPresetBtn = true
+        //     }
+        //     //custom button rules
+        //     if (field.mapping === "isStreaming") {
+        //         if (filteredStat && filteredStat[0].val == 1) {
+        //             result = "Stop Streaming"
+        //         } else {
+        //             result = "Start Streaming"
+        //         }
+        //     } else {
+        //         result = field.label
+        //     }
+        //     if (isForm) {
+        //         return <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+        //     } else if (isPresetBtn) {
+        //         return <Button key={nanoid()} presetSrc={field.presetSrc} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+        //     } else {
+        //         return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
+        //     }
+        // } else if (field.type === "input") {
+        //     if (filteredStat) {
+        //         return <Input key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} endLabel={field.endLabel} label={field.label} value={filteredStat[0].val} />
+        //     }
+        // } else if (field.type === "checkbox") {
+        //     if (filteredStat) {
+        //         return <Checkbox key={nanoid()} name={filteredStat[0].cname} label={field.label} checked={filteredStat[0].val} endLabel={field.endLabel} />
+        //     }
+        // } else if (field.type === "select") {
+        //     if (filteredStat) {
+        //         return <Select key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} subValues={filteredStat[0].sub_values} value={filteredStat[0].val} valLabels={filteredStat[0].val_labels} label={field.label} endLabel={field.endLabel} />
+        //     }
+        // } else if (field.type === "presetSelect" && props.presetObj) {
+        //     return <div key={nanoid()} className="preset-div">
+        //         <Select key={nanoid()} name="none" value="none" clearTimer={props.clearTimer} startTimer={props.startTimer} presetObj={props.presetObj} label={field.label} endLabel={field.endLabel} /><Button key={nanoid()} presetSrc={field.btnPresetSrc} size={field.btnSize} label={field.btnLabel} action={field.btnAction} buttonPressed={buttonPressed}/>
+        //     </div>
+        // }
     })
 
     if (container.backgroundColor) {
@@ -205,10 +291,17 @@ export default function Container(props) {
                 "gridRow": "span " + container.containerStyle.stretchVertically
             }
         }
+
+        if (container.containerStyle.stretchHorizontally) {
+            style = {...style,
+                "gridColumn": "span " + container.containerStyle.stretchHorizontally, 
+                "maxWidth": "none"
+            }
+        }
     }
     return (
-        <div className="container" style={style}>
-            <h4 className="container-title">{title}</h4>
+        <div className={isMultiChannelSelection ? "container multichannel-container": "container"} style={style}>
+            <h4 className="container-title">{title}{isMultiChannelSelection && <button className="big-button">Open</button>}</h4>
             <hr />
             {isForm ? <Form mappedFields={mappedFields} handleFormSubmit={handleFormSubmit} /> : mappedFields}
         </div>

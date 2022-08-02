@@ -103,7 +103,7 @@ input[type=submit] {
     padding: 10px 20px;
     border-radius: 7px;
     border: 0px;
-    background-color: #05386B;
+    background-color: #4d84c4;
     color: white;
     letter-spacing: .05rem;
     box-shadow: 2px 1px #555;
@@ -178,6 +178,15 @@ footer {
     text-decoration: none;
     margin-left: 2em;
     font-weight: 600;
+}
+
+.preset-div {
+    display: flex;
+}
+
+.inline-field {
+    display: flex;
+    justify-content: center;
 }
 
 .logout-btn:hover, .nav-btn:hover {
@@ -260,3 +269,31 @@ select, .input-box {
         width: fit-content;
     }
   }
+
+
+/* 
+Multichannel Page Styles
+*/
+
+.multichannel-outer {
+    display: flex;
+    justify-content: center;
+}
+
+.multichannel-inner {
+    display: grid;
+    gap: 1.5em;
+    margin-top: 5em;
+}
+
+.multichannel-container {
+    min-width: 400px;
+    max-width: 400px;
+}
+
+.multichannel-container .container-title {
+    color: #4d84c4;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+}

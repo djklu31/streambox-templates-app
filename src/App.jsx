@@ -14,9 +14,11 @@ export default function App(props) {
 
   const combinedApiArray = []
   let presetObj
-  const backgroundRefreshTime = 5000 //timer to fetch background data in milliseconds
+  const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime ? currentTemplate.template.backgroundRefreshTime : 5000 //timer to fetch background data in milliseconds
 
   const endpoint = location.origin
+
+  let isMultichannelPage = navBtns[0].isMultichannelPage
 
   if (typeof currentTemplate.template.darkMode !== "undefined") {
     if (currentTemplate.template.darkMode) {
@@ -113,6 +115,11 @@ export default function App(props) {
   let innerClassList = "containers"
   let outerClassList = "outer-container"
   let style = {}
+
+  if (isMultichannelPage) {
+    innerClassList = " multichannel-inner"
+    outerClassList = " multichannel-outer"
+  }
 
   if (containerStyles) {
     if (typeof containerStyles.numberOfColumns !== "undefined") {
