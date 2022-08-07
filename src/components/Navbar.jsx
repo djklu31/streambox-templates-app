@@ -16,6 +16,7 @@ export default function Navbar(props) {
                     </div>
 
                     <div className="logout-section">
+                        <a className="settings-btn" onClick={props.openSettings}>Settings</a>
                         Logged in:&nbsp;<span>Kenny</span><a className="logout-btn" href="/">Logout</a>
                     </div>
                 </nav>

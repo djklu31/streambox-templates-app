@@ -155,7 +155,7 @@ export default function Container(props) {
 
         //handle all types of input
         if (isPlainText) {
-            returnArr = <p className="fields" key={nanoid()}><span className="plain-text">{field.text}</span></p>
+            returnArr = <p className="fields"><span className="plain-text">{field.text}</span></p>
         } else if (field.type === "mappedText") {
             if (field.mapping === "is_ldmp" && (!apiObjMissing && !fieldMapMissing)) {
                 if (filteredStat && filteredStat[0].val == 1) {
@@ -207,7 +207,7 @@ export default function Container(props) {
         }
 
         if (inlineElementsArray && inlineElementsArray.length > 0) {
-            return <div className="inline-field">
+            return <div className="inline-field" key={nanoid()}>
                 {returnArr}{inlineElementsArray}
             </div>
         } else {

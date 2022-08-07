@@ -136,41 +136,47 @@
                                     "action": "applyPreset",
                                     "size": "big",
                                     "label": "Restart All",
+                                    "backgroundColor": "#555",
                                     "inlineElements": [
                                         {
                                             "type": "button",
                                             "presetSrc": "/REST/encoder/presets.json",
                                             "action": "applyPreset",
                                             "size": "big",
-                                            "label": "Restart Encoders"
+                                            "label": "Restart Encoders",
+                                            "backgroundColor": "#555"
                                         },
                                         {
                                             "type": "button",
                                             "presetSrc": "/REST/encoder/presets.json",
                                             "action": "applyPreset",
                                             "size": "big",
-                                            "label": "Restart SDM"
+                                            "label": "Restart SDM",
+                                            "backgroundColor": "#555"
                                         },
                                         {
                                             "type": "button",
                                             "presetSrc": "/REST/encoder/presets.json",
                                             "action": "applyPreset",
                                             "size": "big",
-                                            "label": "Stop Encoders"
+                                            "label": "Stop Encoders",
+                                            "backgroundColor": "#555"
                                         },
                                         {
                                             "type": "button",
                                             "presetSrc": "/REST/encoder/presets.json",
                                             "action": "applyPreset",
                                             "size": "big",
-                                            "label": "Stop SDM"
+                                            "label": "Stop SDM",
+                                            "backgroundColor": "#555"
                                         },
                                         {
                                             "type": "button",
                                             "presetSrc": "/REST/encoder/presets.json",
                                             "action": "applyPreset",
                                             "size": "big",
-                                            "label": "LCD Configuration"
+                                            "label": "LCD Configuration",
+                                            "backgroundColor": "#555"
                                         }
                                     ]
                                 }
