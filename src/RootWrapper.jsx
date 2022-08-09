@@ -33,6 +33,8 @@ export default function RootWrapper() {
         if (localStorage.getItem("templateName")) {
             let response = await fetch(`http://localhost:5005/templates/${localStorage.getItem("templateName")}`)
             let json = await response.json();
+
+            //if bad json template, go on to next
             setCurrentTemplate(JSON.stringify(json))
             setNavBtns(json.template.navbar.routes)
             if (isSettings) {
@@ -41,49 +43,21 @@ export default function RootWrapper() {
                 setCurrentPageName(json.template.navbar. routes[0].routeName)
             }
             setIsLoading(false)
-        } 
-        
-        // else {
-        //     //if no templates are set in storage, set the first one. if none exist on the server throw an alert
-        //     let response = await fetch('http://localhost:5005/templates')
-        //     let json = await response.json();
+        } else {
+            //if no templates are set in storage, set the first one. if none exist on the server throw an alert
+            let response = await fetch('http://localhost:5005/templates')
+            let json = await response.json();
             
-        //     if (json.templates && (json.templates).length > 0) {
-        //         //set json template to first template
-        //         const firstTemplate = json.templates[0]
-        //         localStorage.setItem("templateName", firstTemplate)
-        //         setCurrentTemplate(firstTemplate)
-        //     } else if (currentTemplate === "none") {
-        //         alert("No templates found on server")
-        //     }
-        // }
+            if (json.templates && (json.templates).length > 0) {
+                //set json template to first template
+                const firstTemplate = json.templates[0]
+                localStorage.setItem("templateName", firstTemplate)
+                getTemplate()
+            } else if (currentTemplate === "none") {
+                alert("No templates found on server")
+            }
+        }
     }
-
-    // useEffect(async () => {
-    //     if (localStorage.getItem("templateName")) {
-    //         let response = await fetch(`http://localhost:5005/templates/${localStorage.getItem("templateName")}`)
-    //         let json = await response.json();
-    //         // setNavBtns(json.template.navbar.routes)
-    //         setCurrentPageName("OYAAAA")
-
-    //         console.log(json)
-    //     } 
-        
-    //     else {
-    //         //if no templates are set in storage, set the first one. if none exist on the server throw an alert
-    //         let response = await fetch('http://localhost:5005/templates')
-    //         let json = await response.json();
-            
-    //         if (json.templates && (json.templates).length > 0) {
-    //             //set json template to first template
-    //             const firstTemplate = json.templates[0]
-    //             localStorage.setItem("templateName", firstTemplate)
-    //             setCurrentTemplate(firstTemplate)
-    //         } else if (currentTemplate === "none") {
-    //             alert("No templates found on server")
-    //         }
-    //     }
-    // }, [])
 
     useEffect(() => {
         getTemplate()
