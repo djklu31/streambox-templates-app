@@ -9,8 +9,7 @@ export default function Settings(props) {
     const [saveDisabled, setSaveDisabled] = useState(true)
     const [deleteDisabled, setDeleteDisabled] = useState(true)
     const [isRerender, setIsRerender] = useState(false)
-    const hostname = "54.151.83.113"
-    const port = "6417"
+    const endpoint = props.endpoint
 
     useEffect(async () => {
         if (isRerender) {
@@ -25,7 +24,7 @@ export default function Settings(props) {
             setDeleteDisabled(true)
             setIsRerender(false)
         }
-        let response = await fetch(`http://${hostname}:${port}/REST/templates/_list`)
+        let response = await fetch(`${endpoint}/REST/templates/_list`)
         let json = await response.json();
         if (currentTemplateName === "none" && json && json.length > 0) {
             //set json template to first template
@@ -54,7 +53,7 @@ export default function Settings(props) {
 
     async function deleteTemplate(e) {
         if (confirm ("Are you sure you want to delete " + currentEditTemplateName)) {
-            let response = await fetch(`http://${hostname}:${port}/REST/templates/${currentEditTemplateName}`, {
+            let response = await fetch(`${endpoint}/REST/templates/${currentEditTemplateName}`, {
                 method: 'DELETE'
             })
             let text = await response.text()
@@ -73,7 +72,7 @@ export default function Settings(props) {
         e.preventDefault()
         const selectedTemplate = e.target[0].value
         if (selectedTemplate !== "none") {
-            let response = await fetch(`http://${hostname}:${port}/REST/templates/${selectedTemplate}`)
+            let response = await fetch(`${endpoint}/REST/templates/${selectedTemplate}`)
             let json = await response.json();
             const prettyJson = JSON.stringify(json, undefined, 2)
             document.querySelector(".edit-template-area").value = prettyJson
@@ -89,7 +88,7 @@ export default function Settings(props) {
             formData.append("filename", currentEditTemplateName)
             formData.append("filedata", document.querySelector('.edit-template-area').value)
 
-            let response = await fetch(`http://${hostname}:${port}/REST/templates/newfile`, {
+            let response = await fetch(`${endpoint}/REST/templates/newfile`, {
                 method: 'POST',
                 body: formData
             })
@@ -113,7 +112,7 @@ export default function Settings(props) {
         let formData = new FormData()
         formData.append("filename", templateName)
         formData.append("filedata", document.querySelector('.edit-template-area').value)
-        let response = await fetch(`http://${hostname}:${port}/REST/templates/newfile`, {
+        let response = await fetch(`${endpoint}/REST/templates/newfile`, {
             method: 'POST',
             body: formData
         })

@@ -16,8 +16,17 @@ export default function RootWrapper() {
     //const [isLoading, setIsLoading] = useState(false)
     //const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
     const [currentPageName, setCurrentPageName] = useState("")
-    const hostname = "54.151.83.113"
-    const port = "6417"
+    let isLocalDev = false;
+    let endpoint = "";
+
+    //if developing on local machine
+    if (isLocalDev) {
+        const hostname = "54.151.83.113"
+        const port = "6417"
+        endpoint = `http://${hostname}:${port}`
+    } else {
+        endpoint = location.origin;
+    }
 
     function handleChangeTemplate(selectedTemplate) {
         setTemplateName(selectedTemplate)
@@ -35,7 +44,7 @@ export default function RootWrapper() {
 
     async function getTemplate() {
         if (localStorage.getItem("templateName")) {
-            let response = await fetch(`http://${hostname}:${port}/REST/templates/${localStorage.getItem("templateName")}`)
+            let response = await fetch(`${endpoint}/REST/templates/${localStorage.getItem("templateName")}`)
             let json = await response.json();
 
             //if bad json template, go on to next
@@ -49,7 +58,7 @@ export default function RootWrapper() {
             setIsLoading(false)
         } else {
             //if no templates are set in storage, set the first one. if none exist on the server throw an alert
-            let response = await fetch(`http://${hostname}:${port}/REST/templates/_list`)
+            let response = await fetch(`${endpoint}/REST/templates/_list`)
             let json = await response.json();
             console.log(json)
             
@@ -94,7 +103,7 @@ export default function RootWrapper() {
             {isLoading ? "IS LOADING" : 
                 <>
                     <Navbar changeRoute={changeRoute} openSettings={openSettings} currentPageName={currentPageName} navBtns={navBtns}/>
-                    {isSettings ? <Settings handleChangeTemplate={handleChangeTemplate} /> :
+                    {isSettings ? <Settings endpoint={endpoint} handleChangeTemplate={handleChangeTemplate} /> :
                     <App currentPageName={currentPageName} currentTemplate={JSON.parse(currentTemplate)} />}
                     {/* <App currentPageName={currentPageName} currentTemplate={currentTemplate} />} */}
                 </>
