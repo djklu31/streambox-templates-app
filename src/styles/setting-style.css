@@ -1,0 +1,42 @@
+/* Settings Styles */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-outer-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.template-form-padding {
+    margin-bottom: 3em;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-select, .create-template-input {
+    height: 45px;
+    width: 100%;
+}
+
+.edit-template-area {
+    height: 600px;
+    width: 600px;
+    margin-top: 1.5em;
+}
+
+.current-template-readout {
+    padding: 15px 7px;
+    background-color: antiquewhite;
+    border-radius: 5px;
+}
+
+.template-area-div {
+    margin-top: 25px;
+    color: white;
+}

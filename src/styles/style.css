@@ -302,7 +302,7 @@ Multichannel Page Styles
     background-color: #4d84c4;
 }
 
-/* Settings Styles */
+/* Settings Styles
 .settings-container {
     display: flex;
     flex-direction: column;
@@ -338,4 +338,4 @@ Multichannel Page Styles
     padding: 15px 7px;
     background-color: antiquewhite;
     border-radius: 5px;
-}
+} */
