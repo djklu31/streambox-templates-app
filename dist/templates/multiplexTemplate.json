@@ -12,8 +12,8 @@
                     "containers": [
                         {
                             "title": "DAB_CX-1",
-                            "apiSrc": "/REST/encoder/status.json",
-                            "postEndpoint": "/REST/encoder/metadata.json",
+                            "apiSrc": "/REST/encoder/status",
+                            "postEndpoint": "/REST/encoder/metadata",
                             "backgroundColor": "white",
                             "type": "multichannel-container",
                             "fields": [
@@ -39,7 +39,7 @@
                                 },
                                 {
                                     "type": "button",
-                                    "presetSrc": "/REST/encoder/presets.json",
+                                    "presetSrc": "/REST/encoder/presets",
                                     "action": "applyPreset",
                                     "size": "big",
                                     "backgroundColor": "#333",
@@ -49,8 +49,8 @@
                         },
                         {
                             "title": "DAB_CX-2",
-                            "apiSrc": "/REST/encoder/status.json",
-                            "postEndpoint": "/REST/encoder/metadata.json",
+                            "apiSrc": "/REST/encoder/status",
+                            "postEndpoint": "/REST/encoder/metadata",
                             "backgroundColor": "white",
                             "type": "multichannel-container",
                             "fields": [
@@ -76,7 +76,7 @@
                                 },
                                 {
                                     "type": "button",
-                                    "presetSrc": "/REST/encoder/presets.json",
+                                    "presetSrc": "/REST/encoder/presets",
                                     "action": "applyPreset",
                                     "size": "big",
                                     "backgroundColor": "#333",
@@ -86,8 +86,8 @@
                         },
                         {
                             "title": "DAB_CX-3",
-                            "apiSrc": "/REST/encoder/status.json",
-                            "postEndpoint": "/REST/encoder/metadata.json",
+                            "apiSrc": "/REST/encoder/status",
+                            "postEndpoint": "/REST/encoder/metadata",
                             "backgroundColor": "white",
                             "type": "multichannel-container",
                             "fields": [
@@ -113,7 +113,7 @@
                                 },
                                 {
                                     "type": "button",
-                                    "presetSrc": "/REST/encoder/presets.json",
+                                    "presetSrc": "/REST/encoder/presets",
                                     "action": "applyPreset",
                                     "size": "big",
                                     "backgroundColor": "#333",
@@ -123,8 +123,8 @@
                         },
                         {
                             "title": "",
-                            "apiSrc": "/REST/encoder/status.json",
-                            "postEndpoint": "/REST/encoder/metadata.json",
+                            "apiSrc": "/REST/encoder/status",
+                            "postEndpoint": "/REST/encoder/metadata",
                             "containerStyle": {
                                 "stretchHorizontally": 3
                             },
@@ -132,7 +132,7 @@
                             "fields": [
                                 {
                                     "type": "button",
-                                    "presetSrc": "/REST/encoder/presets.json",
+                                    "presetSrc": "/REST/encoder/presets",
                                     "action": "applyPreset",
                                     "size": "big",
                                     "label": "Restart All",
@@ -140,7 +140,7 @@
                                     "inlineElements": [
                                         {
                                             "type": "button",
-                                            "presetSrc": "/REST/encoder/presets.json",
+                                            "presetSrc": "/REST/encoder/presets",
                                             "action": "applyPreset",
                                             "size": "big",
                                             "label": "Restart Encoders",
@@ -148,7 +148,7 @@
                                         },
                                         {
                                             "type": "button",
-                                            "presetSrc": "/REST/encoder/presets.json",
+                                            "presetSrc": "/REST/encoder/presets",
                                             "action": "applyPreset",
                                             "size": "big",
                                             "label": "Restart SDM",
@@ -156,7 +156,7 @@
                                         },
                                         {
                                             "type": "button",
-                                            "presetSrc": "/REST/encoder/presets.json",
+                                            "presetSrc": "/REST/encoder/presets",
                                             "action": "applyPreset",
                                             "size": "big",
                                             "label": "Stop Encoders",
@@ -164,7 +164,7 @@
                                         },
                                         {
                                             "type": "button",
-                                            "presetSrc": "/REST/encoder/presets.json",
+                                            "presetSrc": "/REST/encoder/presets",
                                             "action": "applyPreset",
                                             "size": "big",
                                             "label": "Stop SDM",
@@ -172,7 +172,7 @@
                                         },
                                         {
                                             "type": "button",
-                                            "presetSrc": "/REST/encoder/presets.json",
+                                            "presetSrc": "/REST/encoder/presets",
                                             "action": "applyPreset",
                                             "size": "big",
                                             "label": "LCD Configuration",
