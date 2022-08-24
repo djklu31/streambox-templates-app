@@ -182,7 +182,7 @@ export default function Settings(props) {
                 <button className="save-template-btn template-form-padding" onClick={deleteTemplate} disabled={deleteDisabled}>Delete Template</button>
                 <div className="settings-label">
                     <label className="template-label">
-                        <h4>Create Template</h4><img className="tooltip" src="../../images/information.png" data-tip="
+                        <h4>Create Template</h4><img className="tooltip" src="/images/information.png" data-tip="
                             Create a JSON template using the text area 'Template area'.
                         "/>
                     </label>
