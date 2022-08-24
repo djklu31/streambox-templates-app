@@ -24,6 +24,8 @@ export default function App(props) {
     if (typeof currentTemplate.template.darkMode !== "undefined") {
       if (currentTemplate.template.darkMode === true) {
         document.body.classList.add('dark-mode')
+      } else {
+        document.body.classList.remove('dark-mode')
       }
     }
   }, [])

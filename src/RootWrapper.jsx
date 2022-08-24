@@ -5,6 +5,10 @@ import Settings from './Settings'
 //import customTemplate from '/public/templates/devTemplate.json' //dev template
 
 export default function RootWrapper() {
+
+    //is this in dev environment or prod?
+    let isLocalDev = true;
+
     //set up initial state with template
     //const [currentTemplate, setCurrentTemplate] = useState(customTemplate)
     //const navBtns = currentTemplate.template.navbar.routes
@@ -16,14 +20,13 @@ export default function RootWrapper() {
     //const [isLoading, setIsLoading] = useState(false)
     //const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
     const [currentPageName, setCurrentPageName] = useState("")
-    let isLocalDev = false;
     let endpoint = "";
 
     //if developing on local machine
     if (isLocalDev) {
         const hostname = "54.151.83.113"
         //moving port number
-        const port = "7246"
+        const port = "5332"
         endpoint = `http://${hostname}:${port}`
     } else {
         endpoint = location.origin;

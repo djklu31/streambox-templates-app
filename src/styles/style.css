@@ -27,7 +27,7 @@ body {
 
 .dark-mode .container {
     background-color: rgb(28, 28, 30);
-    color: white;
+    color: rgb(240,240,240)
 }
 
 .containers {
@@ -114,10 +114,19 @@ input[type=submit], .save-template-btn {
     border-radius: 7px;
     font-size: 1.4em;
     border: 0px;
-    color: black;
-    background-color: rgb(174, 174, 178);
+    color: white;
+    background-color: rgb(6, 6, 36);
     letter-spacing: .05rem;
     box-shadow: 2px 2px #000;
+}
+
+.dark-mode select, input {
+    background-color: rgb(209, 209, 214);
+}
+
+.dark-mode .giant-button {
+    color: black;
+    background-color: rgb(174, 174, 178);
 }
 
 .giant-button:hover {
