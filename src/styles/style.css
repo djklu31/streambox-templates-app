@@ -120,7 +120,7 @@ input[type=submit], .save-template-btn {
     box-shadow: 2px 2px #000;
 }
 
-.dark-mode select, input {
+.dark-mode select, input, button {
     background-color: rgb(209, 209, 214);
 }
 
