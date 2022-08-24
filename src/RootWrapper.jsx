@@ -22,7 +22,8 @@ export default function RootWrapper() {
     //if developing on local machine
     if (isLocalDev) {
         const hostname = "54.151.83.113"
-        const port = "6417"
+        //moving port number
+        const port = "7246"
         endpoint = `http://${hostname}:${port}`
     } else {
         endpoint = location.origin;
@@ -36,10 +37,12 @@ export default function RootWrapper() {
         setCurrentPageName(routeName)
     }
 
-    function openSettings() {
+    function openSettings(hasUnsetTemplate = false) {
+        // if (hasUnsetTemplate) {
+
+        // }
         setIsSettings(true)
         setCurrentPageName("Settings")
-        document.querySelector(".settings-btn").classList.add("selected-route")
     }
 
     async function getTemplate() {
@@ -58,9 +61,13 @@ export default function RootWrapper() {
             setIsLoading(false)
         } else {
             //if no templates are set in storage, set the first one. if none exist on the server throw an alert
-            let response = await fetch(`${endpoint}/REST/templates/_list`)
-            let json = await response.json();
-            console.log(json)
+            // let response = await fetch(`${endpoint}/REST/templates/_list`)
+            // let json = await response.json();
+            // console.log(json)
+            setCurrentTemplate([])
+            setNavBtns([])
+            openSettings(true)
+            setIsLoading(false)
             
             // if (json.templates && (json.templates).length > 0) {
             //     //set json template to first template

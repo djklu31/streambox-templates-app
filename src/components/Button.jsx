@@ -13,10 +13,10 @@ export default function Button(props) {
     if (props.action === "toggleStreaming") {
         if (props.label === "Start Streaming") {
             action = "startStreaming"
-            styles = {backgroundColor: "#05386B"}
         } else if (props.label === "Stop Streaming") {
             action = "stopStreaming"
-            styles = {backgroundColor: "#b71c1c"}
+
+            styles = {backgroundColor: "#b71c1c", color: "white"}
         }
         button = <div className="giant-button-container"><button onClick={() => {props.buttonPressed(action)}} className="giant-button" style={styles}>{props.label}</button></div>
     } else if (props.action === "submitLocalForm") {

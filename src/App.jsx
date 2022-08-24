@@ -20,11 +20,13 @@ export default function App(props) {
 
   let isMultichannelPage = navBtns[0].isMultichannelPage
 
-  if (typeof currentTemplate.template.darkMode !== "undefined") {
-    if (currentTemplate.template.darkMode) {
-      document.body.classList.add('dark-mode')
+  useEffect(() => {
+    if (typeof currentTemplate.template.darkMode !== "undefined") {
+      if (currentTemplate.template.darkMode === true) {
+        document.body.classList.add('dark-mode')
+      }
     }
-  }
+  }, [])
 
   //watch for route changes
   useEffect(() => {

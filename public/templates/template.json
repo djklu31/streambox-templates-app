@@ -1,6 +1,5 @@
 {
     "template": {
-        "darkMode": true,
         "backgroundRefreshTime": 7000,
         "navbar": {
             "routes": [

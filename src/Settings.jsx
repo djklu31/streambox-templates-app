@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { nanoid } from 'nanoid'
 import './styles/setting-style.css'
+import ReactTooltip from 'react-tooltip';
 
 export default function Settings(props) {
     const [templateOptions, setTemplateOptions] = useState([]);
@@ -12,6 +13,7 @@ export default function Settings(props) {
     const endpoint = props.endpoint
 
     useEffect(async () => {
+        document.querySelector(".settings-btn").classList.add("selected-route")
         if (isRerender) {
             //reset all fields on settings rerender
             document.querySelector(".create-template-input").value = ""
@@ -28,11 +30,9 @@ export default function Settings(props) {
         let json = await response.json();
         if (currentTemplateName === "none" && json && json.length > 0) {
             //set json template to first template
-            const firstTemplate = json[0].name
-            localStorage.setItem("templateName", firstTemplate)
-            setCurrentTemplateName(firstTemplate)
+            alert("No template is selected.  Please choose one and apply the template.")
         } else if (currentTemplateName === "none") {
-            alert("No templates found on server")
+            alert("No templates found on server. Please create some.")
         }
         let templateOptionsArr = (json).map((template) => <option key={nanoid()} value={template.name}>{template.name}</option>)
         templateOptionsArr.unshift(<option key={nanoid()} value="none">Choose One</option>)
@@ -51,7 +51,7 @@ export default function Settings(props) {
         }
     }
 
-    async function deleteTemplate(e) {
+    async function deleteTemplate() {
         if (confirm ("Are you sure you want to delete " + currentEditTemplateName)) {
             let response = await fetch(`${endpoint}/REST/templates/${currentEditTemplateName}`, {
                 method: 'DELETE'
@@ -143,11 +143,20 @@ export default function Settings(props) {
     }
 
     return <>
+        <ReactTooltip />
         <div className="settings-outer-container">
             <div className="settings-container">
                 <div className="current-template-readout template-form-padding">
                     <label>Current Template:</label>&nbsp;
                     <span style={{color: "forestgreen"}}>{currentTemplateName}</span>
+                </div>
+                <div className="settings-label">
+                    <label className="template-label">
+                        <h4>Apply Template</h4>
+                        <img className="tooltip" src="../../images/information.png" data-tip="
+                            Choose and apply a template.
+                        "/>
+                    </label>
                 </div>
                 <form className="settings-form template-form-padding" onSubmit={applyTemplate}>
                     <select className="settings-select">
@@ -155,7 +164,14 @@ export default function Settings(props) {
                     </select>
                     <input type="submit" value="Apply Template" />
                 </form>
-
+                <div className="settings-label">
+                    <label className="template-label">
+                        <h4>Edit Template</h4>
+                        <img className="tooltip" src="../../images/information.png" data-tip="
+                            Edit, overwrite, or delete a template. When a file is chosen from the dropdown, the file can be edited in the 'Template area'.
+                        "/>
+                    </label>
+                </div>
                 <form className="settings-form" onSubmit={editTemplate}>
                     <select onChange={handleSaveTemplateBtn} className="settings-select">
                         {templateOptions}
@@ -164,7 +180,13 @@ export default function Settings(props) {
                 </form>
                 <button className="save-template-btn" onClick={saveTemplate} disabled={saveDisabled}>Save Template</button>
                 <button className="save-template-btn template-form-padding" onClick={deleteTemplate} disabled={deleteDisabled}>Delete Template</button>
-
+                <div className="settings-label">
+                    <label className="template-label">
+                        <h4>Create Template</h4><img className="tooltip" src="../../images/information.png" data-tip="
+                            Create a JSON template using the text area 'Template area'.
+                        "/>
+                    </label>
+                </div>
                 <form className="settings-form" onSubmit={createTemplate}>
                     <input className="create-template-input" type="text" placeholder="Template Name..." />
                     <input type="submit" value="Create Template" />
@@ -172,9 +194,11 @@ export default function Settings(props) {
             </div>  
             <div className="template-area-div">
                 <div>
-                    <label><h3>
-                    Template area (create/edit)
-                    </h3></label>
+                    <label className="template-area-label">
+                        <h3>
+                            Template area (create/edit)
+                        </h3>
+                    </label>
                 </div>
                 <textarea className="edit-template-area" placeholder="JSON template will populate here upon selection...">
                 </textarea>

@@ -3,7 +3,13 @@ import NavBtn from "./NavBtn"
 import {nanoid} from "nanoid"
 
 export default function Navbar(props) {
-    const navBtns = props.navBtns.map((route) => <NavBtn key={nanoid()} currentPageName={props.currentPageName} changeRoute={props.changeRoute} navBtn={route.routeName}/>);
+    let navBtns;
+                
+    if ((props.navBtns).length === 0) {
+        navBtns = "";
+    } else {
+        navBtns = props.navBtns.map((route) => <NavBtn key={nanoid()} currentPageName={props.currentPageName} changeRoute={props.changeRoute} navBtn={route.routeName}/>);
+    }
 
     return (
         <div className="navbar">

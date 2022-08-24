@@ -1,5 +1,6 @@
 {
     "template": {
+        "darkMode": true,
         "backgroundRefreshTime": 7000,
         "navbar": {
             "routes": [
@@ -11,7 +12,7 @@
                     "containers": [
                         {
                             "title": "Video",
-                            "apiSrc": "/REST/encoder/status",
+                            "apiSrc": "/REST/encoder/status.json",
                             "type": "readonly",
                             "containerStyle": {
                                 "stretchVertically": 2
@@ -72,8 +73,7 @@
                         },
                         {
                             "title": "Network",
-                            "apiSrc": "/REST/encoder/status",
-                            "backgroundColor": "#C7D3D4FF",
+                            "apiSrc": "/REST/encoder/status.json",
                             "fields": [
                                 {
                                     "type": "mappedText",
@@ -118,8 +118,7 @@
                         },
                         {
                             "title": "Start Streaming",
-                            "apiSrc": ["/REST/encoder/status", "/REST/encoder/presets"],
-                            "backgroundColor": "rgb(250, 208, 201)",
+                            "apiSrc": ["/REST/encoder/status.json", "/REST/encoder/presets.json"],
                             "fields": [
                                 {
                                     "type": "button",
@@ -130,7 +129,7 @@
                                 {
                                     "type": "presetSelect",
                                     "label": "Preset",
-                                    "btnPresetSrc": "/REST/encoder/presets",
+                                    "btnPresetSrc": "/REST/encoder/presets.json",
                                     "btnLabel": "Apply Preset",
                                     "btnAction": "applyPreset",
                                     "mapping": "none"
@@ -147,10 +146,9 @@
                     "containers": [
                         {
                             "title": "Bitrate and Buffer Settings",
-                            "apiSrc": ["/REST/encoder/network", "/REST/encoder/video"],
+                            "apiSrc": ["/REST/encoder/network.json", "/REST/encoder/video.json"],
                             "type": "form",
                             "postEndpoint": "/REST/encoder/video",
-                            "backgroundColor": "#EEF3E2",
                             "fields": [
                                 {
                                     "type": "input",
@@ -179,8 +177,7 @@
                         },
                         {
                             "title": "Transport Settings",
-                            "apiSrc": "/REST/encoder/transport",
-                            "backgroundColor": "#f6d8ac",
+                            "apiSrc": "/REST/encoder/transport.json",
                             "postEndpoint": "/REST/encoder/transport",
                             "type": "form",
                             "containerStyle": {
@@ -242,9 +239,8 @@
                         },
                         {
                             "title": "Target Decoder",
-                            "apiSrc": ["/REST/encoder/network", "/REST/encoder/status"],
-                            "postEndpoint": "/REST/encoder/network",
-                            "backgroundColor": "#FEF1E9",
+                            "apiSrc": ["/REST/encoder/network.json", "/REST/encoder/status.json"],
+                            "postEndpoint": "/REST/encoder/network.json",
                             "type": "form",
                             "fields": [
                                 {
@@ -274,9 +270,8 @@
                         },
                         {
                             "title": "Forward Error Correction",
-                            "apiSrc": "/REST/encoder/network",
-                            "postEndpoint": "/REST/encoder/network",
-                            "backgroundColor": "#FEF5CA",
+                            "apiSrc": "/REST/encoder/network.json",
+                            "postEndpoint": "/REST/encoder/network.json",
                             "type": "form",
                             "fields": [
                                 {
@@ -304,10 +299,9 @@
                     "containers": [
                         {
                             "title": "Video Settings",
-                            "apiSrc": "/REST/encoder/video",
-                            "postEndpoint": "/REST/encoder/video",
+                            "apiSrc": "/REST/encoder/video.json",
+                            "postEndpoint": "/REST/encoder/video.json",
                             "type": "form",
-                            "backgroundColor": "#FFEFD5",
                             "fields": [
                                 {
                                     "type": "select",
@@ -367,10 +361,9 @@
                         },
                         {
                             "title": "Audio Settings",
-                            "apiSrc": "/REST/encoder/audio",
+                            "apiSrc": "/REST/encoder/audio.json",
                             "type": "form",
-                            "backgroundColor": "#FFC1C1",
-                            "postEndpoint": "/REST/encoder/audio",
+                            "postEndpoint": "/REST/encoder/audio.json",
                             "fields": [
                                 {
                                     "type": "select",
@@ -405,10 +398,9 @@
                     "containers": [
                         {
                             "title": "Audio",
-                            "apiSrc": "/REST/encoder/audiolevels",
+                            "apiSrc": "/REST/encoder/audiolevels.json",
                             "type": "form",
-                            "backgroundColor": "#C7D3D4FF",
-                            "postEndpoint": "/REST/encoder/audiolevels",
+                            "postEndpoint": "/REST/encoder/audiolevels.json",
                             "fields": [
                                 {
                                     "type": "mappedText",
@@ -424,10 +416,9 @@
                     "containers": [
                         {
                             "title": "Metadata Settings",
-                            "apiSrc": "/REST/encoder/metadata",
+                            "apiSrc": "/REST/encoder/metadata.json",
                             "type": "form",
-                            "backgroundColor": "#FFE4E1",
-                            "postEndpoint": "/REST/encoder/metadata",
+                            "postEndpoint": "/REST/encoder/metadata.json",
                             "fields": [
                                 {
                                     "type": "input",
@@ -469,10 +460,9 @@
                     "containers": [
                         {
                             "title": "Encryption",
-                            "apiSrc": "/REST/encoder/encryption",
+                            "apiSrc": "/REST/encoder/encryption.json",
                             "type": "form",
-                            "backgroundColor": "#f6d8ac",
-                            "postEndpoint": "/REST/encoder/encryption",
+                            "postEndpoint": "/REST/encoder/encryption.json",
                             "fields": [
                                 {
                                     "type": "select",

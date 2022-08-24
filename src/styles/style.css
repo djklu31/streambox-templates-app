@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-.dark-mode {
-    background-color: #333;
-}
-
 body {
     margin: 0;
     font-family: 'Open Sans', 'san-serif';
@@ -25,6 +21,15 @@ body {
     max-width: 700px;
 }
 
+.dark-mode {
+    background-color: rgb(10, 10, 12);
+}
+
+.dark-mode .container {
+    background-color: rgb(28, 28, 30);
+    color: white;
+}
+
 .containers {
     display: grid;
     gap: 1.8em;
@@ -33,7 +38,7 @@ body {
 
 .container-title {
     margin-left: 1em;
-    font-size: 1.2em;
+    font-size: 1.3em;
 }
 
 body {
@@ -109,7 +114,8 @@ input[type=submit], .save-template-btn {
     border-radius: 7px;
     font-size: 1.4em;
     border: 0px;
-    color: white;
+    color: black;
+    background-color: rgb(174, 174, 178);
     letter-spacing: .05rem;
     box-shadow: 2px 2px #000;
 }
@@ -134,6 +140,8 @@ footer {
     align-items: center;
     margin-bottom: .5em;
 }
+
+
 
 .field-label {
     font-weight: bold;
