@@ -89,6 +89,7 @@ export default function App(props) {
                             );
                             props.openSettings();
                             clearTimer();
+                            return;
                         }
                     }
                 } else {
