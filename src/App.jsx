@@ -1,99 +1,102 @@
-import React, { useState, useEffect } from "react";
-import Container from "./components/Container";
-import { nanoid } from "nanoid";
+import React, { useState, useEffect } from "react"
+import Container from "./components/Container"
+import { nanoid } from "nanoid"
 
 export default function App(props) {
     //set up initial state with template
-    const currentTemplate = props.currentTemplate;
-    const navBtns = currentTemplate.template.navbar.routes;
-    const currentPageName = props.currentPageName;
+    const currentTemplate = props.currentTemplate
+    const navBtns = currentTemplate.template.navbar.routes
+    const currentPageName = props.currentPageName
 
-    const [currentContainers, setCurrentContainers] = useState([]);
+    const [currentContainers, setCurrentContainers] = useState([])
     const [containerStyles, setContainerStyles] = useState([
         navBtns[0].containersStyle,
-    ]);
-    const [backgroundFetchCount, setBackgroundFetchCount] = useState(0);
+    ])
+    const [backgroundFetchCount, setBackgroundFetchCount] = useState(0)
 
-    const combinedApiArray = [];
-    let presetObj;
-    const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
-        ? currentTemplate.template.backgroundRefreshTime
-        : 5000; //timer to fetch background data in milliseconds
+    const combinedApiArray = []
+    let presetObj
+    // const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
+    //     ? currentTemplate.template.backgroundRefreshTime
+    //     : 5000; //timer to fetch background data in milliseconds
 
-    const endpoint = location.origin;
+    //TODO: change back
+    const backgroundRefreshTime = 500000
 
-    let isMultichannelPage = navBtns[0].isMultichannelPage;
+    const endpoint = location.origin
+
+    let isMultichannelPage = navBtns[0].isMultichannelPage
 
     useEffect(() => {
         if (typeof currentTemplate.template.darkMode !== "undefined") {
             if (currentTemplate.template.darkMode === true) {
-                document.body.classList.add("dark-mode");
+                document.body.classList.add("dark-mode")
             } else {
-                document.body.classList.remove("dark-mode");
+                document.body.classList.remove("dark-mode")
             }
         } else {
-            document.body.classList.remove("dark-mode");
+            document.body.classList.remove("dark-mode")
         }
-    }, []);
+    }, [])
 
     //watch for route changes
     useEffect(() => {
         const fullRouteObj = navBtns.filter(
             (navBtn) => navBtn.routeName === currentPageName
-        );
+        )
         //index of apiSrcs matches routeContainers
         const apiSrcs = fullRouteObj[0].containers.map(
             (container) => container.apiSrc
-        );
+        )
 
-        setContainerStyles(fullRouteObj[0].containersStyle);
+        setContainerStyles(fullRouteObj[0].containersStyle)
 
         //fetch all api objects for this page and plop into an array
         async function fetchApiPages(apiSrcs) {
-            let fullEndpoint;
-            let response;
-            let jsonResult;
-            startTimer();
+            let fullEndpoint
+            let response
+            let jsonResult
+            startTimer()
 
             for (let sources of apiSrcs) {
                 if (sources) {
                     if (typeof sources === "object" && sources.length > 1) {
                         let tempObj = {
                             current_stat: [],
-                        };
+                        }
                         for (let source of sources) {
-                            fullEndpoint = endpoint + source;
-                            response = await fetch(fullEndpoint);
-                            jsonResult = await response.json();
+                            fullEndpoint = endpoint + source
+                            response = await fetch(fullEndpoint)
+                            jsonResult = await response.json()
 
                             if (jsonResult.current_stat) {
                                 tempObj.current_stat = [
                                     ...tempObj.current_stat,
                                     ...jsonResult.current_stat,
-                                ];
+                                ]
                             } else if (jsonResult.preset_list) {
-                                presetObj = jsonResult;
+                                presetObj = jsonResult
                             }
                         }
-                        combinedApiArray.push(tempObj);
+                        combinedApiArray.push(tempObj)
                     } else {
                         //if just a single string
-                        fullEndpoint = endpoint + sources;
+                        fullEndpoint = endpoint + sources
                         try {
-                            response = await fetch(fullEndpoint);
-                            jsonResult = await response.json();
-                            combinedApiArray.push(jsonResult);
+                            response = await fetch(fullEndpoint)
+                            jsonResult = await response.json()
+                            combinedApiArray.push(jsonResult)
                         } catch (err) {
                             alert(
                                 "There's a problem with an endpoint in the chosen JSON file.  Please choose a valid JSON file."
-                            );
-                            props.openSettings();
-                            clearTimer();
-                            return;
+                            )
+                            props.openSettings()
+                            clearTimer()
+                            return
                         }
                     }
                 } else {
-                    combinedApiArray.push(null);
+                    combinedApiArray.push(null)
                 }
             }
         }
@@ -113,7 +116,7 @@ export default function App(props) {
                                 apiObj={combinedApiArray[index]}
                                 container={container}
                             />
-                        );
+                        )
                     } else {
                         return (
                             <Container
@@ -124,61 +127,61 @@ export default function App(props) {
                                 apiObj={combinedApiArray[index]}
                                 container={container}
                             />
-                        );
+                        )
                     }
                 }
-            );
+            )
 
-            setCurrentContainers(routeContainers);
-        });
+            setCurrentContainers(routeContainers)
+        })
 
         return () => {
-            clearTimer();
-        };
-    }, [currentPageName, backgroundFetchCount]);
+            clearTimer()
+        }
+    }, [currentPageName, backgroundFetchCount])
 
-    let timer;
+    let timer
 
     function startTimer() {
-        clearTimer();
+        clearTimer()
         timer = setInterval(() => {
-            triggerBackgroundFetch();
-        }, backgroundRefreshTime);
+            triggerBackgroundFetch()
+        }, backgroundRefreshTime)
     }
 
     function clearTimer() {
         if (timer) {
-            clearInterval(timer);
+            clearInterval(timer)
         }
     }
 
     function triggerBackgroundFetch() {
-        setBackgroundFetchCount(backgroundFetchCount + 1);
+        setBackgroundFetchCount(backgroundFetchCount + 1)
     }
 
     //style rules for if less than 4 containers
-    let innerClassList = "containers";
-    let outerClassList = "outer-container";
-    let style = {};
+    let innerClassList = "containers"
+    let outerClassList = "outer-container"
+    let style = {}
 
     if (isMultichannelPage) {
-        innerClassList = " multichannel-inner";
-        outerClassList = " multichannel-outer";
+        innerClassList = " multichannel-inner"
+        outerClassList = " multichannel-outer"
     }
 
     if (containerStyles) {
         if (typeof containerStyles.numberOfColumns !== "undefined") {
             style = {
                 gridTemplateColumns: `repeat(${containerStyles.numberOfColumns}, 1fr)`,
-            };
+            }
             if (containerStyles.numberOfColumn == 1) {
-                innerClassList += " flex-container";
-                outerClassList += " flex-outer-container";
+                innerClassList += " flex-container"
+                outerClassList += " flex-outer-container"
             }
         }
     } else {
-        innerClassList += " flex-container";
-        outerClassList += " flex-outer-container";
+        innerClassList += " flex-container"
+        outerClassList += " flex-outer-container"
     }
 
     return (
@@ -189,5 +192,5 @@ export default function App(props) {
                 </div>
             </div>
         </>
-    );
+    )
 }

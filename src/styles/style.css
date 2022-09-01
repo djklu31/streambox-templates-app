@@ -183,10 +183,25 @@ footer {
     color: red;
 }
 
+.video-audio-meter-container {
+    display: flex;
+    justify-content: center;
+}
+
+.error-text-margin {
+    color: red;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
 .logout-btn,
 .settings-btn {
     color: white;
     text-decoration: none;
+}
+
+.vu-meters {
+    margin-top: 16px;
 }
 
 .settings-btn {
@@ -274,10 +289,9 @@ select,
 }
 
 .video {
-    margin-left: auto;
-    margin-right: auto;
     height: 300px;
-    width: 500px;
+    width: 481px;
+    margin-right: 0;
     background-repeat: no-repeat;
     margin-top: 1em;
     margin-bottom: 1em;
