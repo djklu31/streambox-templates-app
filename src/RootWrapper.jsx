@@ -6,7 +6,7 @@ import Settings from "./Settings"
 
 export default function RootWrapper() {
     //is this in dev environment or prod?
-    let isLocalDev = true
+    let isLocalDev = false
 
     //set up initial state with template
     //const [currentTemplate, setCurrentTemplate] = useState(customTemplate)

@@ -1,6 +1,5 @@
 {
     "template": {
-        "darkMode": true,
         "backgroundRefreshTime": 7000,
         "navbar": {
             "routes": [
@@ -12,7 +11,10 @@
                     "containers": [
                         {
                             "title": "Video",
-                            "apiSrc": "/REST/encoder/status.json",
+                            "apiSrc": [
+                                "/REST/encoder/audio.json",
+                                "/REST/encoder/status.json"
+                            ],
                             "type": "readonly",
                             "containerStyle": {
                                 "stretchVertically": 2
@@ -20,7 +22,9 @@
                             "fields": [
                                 {
                                     "type": "video",
-                                    "previewImageRoute": "/REST/encoder/preview/JPG"
+                                    "hasVUMeter": true,
+                                    "audioLevelEndpoint": "/REST/encoder/audiolevels.json",
+                                    "previewImageRoute": "/REST/encoder/preview/JPG.jpeg"
                                 },
                                 {
                                     "type": "mappedText",
@@ -38,7 +42,7 @@
                                             "mapping": "cur_bitrate"
                                         }
                                     ]
-                                }, 
+                                },
                                 {
                                     "type": "mappedText",
                                     "label": "Quality",
@@ -95,7 +99,8 @@
                                     "type": "mappedText",
                                     "label": "Shuffle",
                                     "mapping": "cshuffle"
-                                },{
+                                },
+                                {
                                     "type": "mappedText",
                                     "label": "Buffer",
                                     "mapping": "cbuffer"
@@ -119,7 +124,10 @@
                         },
                         {
                             "title": "Start Streaming",
-                            "apiSrc": ["/REST/encoder/status.json", "/REST/encoder/presets.json"],
+                            "apiSrc": [
+                                "/REST/encoder/status.json",
+                                "/REST/encoder/presets.json"
+                            ],
                             "backgroundColor": "rgb(250, 208, 201)",
                             "fields": [
                                 {
@@ -148,7 +156,10 @@
                     "containers": [
                         {
                             "title": "Bitrate and Buffer Settings",
-                            "apiSrc": ["/REST/encoder/network.json", "/REST/encoder/video.json"],
+                            "apiSrc": [
+                                "/REST/encoder/network.json",
+                                "/REST/encoder/video.json"
+                            ],
                             "type": "form",
                             "postEndpoint": "/REST/encoder/video",
                             "backgroundColor": "#EEF3E2",
@@ -243,7 +254,10 @@
                         },
                         {
                             "title": "Target Decoder",
-                            "apiSrc": ["/REST/encoder/network.json", "/REST/encoder/status.json"],
+                            "apiSrc": [
+                                "/REST/encoder/network.json",
+                                "/REST/encoder/status.json"
+                            ],
                             "postEndpoint": "/REST/encoder/network.json",
                             "backgroundColor": "#FEF1E9",
                             "type": "form",
@@ -332,7 +346,6 @@
                                     "label": "Key Frames",
                                     "mapping": "KeyFrame",
                                     "endLabel": "(default: 300 frames)"
-                                    
                                 },
                                 {
                                     "type": "checkbox",
