@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import SingleMeter from "./SingleMeter"
 
 export default React.memo(function AudioMeters({
@@ -11,51 +11,80 @@ export default React.memo(function AudioMeters({
     const [vuMeters, setVUMeters] = useState([])
     let audioLevelFetchRate = 1000 //in milliseconds
     let fullEndpoint
-    let isCancelled = useRef(false)
-
-    let audioIntervalTimer = setInterval(() => {
-        if (!isCancelled.current) {
-            setAudioLevelFetch((prev) => prev + 1)
-        }
-    }, audioLevelFetchRate)
 
     useEffect(() => {
-        let cancelController = new AbortController()
+        let audioIntervalTimer = setInterval(() => {
+            let cancelController = new AbortController()
 
-        const fetchData = async () => {
-            fullEndpoint = location + audioLevelRoute
-            const response = await fetch(fullEndpoint, {
-                signal: cancelController.signal,
-            })
-            const json = await response.json()
-            const [, ...audioLevels] = json.current_stat[0].val.split(":")
-            const tempVUMeters = []
-            let count = 0
+            const fetchData = async () => {
+                fullEndpoint = location + audioLevelRoute
+                const response = await fetch(fullEndpoint, {
+                    signal: cancelController.signal,
+                })
+                const json = await response.json()
+                const [, ...audioLevels] = json.current_stat[0].val.split(":")
+                const tempVUMeters = []
+                let count = 0
 
-            for (let i = 0; i < numChannels; i++) {
-                tempVUMeters.push(
-                    <SingleMeter
-                        key={`audio-meter-${i}`}
-                        volLevel={audioLevels[i]}
-                        vuIndex={count}
-                    />
-                )
-                count++
+                for (let i = 0; i < numChannels; i++) {
+                    tempVUMeters.push(
+                        <SingleMeter
+                            key={`audio-meter-${i}`}
+                            volLevel={audioLevels[i]}
+                            vuIndex={count}
+                        />
+                    )
+                    count++
+                }
+                setVUMeters(tempVUMeters)
             }
-            setVUMeters(tempVUMeters)
-        }
-        if (!isCancelled.current) {
             fetchData().catch((error) => {
                 console.log(error)
             })
-        }
-
+        }, audioLevelFetchRate)
         return () => {
-            isCancelled.current = true
-            cancelController.abort()
+            //cleanup runs on unmount
             clearInterval(audioIntervalTimer)
         }
-    }, [audioLevelFetch])
+    }, [])
+
+    // useEffect(() => {
+    //     let cancelController = new AbortController()
+
+    //     const fetchData = async () => {
+    //         fullEndpoint = location + audioLevelRoute
+    //         const response = await fetch(fullEndpoint, {
+    //             signal: cancelController.signal,
+    //         })
+    //         const json = await response.json()
+    //         const [, ...audioLevels] = json.current_stat[0].val.split(":")
+    //         const tempVUMeters = []
+    //         let count = 0
+
+    //         for (let i = 0; i < numChannels; i++) {
+    //             tempVUMeters.push(
+    //                 <SingleMeter
+    //                     key={`audio-meter-${i}`}
+    //                     volLevel={audioLevels[i]}
+    //                     vuIndex={count}
+    //                 />
+    //             )
+    //             count++
+    //         }
+    //         setVUMeters(tempVUMeters)
+    //     }
+    //     if (!isCancelled.current) {
+    //         fetchData().catch((error) => {
+    //             console.log(error)
+    //         })
+    //     }
+
+    //     return () => {
+    //         isCancelled.current = true
+    //         cancelController.abort()
+    //         clearInterval(audioIntervalTimer)
+    //     }
+    // }, [audioLevelFetch])
 
     return <div className="vu-meters">{vuMeters}</div>
 })

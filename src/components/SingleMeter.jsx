@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 
 export default function SingleMeter({ volLevel, vuIndex }) {
+    console.log(`VU Input found on channel ${vuIndex}: ${volLevel}`)
     function vumeter(elem, config) {
         // Settings
         var max = config.max || 100
@@ -128,21 +129,6 @@ export default function SingleMeter({ volLevel, vuIndex }) {
 
         demo.setAttribute("data-val", volLevel)
     }, [])
-
-    // window.onload = function () {
-    //     var demo = document.getElementById("demo");
-    //     vumeter(demo, {
-    //         boxCount: 50,
-    //         boxGapFraction: 0.25,
-    //         max: 225,
-    //     });
-
-    //     var demoInput = document.getElementById("demoInput");
-    //     demoInput.oninput = function (e) {
-    //         console.log(this.value);
-    //         demo.setAttribute("data-val", this.value);
-    //     };
-    // };
 
     return (
         <canvas
