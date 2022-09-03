@@ -23,7 +23,7 @@ export default function Settings(props) {
             document.querySelector(".edit-template-area").value = ""
             let selects = document.getElementsByClassName("settings-select")
             for (let select of selects) {
-                select.value = null
+                select.value = "none"
             }
             setSaveDisabled(true)
             setDeleteDisabled(true)
@@ -91,12 +91,7 @@ export default function Settings(props) {
             if (parsedText.errmsg === "deleted") {
                 alert(currentEditTemplateName + " has been deleted")
             } else {
-                alert(
-                    "Error deleting " +
-                        currentEditTemplateName +
-                        ": " +
-                        parsedText.errMsg
-                )
+                alert("Error deleting " + currentEditTemplateName)
             }
             setIsRerender(true)
         }
@@ -141,9 +136,8 @@ export default function Settings(props) {
 
             if (parsedText.errmsg === "written") {
                 alert("Saved edited template: " + currentEditTemplateName)
-                setIsRerender(true)
             } else {
-                alert("Error creating template: " + text.errmsg)
+                alert("Error saving template")
             }
 
             setIsRerender(true)
@@ -171,9 +165,8 @@ export default function Settings(props) {
 
         if (parsedText.errmsg === "written") {
             alert("Created new template: " + templateName)
-            setIsRerender(true)
         } else {
-            alert("Error creating template: " + text.errmsg)
+            alert("Error creating template")
         }
 
         setIsRerender(true)
