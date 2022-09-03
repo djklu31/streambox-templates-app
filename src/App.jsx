@@ -106,6 +106,7 @@ export default function App(props) {
                         return (
                             <Container
                                 presetObj={presetObj}
+                                openSettings={props.openSettings}
                                 key={"container-" + index}
                                 clearTimer={clearTimer}
                                 startTimer={startTimer}
@@ -118,6 +119,7 @@ export default function App(props) {
                         return (
                             <Container
                                 key={"container-" + index}
+                                openSettings={props.openSettings}
                                 clearTimer={clearTimer}
                                 startTimer={startTimer}
                                 triggerBackgroundFetch={triggerBackgroundFetch}

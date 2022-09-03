@@ -221,9 +221,20 @@ export default function Container(props) {
             if (field.previewImageRoute) {
                 if (field.hasVUMeter) {
                     //get number of audio channels
-                    const numChannels = apiObj.current_stat.filter(
-                        (stat) => stat.cname === "AudioChannels"
-                    )[0].val
+                    let numChannels
+
+                    try {
+                        numChannels = apiObj.current_stat.filter(
+                            (stat) => stat.cname === "AudioChannels"
+                        )[0].val
+                    } catch (err) {
+                        alert(
+                            "Please provide the audio REST endpoint in addition to the video REST endpoint.  This is required to render VU meters."
+                        )
+                        props.clearTimer()
+                        props.openSettings()
+                        return
+                    }
 
                     returnArr = (
                         <div

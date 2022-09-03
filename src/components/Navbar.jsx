@@ -35,7 +35,7 @@ export default function Navbar(props) {
                         >
                             Settings
                         </a>
-                        Logged in:&nbsp;<span>Kenny</span>
+                        Logged in:&nbsp;<span>Administrator</span>
                         <a className="logout-btn" href="/">
                             Logout
                         </a>

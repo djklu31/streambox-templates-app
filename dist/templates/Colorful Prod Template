@@ -1,0 +1,512 @@
+{
+  "template": {
+    "darkMode": false,
+    "backgroundRefreshTime": 7000,
+    "navbar": {
+      "routes": [
+        {
+          "routeName": "Info",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "Video",
+              "apiSrc": ["/REST/encoder/status","/REST/encoder/audio"],
+              "type": "readonly",
+              "containerStyle": {
+                "stretchVertically": 2
+              },
+              "fields": [
+                {
+                  "type": "video",
+                  "hasVUMeter": true,
+                  "audioLevelEndpoint": "/REST/encoder/audiolevels",
+                  "previewImageRoute": "/REST/encoder/preview/JPG"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Source Video Format",
+                  "mapping": "inputsignal",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Network Mode",
+                      "mapping": "cnetworkmode"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Bitrate",
+                      "mapping": "cur_bitrate"
+                    }
+                  ]
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Quality",
+                  "mapping": "vquality"
+                },
+                {
+                  "type": "boolean",
+                  "label": "Is Streaming?",
+                  "mapping": "isStreaming"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Dropped Captured Frames",
+                  "mapping": "dropCapture"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Dropped Encoder Frames",
+                  "mapping": "dropEnc"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "SDI errors",
+                  "mapping": "sdi_error"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Frame Delay",
+                  "mapping": "frame_delay"
+                }
+              ]
+            },
+            {
+              "title": "Network",
+              "apiSrc": "/REST/encoder/status",
+              "backgroundColor": "#FFF",
+              "fields": [
+                {
+                  "type": "mappedText",
+                  "label": "Encoder IP",
+                  "mapping": "c_encoderIP"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Decoder IP",
+                  "mapping": "c_decoderIP"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Packet Size",
+                  "mapping": "c_packetsize"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Shuffle",
+                  "mapping": "cshuffle"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Buffer",
+                  "mapping": "cbuffer"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Bytes",
+                  "mapping": "cbytes"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Packets Sent",
+                  "mapping": "sent_packets"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Transmission",
+                  "mapping": "is_ldmp"
+                }
+              ]
+            },
+            {
+              "title": "Start Streaming",
+              "apiSrc": [
+                "/REST/encoder/status",
+                "/REST/encoder/presets"
+              ],
+              "backgroundColor": "rgb(250, 208, 201)",
+              "fields": [
+                {
+                  "type": "button",
+                  "size": "giant",
+                  "mapping": "isStreaming",
+                  "action": "toggleStreaming"
+                },
+                {
+                  "type": "presetSelect",
+                  "label": "Preset",
+                  "btnPresetSrc": "/REST/encoder/presets",
+                  "btnLabel": "Apply Preset",
+                  "btnAction": "applyPreset",
+                  "mapping": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Network",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "Bitrate and Buffer Settings",
+              "apiSrc": [
+                "/REST/encoder/network",
+                "/REST/encoder/video"
+              ],
+              "type": "form",
+              "postEndpoint": "/REST/encoder/video",
+              "backgroundColor": "#EEF3E2",
+              "fields": [
+                {
+                  "type": "input",
+                  "label": "Target Bitrate",
+                  "mapping": "TargetBitrate",
+                  "endLabel": "kbps"
+                },
+                {
+                  "type": "input",
+                  "label": "VBR Buffer",
+                  "mapping": "VBR",
+                  "endLabel": "seconds"
+                },
+                {
+                  "type": "checkbox",
+                  "label": "Packet Stuffing",
+                  "mapping": "stuffing"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Transport Settings",
+              "apiSrc": "/REST/encoder/transport",
+              "backgroundColor": "#f6d8ac",
+              "postEndpoint": "/REST/encoder/transport",
+              "type": "form",
+              "containerStyle": {
+                "stretchVertically": 2
+              },
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "Protocol",
+                  "mapping": "ldmp-use"
+                },
+                {
+                  "type": "input",
+                  "label": "CWND",
+                  "mapping": "ldmp-cwnd"
+                },
+                {
+                  "type": "input",
+                  "label": "CWND MIN",
+                  "mapping": "ldmp-cwndmin"
+                },
+                {
+                  "type": "input",
+                  "label": "CWND MAX",
+                  "mapping": "ldmp-cwndmax"
+                },
+                {
+                  "type": "input",
+                  "label": "ACK Timeout",
+                  "mapping": "ldmp-ackto"
+                },
+                {
+                  "type": "input",
+                  "label": "Send Timeout",
+                  "mapping": "ldmp-sndto"
+                },
+                {
+                  "type": "input",
+                  "label": "RTT Multiplier",
+                  "mapping": "ldmp-rttm"
+                },
+                {
+                  "type": "input",
+                  "label": "Pre-buffer for packet delay (jitter)",
+                  "mapping": "ldmp-jitter2p"
+                },
+                {
+                  "type": "input",
+                  "label": "Shaping Percent",
+                  "mapping": "ldmp-maxbrt"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Target Decoder",
+              "apiSrc": [
+                "/REST/encoder/network",
+                "/REST/encoder/status"
+              ],
+              "postEndpoint": "/REST/encoder/network",
+              "backgroundColor": "#FEF1E9",
+              "type": "form",
+              "fields": [
+                {
+                  "type": "input",
+                  "label": "Destination IP",
+                  "mapping": "decoderIP"
+                },
+                {
+                  "type": "input",
+                  "label": "Destination Port",
+                  "mapping": "port",
+                  "endLabel": "UDP (default: 1770)"
+                },
+                {
+                  "type": "input",
+                  "label": "IP Packet Size",
+                  "mapping": "packetsize",
+                  "endLabel": "bytes (default: 1392)"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Forward Error Correction",
+              "apiSrc": "/REST/encoder/network",
+              "postEndpoint": "/REST/encoder/network",
+              "backgroundColor": "#FEF5CA",
+              "type": "form",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "FEC",
+                  "mapping": "FEC"
+                },
+                {
+                  "type": "select",
+                  "label": "Shuffle",
+                  "mapping": "shuffle"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Config",
+          "containers": [
+            {
+              "title": "Video Settings",
+              "apiSrc": "/REST/encoder/video",
+              "postEndpoint": "/REST/encoder/video",
+              "type": "form",
+              "backgroundColor": "#FFEFD5",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "Video Resolution",
+                  "mapping": "Resolution"
+                },
+                {
+                  "type": "select",
+                  "label": "Color Profile",
+                  "mapping": "ColorSpace",
+                  "endLabel": "(default: 4:2:2)"
+                },
+                {
+                  "type": "select",
+                  "label": "Framerate",
+                  "mapping": "FrameRate",
+                  "endLabel": "(default: Full)"
+                },
+                {
+                  "type": "input",
+                  "label": "Key Frames",
+                  "mapping": "KeyFrame",
+                  "endLabel": "(default: 300 frames)"
+                },
+                {
+                  "type": "checkbox",
+                  "label": "Advanced Profile",
+                  "mapping": "RecycleIntra",
+                  "endLabel": "(Default: Off)"
+                },
+                {
+                  "type": "select",
+                  "label": "Bit Depth",
+                  "mapping": "BitDepth",
+                  "endLabel": "(Default: 10-bit)"
+                },
+                {
+                  "type": "select",
+                  "label": "Color Space",
+                  "mapping": "NativeColorSpace",
+                  "endLabel": "For RGB 4:4:4 only"
+                },
+                {
+                  "type": "input",
+                  "label": "Dynamic Resolution Quality",
+                  "mapping": "DynamicRes",
+                  "endLabel": "set to 0 to turn off"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Audio Settings",
+              "apiSrc": "/REST/encoder/audio",
+              "type": "form",
+              "backgroundColor": "#FFC1C1",
+              "postEndpoint": "/REST/encoder/audio",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "Codec",
+                  "mapping": "AudioCodec",
+                  "endLabel": "(default: AAC)"
+                },
+                {
+                  "type": "select",
+                  "label": "Channels",
+                  "mapping": "AudioChannels",
+                  "endLabel": "(default: 2-ch)"
+                },
+                {
+                  "type": "select",
+                  "label": "Sample Rate",
+                  "mapping": "SampleRate",
+                  "endLabel": "(default: 48000 Hz)"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Audio",
+          "containers": [
+            {
+              "title": "Audio",
+              "apiSrc": "/REST/encoder/audiolevels",
+              "type": "form",
+              "backgroundColor": "#C7D3D4FF",
+              "postEndpoint": "/REST/encoder/audiolevels",
+              "fields": [
+                {
+                  "type": "mappedText",
+                  "label": "Audio Levels",
+                  "mapping": "audiolevels"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Metadata",
+          "containers": [
+            {
+              "title": "Metadata Settings",
+              "apiSrc": "/REST/encoder/metadata",
+              "type": "form",
+              "backgroundColor": "#FFE4E1",
+              "postEndpoint": "/REST/encoder/metadata",
+              "fields": [
+                {
+                  "type": "input",
+                  "label": "Title",
+                  "mapping": "Meta_Slug"
+                },
+                {
+                  "type": "input",
+                  "label": "Location",
+                  "mapping": "Meta_Location"
+                },
+                {
+                  "type": "input",
+                  "label": "Reporter",
+                  "mapping": "Meta_Reporter"
+                },
+                {
+                  "type": "input",
+                  "label": "Producer",
+                  "mapping": "Meta_Producer"
+                },
+                {
+                  "type": "input",
+                  "label": "DRM",
+                  "mapping": "Meta_Network1"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Encryption",
+          "containers": [
+            {
+              "title": "Encryption",
+              "apiSrc": "/REST/encoder/encryption",
+              "type": "form",
+              "backgroundColor": "#f6d8ac",
+              "postEndpoint": "/REST/encoder/encryption",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "AES-128 Encryption",
+                  "mapping": "crypt_mode"
+                },
+                {
+                  "type": "input",
+                  "label": "Encryption Key",
+                  "mapping": "crypt_key"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
