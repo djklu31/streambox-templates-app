@@ -1,7 +1,7 @@
 import React from "react"
 import { debounce } from "../Utils"
 
-export default function Select(props) {
+export default React.memo(function Select(props) {
     let options
     let subValues = props.subValues
     let valLabels = props.valLabels
@@ -50,4 +50,4 @@ export default function Select(props) {
             )}
         </div>
     )
-}
+})
