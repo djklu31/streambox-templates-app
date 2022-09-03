@@ -1,8 +1,7 @@
-import { nanoid } from "nanoid"
 import React, { useEffect, useState, useRef } from "react"
 import SingleMeter from "./SingleMeter"
 
-export default function AudioMeters({
+export default React.memo(function AudioMeters({
     location,
     audioLevelRoute,
     numChannels,
@@ -36,7 +35,7 @@ export default function AudioMeters({
             for (let i = 0; i < numChannels; i++) {
                 tempVUMeters.push(
                     <SingleMeter
-                        key={nanoid()}
+                        key={`audio-meter-${i}`}
                         volLevel={audioLevels[i]}
                         vuIndex={count}
                     />
@@ -59,4 +58,4 @@ export default function AudioMeters({
     }, [audioLevelFetch])
 
     return <div className="vu-meters">{vuMeters}</div>
-}
+})

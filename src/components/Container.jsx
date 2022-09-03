@@ -1,5 +1,4 @@
 import React from "react"
-import { nanoid } from "nanoid"
 import Video from "./Video"
 import Button from "./Button"
 import Input from "./Input"
@@ -11,6 +10,7 @@ import AudioMeter from "./AudioMeters"
 const endpoint = location.origin
 
 export default function Container(props) {
+    //console.log("Container rendered")
     const container = props.container
     const apiObj = props.apiObj
     const title = container.title
@@ -112,7 +112,7 @@ export default function Container(props) {
         return response.json() // parses JSON response into native JavaScript objects
     }
 
-    function handleFieldTypes(field) {
+    function handleFieldTypes(field, index) {
         let filteredStat
         let result
         let apiObjMissing = false
@@ -213,7 +213,7 @@ export default function Container(props) {
                 }
             }
             returnArr = (
-                <p className="fields" key={nanoid()}>
+                <p className="fields" key={`${field.label}-${index}`}>
                     <span className="field-label">{field.label}</span>: {result}
                 </p>
             )
@@ -227,16 +227,16 @@ export default function Container(props) {
 
                     returnArr = (
                         <div
-                            key={nanoid()}
+                            key={`video-section-${index}`}
                             className="video-audio-meter-container"
                         >
                             <Video
-                                key={nanoid()}
+                                key={`video-section-${index}`}
                                 location={endpoint}
                                 previewImageRoute={field.previewImageRoute}
                             />
                             <AudioMeter
-                                key={nanoid()}
+                                key={`audio-section-${index}`}
                                 location={endpoint}
                                 audioLevelRoute={field.audioLevelEndpoint}
                                 numChannels={numChannels}
@@ -245,11 +245,16 @@ export default function Container(props) {
                     )
                 } else {
                     returnArr = (
-                        <Video
-                            key={nanoid()}
-                            location={endpoint}
-                            previewImageRoute={field.previewImageRoute}
-                        />
+                        <div
+                            key={`video-section-${index}`}
+                            className="video-audio-meter-container"
+                        >
+                            <Video
+                                key={`video-section-${index}`}
+                                location={endpoint}
+                                previewImageRoute={field.previewImageRoute}
+                            />
+                        </div>
                     )
                 }
             } else {
@@ -280,7 +285,7 @@ export default function Container(props) {
             if (isForm) {
                 returnArr = (
                     <Button
-                        key={nanoid()}
+                        key={`button-${index}`}
                         postEndpoint={container.postEndpoint}
                         size={field.size}
                         backgroundColor={field.backgroundColor}
@@ -292,7 +297,7 @@ export default function Container(props) {
             } else {
                 returnArr = (
                     <Button
-                        key={nanoid()}
+                        key={`button-${index}`}
                         size={field.size}
                         label={result}
                         action={field.action}
@@ -306,7 +311,7 @@ export default function Container(props) {
                 if (filteredStat) {
                     returnArr = (
                         <Input
-                            key={nanoid()}
+                            key={`input-${index}`}
                             name={filteredStat[0].cname}
                             clearTimer={props.clearTimer}
                             startTimer={props.startTimer}
@@ -328,7 +333,7 @@ export default function Container(props) {
                 if (filteredStat) {
                     returnArr = (
                         <Checkbox
-                            key={nanoid()}
+                            key={`checkbox-${index}`}
                             name={filteredStat[0].cname}
                             label={field.label}
                             checked={filteredStat[0].val}
@@ -349,7 +354,7 @@ export default function Container(props) {
                 if (filteredStat) {
                     returnArr = (
                         <Select
-                            key={nanoid()}
+                            key={`select-${index}`}
                             name={filteredStat[0].cname}
                             clearTimer={props.clearTimer}
                             startTimer={props.startTimer}
@@ -366,9 +371,9 @@ export default function Container(props) {
             }
         } else if (field.type === "presetSelect" && props.presetObj) {
             returnArr = (
-                <div key={nanoid()} className="preset-div">
+                <div key={`preset-div-${index}`} className="preset-div">
                     <Select
-                        key={nanoid()}
+                        key={`select-${index}`}
                         name="none"
                         value="none"
                         clearTimer={props.clearTimer}
@@ -378,7 +383,7 @@ export default function Container(props) {
                         endLabel={field.endLabel}
                     />
                     <Button
-                        key={nanoid()}
+                        key={`preset-btn-${index}`}
                         presetSrc={field.btnPresetSrc}
                         size={field.btnSize}
                         label={field.btnLabel}
@@ -391,7 +396,7 @@ export default function Container(props) {
 
         if (inlineElementsArray && inlineElementsArray.length > 0) {
             return (
-                <div className="inline-field" key={nanoid()}>
+                <div className="inline-field" key={`inline-${index}`}>
                     {returnArr}
                     {inlineElementsArray}
                 </div>
@@ -402,66 +407,8 @@ export default function Container(props) {
     }
 
     //handle different field types
-    const mappedFields = fields.map((field) => {
-        return handleFieldTypes(field)
-
-        // //handle all types of input
-        // if (field.type === "plainText") {
-        //     return <p className="fields" key={nanoid()}><span className="plain-text">{field.text}</span></p>
-        // } else if (field.type === "mappedText") {
-        //     if (field.mapping === "is_ldmp" && (!apiObjMissing && !fieldMapMissing)) {
-        //         if (filteredStat && filteredStat[0].val == 1) {
-        //             result = "LDMP"
-        //         } else {
-        //             result = "UDP"
-        //         }
-        //     }
-        //     return <p className="fields" key={nanoid()}><span className="field-label">{field.label}</span>: {result}</p>
-        // } else if (field.type === "video") {
-        //     if (field.previewImageRoute) {
-        //         return <Video key={nanoid()} location={endpoint} previewImageRoute={field.previewImageRoute}/>
-        //     } else {
-        //         return <p className="fields">
-        //             <span className="error-text">Missing parameter for video preview: previewImageRoute</span></p>
-        //     }
-        // } else if (field.type ==="button") {
-        //     if (field.applyPreset && field.applyPreset === "applyPreset") {
-        //         isPresetBtn = true
-        //     }
-        //     //custom button rules
-        //     if (field.mapping === "isStreaming") {
-        //         if (filteredStat && filteredStat[0].val == 1) {
-        //             result = "Stop Streaming"
-        //         } else {
-        //             result = "Start Streaming"
-        //         }
-        //     } else {
-        //         result = field.label
-        //     }
-        //     if (isForm) {
-        //         return <Button key={nanoid()} postEndpoint={container.postEndpoint} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
-        //     } else if (isPresetBtn) {
-        //         return <Button key={nanoid()} presetSrc={field.presetSrc} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
-        //     } else {
-        //         return <Button key={nanoid()} size={field.size} label={result} action={field.action} buttonPressed={buttonPressed}/>
-        //     }
-        // } else if (field.type === "input") {
-        //     if (filteredStat) {
-        //         return <Input key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} endLabel={field.endLabel} label={field.label} value={filteredStat[0].val} />
-        //     }
-        // } else if (field.type === "checkbox") {
-        //     if (filteredStat) {
-        //         return <Checkbox key={nanoid()} name={filteredStat[0].cname} label={field.label} checked={filteredStat[0].val} endLabel={field.endLabel} />
-        //     }
-        // } else if (field.type === "select") {
-        //     if (filteredStat) {
-        //         return <Select key={nanoid()} name={filteredStat[0].cname} clearTimer={props.clearTimer} startTimer={props.startTimer} subValues={filteredStat[0].sub_values} value={filteredStat[0].val} valLabels={filteredStat[0].val_labels} label={field.label} endLabel={field.endLabel} />
-        //     }
-        // } else if (field.type === "presetSelect" && props.presetObj) {
-        //     return <div key={nanoid()} className="preset-div">
-        //         <Select key={nanoid()} name="none" value="none" clearTimer={props.clearTimer} startTimer={props.startTimer} presetObj={props.presetObj} label={field.label} endLabel={field.endLabel} /><Button key={nanoid()} presetSrc={field.btnPresetSrc} size={field.btnSize} label={field.btnLabel} action={field.btnAction} buttonPressed={buttonPressed}/>
-        //     </div>
-        // }
+    const mappedFields = fields.map((field, index) => {
+        return handleFieldTypes(field, index)
     })
 
     if (container.backgroundColor) {
@@ -485,6 +432,7 @@ export default function Container(props) {
             }
         }
     }
+
     return (
         <div
             className={

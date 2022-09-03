@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { nanoid } from "nanoid"
 import "./styles/setting-style.css"
 import ReactTooltip from "react-tooltip"
 
@@ -42,13 +41,13 @@ export default function Settings(props) {
             } else if (currentTemplateName === "none") {
                 alert("No templates found on server. Please create some.")
             }
-            let templateOptionsArr = json.map((template) => (
-                <option key={nanoid()} value={template.name}>
+            let templateOptionsArr = json.map((template, index) => (
+                <option key={`template-option-${index}`} value={template.name}>
                     {template.name}
                 </option>
             ))
             templateOptionsArr.unshift(
-                <option key={nanoid()} value="none">
+                <option key={`template-option-default`} value="none">
                     Choose One
                 </option>
             )
@@ -196,100 +195,105 @@ export default function Settings(props) {
         <>
             <ReactTooltip />
             <div className="settings-outer-container">
-                <div className="settings-container">
-                    <div className="current-template-readout template-form-padding">
-                        <label>Current Template:</label>&nbsp;
-                        <span style={{ color: "forestgreen" }}>
-                            {currentTemplateName}
-                        </span>
-                    </div>
-                    <div className="settings-label">
-                        <label className="template-label">
-                            <h4>Apply Template</h4>
-                            <img
-                                className="tooltip"
-                                src="../../images/information.png"
-                                data-tip="
+                <div className="settings-inner-container">
+                    <div className="settings-container">
+                        <div className="current-template-readout template-form-padding">
+                            <label>Current Template:</label>&nbsp;
+                            <span style={{ color: "forestgreen" }}>
+                                {currentTemplateName}
+                            </span>
+                        </div>
+                        <div className="settings-label">
+                            <label className="template-label">
+                                <h4>Apply Template</h4>
+                                <img
+                                    className="tooltip"
+                                    src="../../images/information.png"
+                                    data-tip="
                             Choose and apply a template.
                         "
-                            />
-                        </label>
-                    </div>
-                    <form
-                        className="settings-form template-form-padding"
-                        onSubmit={applyTemplate}
-                    >
-                        <select className="settings-select">
-                            {templateOptions}
-                        </select>
-                        <input type="submit" value="Apply Template" />
-                    </form>
-                    <div className="settings-label">
-                        <label className="template-label">
-                            <h4>Edit Template</h4>
-                            <img
-                                className="tooltip"
-                                src="../../images/information.png"
-                                data-tip="
+                                />
+                            </label>
+                        </div>
+                        <form
+                            className="settings-form template-form-padding"
+                            onSubmit={applyTemplate}
+                        >
+                            <select className="settings-select">
+                                {templateOptions}
+                            </select>
+                            <input type="submit" value="Apply Template" />
+                        </form>
+                        <div className="settings-label">
+                            <label className="template-label">
+                                <h4>Edit Template</h4>
+                                <img
+                                    className="tooltip"
+                                    src="../../images/information.png"
+                                    data-tip="
                             Edit, overwrite, or delete a template. When a file is chosen from the dropdown, the file can be edited in the 'Template area'.
                         "
-                            />
-                        </label>
-                    </div>
-                    <form className="settings-form" onSubmit={editTemplate}>
-                        <select
-                            onChange={handleSaveTemplateBtn}
-                            className="settings-select"
+                                />
+                            </label>
+                        </div>
+                        <form className="settings-form" onSubmit={editTemplate}>
+                            <select
+                                onChange={handleSaveTemplateBtn}
+                                className="settings-select"
+                            >
+                                {templateOptions}
+                            </select>
+                            <input type="submit" value="Edit Template" />
+                        </form>
+                        <button
+                            className="save-template-btn"
+                            onClick={saveTemplate}
+                            disabled={saveDisabled}
                         >
-                            {templateOptions}
-                        </select>
-                        <input type="submit" value="Edit Template" />
-                    </form>
-                    <button
-                        className="save-template-btn"
-                        onClick={saveTemplate}
-                        disabled={saveDisabled}
-                    >
-                        Save Template
-                    </button>
-                    <button
-                        className="save-template-btn template-form-padding"
-                        onClick={deleteTemplate}
-                        disabled={deleteDisabled}
-                    >
-                        Delete Template
-                    </button>
-                    <div className="settings-label">
-                        <label className="template-label">
-                            <h4>Create Template</h4>
-                            <img
-                                className="tooltip"
-                                src="/images/information.png"
-                                data-tip="
+                            Save Template
+                        </button>
+                        <button
+                            className="save-template-btn template-form-padding"
+                            onClick={deleteTemplate}
+                            disabled={deleteDisabled}
+                        >
+                            Delete Template
+                        </button>
+                        <div className="settings-label">
+                            <label className="template-label">
+                                <h4>Create Template</h4>
+                                <img
+                                    className="tooltip"
+                                    src="/images/information.png"
+                                    data-tip="
                             Create a JSON template using the text area 'Template area'.
                         "
+                                />
+                            </label>
+                        </div>
+                        <form
+                            className="settings-form"
+                            onSubmit={createTemplate}
+                        >
+                            <input
+                                className="create-template-input"
+                                type="text"
+                                placeholder="Template Name..."
                             />
-                        </label>
+                            <input type="submit" value="Create Template" />
+                        </form>
                     </div>
-                    <form className="settings-form" onSubmit={createTemplate}>
-                        <input
-                            className="create-template-input"
-                            type="text"
-                            placeholder="Template Name..."
-                        />
-                        <input type="submit" value="Create Template" />
-                    </form>
-                </div>
-                <div className="template-area-div">
-                    <div>
-                        <label className="template-area-label">
-                            <h3>Template area (create/edit)</h3>
-                        </label>
+                    <div className="template-area-div">
+                        <div>
+                            <label className="template-area-label">
+                                <h3>Template area (create/edit)</h3>
+                            </label>
+                        </div>
+                        <textarea
+                            className="edit-template-area"
+                            placeholder="JSON template will populate here upon selection..."
+                        ></textarea>
                     </div>
-                    <textarea
-                        className="edit-template-area"
-                        placeholder="JSON template will populate here upon selection..."
-                    ></textarea>
                 </div>
             </div>
         </>

@@ -1,6 +1,5 @@
-import React from 'react'
-import { nanoid } from 'nanoid'
-import {debounce} from '../Utils'
+import React from "react"
+import { debounce } from "../Utils"
 
 export default function Select(props) {
     let options
@@ -10,23 +9,45 @@ export default function Select(props) {
     let value = props.value
 
     if (presetObj) {
-        options = (presetObj.preset_list).map((preset) => <option key={nanoid()} value={preset.pid}>{preset.pname}</option>)
-        options.unshift(<option key={nanoid()} value="not-selected">Choose One</option>)
+        options = presetObj.preset_list.map((preset, index) => (
+            <option key={`preset-select-${index}`} value={preset.pid}>
+                {preset.pname}
+            </option>
+        ))
+        options.unshift(
+            <option key="preset-obj-option-default" value="not-selected">
+                Choose One
+            </option>
+        )
     } else {
-        options = subValues.map((subValue, index) => <option key={nanoid()} value={subValue}>{valLabels[index]}</option>)
+        options = subValues.map((subValue, index) => (
+            <option key={`preset-options-${index}`} value={subValue}>
+                {valLabels[index]}
+            </option>
+        ))
     }
 
     return (
         <div className="input-div">
             <label className="input-label">{props.label}: </label>
-            {presetObj ? 
-                <select id="preset-select" onFocus={props.clearTimer} onBlur={debounce(props.startTimer)}>
-                    {options}
-                </select> :
-                <select name={props.name} defaultValue={value} onFocus={props.clearTimer} onBlur={debounce(props.startTimer)}>
+            {presetObj ? (
+                <select
+                    id="preset-select"
+                    onFocus={props.clearTimer}
+                    onBlur={debounce(props.startTimer)}
+                >
                     {options}
                 </select>
-            }
+            ) : (
+                <select
+                    name={props.name}
+                    defaultValue={value}
+                    onFocus={props.clearTimer}
+                    onBlur={debounce(props.startTimer)}
+                >
+                    {options}
+                </select>
+            )}
         </div>
     )
 }

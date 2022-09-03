@@ -2,15 +2,12 @@ import React, { useState, useEffect } from "react"
 import App from "./App"
 import Navbar from "./components/Navbar"
 import Settings from "./Settings"
-//import customTemplate from '/public/templates/devTemplate.json' //dev template
 
 export default function RootWrapper() {
     //is this in dev environment or prod?
-    let isLocalDev = false
+    let isLocalDev = true
 
     //set up initial state with template
-    //const [currentTemplate, setCurrentTemplate] = useState(customTemplate)
-    //const navBtns = currentTemplate.template.navbar.routes
     const [currentTemplate, setCurrentTemplate] = useState([])
     const [templateName, setTemplateName] = useState(
         localStorage.getItem("templateName")
@@ -18,8 +15,6 @@ export default function RootWrapper() {
     const [navBtns, setNavBtns] = useState([])
     const [isSettings, setIsSettings] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
-    //const [isLoading, setIsLoading] = useState(false)
-    //const [currentPageName, setCurrentPageName] = useState(navBtns[0].routeName)
     const [currentPageName, setCurrentPageName] = useState("")
     let endpoint = ""
 
@@ -27,7 +22,7 @@ export default function RootWrapper() {
     if (isLocalDev) {
         const hostname = "54.151.83.113"
         //moving port number
-        const port = "7819"
+        const port = "6715"
         endpoint = `http://${hostname}:${port}`
     } else {
         endpoint = location.origin
@@ -75,32 +70,12 @@ export default function RootWrapper() {
             }
             setIsLoading(false)
         } else {
-            //if no templates are set in storage, set the first one. if none exist on the server throw an alert
-            // let response = await fetch(`${endpoint}/REST/templates/_list`)
-            // let json = await response.json();
-            // console.log(json)
             setCurrentTemplate([])
             setNavBtns([])
             openSettings(true)
             setIsLoading(false)
-
-            // if (json.templates && (json.templates).length > 0) {
-            //     //set json template to first template
-            //     const firstTemplate = json.templates[0]
-            //     localStorage.setItem("templateName", firstTemplate)
-            //     getTemplate()
-            // } else if (currentTemplate === "none") {
-            //     alert("No templates found on server")
-            // }
         }
     }
-
-    // useEffect(async () => {
-    //     //check authorization
-    //     const response = await fetch(`http://${hostname}:${port}/REST/templates/_list`)
-    //     const status = await response.text()
-    //     console.log(status)
-    // }, [])
 
     useEffect(() => {
         getTemplate()
@@ -157,7 +132,6 @@ export default function RootWrapper() {
                             currentTemplate={JSON.parse(currentTemplate)}
                         />
                     )}
-                    {/* <App currentPageName={currentPageName} currentTemplate={currentTemplate} />} */}
                 </>
             )}
         </>

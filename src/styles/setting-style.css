@@ -7,11 +7,20 @@
     color: white;
 }
 
-.settings-outer-container {
+.settings-inner-container {
     display: flex;
     justify-content: space-evenly;
+    padding-bottom: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1500px;
     align-items: center;
-    padding-bottom: 100%;
+    background-color: #222;
+}
+
+.settings-outer-container {
+    display: grid;
+    height: 100vh;
     background-color: #222;
 }
 
@@ -34,7 +43,7 @@
 
 .template-label {
     display: flex;
-    align-items:center;
+    align-items: center;
 }
 
 .settings-form {
@@ -42,7 +51,8 @@
     flex-direction: column;
 }
 
-.settings-select, .create-template-input {
+.settings-select,
+.create-template-input {
     height: 45px;
     width: 100%;
 }

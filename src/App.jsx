@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Container from "./components/Container"
-import { nanoid } from "nanoid"
 
 export default function App(props) {
     //set up initial state with template
@@ -9,16 +8,17 @@ export default function App(props) {
     const currentPageName = props.currentPageName
 
     const [currentContainers, setCurrentContainers] = useState([])
-    const [containerStyles, setContainerStyles] = useState([
-        navBtns[0].containersStyle,
-    ])
+    const containerStyles = useRef([navBtns[0].containersStyle])
     const [backgroundFetchCount, setBackgroundFetchCount] = useState(0)
 
     const combinedApiArray = []
     let presetObj
-    const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
-        ? currentTemplate.template.backgroundRefreshTime
-        : 5000 //timer to fetch background data in milliseconds
+    // const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
+    //     ? currentTemplate.template.backgroundRefreshTime
+    //     : 5000 //timer to fetch background data in milliseconds
+
+    //TODO: change back
+    const backgroundRefreshTime = 1000
 
     const endpoint = location.origin
 
@@ -36,7 +36,7 @@ export default function App(props) {
         }
     }, [])
 
-    //watch for route changes
+    //watch for route changes or refreshes
     useEffect(() => {
         const fullRouteObj = navBtns.filter(
             (navBtn) => navBtn.routeName === currentPageName
@@ -46,7 +46,7 @@ export default function App(props) {
             (container) => container.apiSrc
         )
 
-        setContainerStyles(fullRouteObj[0].containersStyle)
+        containerStyles.current = fullRouteObj[0].containersStyle
 
         //fetch all api objects for this page and plop into an array
         async function fetchApiPages(apiSrcs) {
@@ -106,7 +106,7 @@ export default function App(props) {
                         return (
                             <Container
                                 presetObj={presetObj}
-                                key={nanoid()}
+                                key={"container-" + index}
                                 clearTimer={clearTimer}
                                 startTimer={startTimer}
                                 triggerBackgroundFetch={triggerBackgroundFetch}
@@ -117,7 +117,7 @@ export default function App(props) {
                     } else {
                         return (
                             <Container
-                                key={nanoid()}
+                                key={"container-" + index}
                                 clearTimer={clearTimer}
                                 startTimer={startTimer}
                                 triggerBackgroundFetch={triggerBackgroundFetch}
@@ -153,7 +153,7 @@ export default function App(props) {
     }
 
     function triggerBackgroundFetch() {
-        setBackgroundFetchCount(backgroundFetchCount + 1)
+        setBackgroundFetchCount((prev) => prev + 1)
     }
 
     //style rules for if less than 4 containers
@@ -166,12 +166,12 @@ export default function App(props) {
         outerClassList = " multichannel-outer"
     }
 
-    if (containerStyles) {
-        if (typeof containerStyles.numberOfColumns !== "undefined") {
+    if (containerStyles.current) {
+        if (typeof containerStyles.current.numberOfColumns !== "undefined") {
             style = {
-                gridTemplateColumns: `repeat(${containerStyles.numberOfColumns}, 1fr)`,
+                gridTemplateColumns: `repeat(${containerStyles.current.numberOfColumns}, 1fr)`,
             }
-            if (containerStyles.numberOfColumn == 1) {
+            if (containerStyles.current.numberOfColumn == 1) {
                 innerClassList += " flex-container"
                 outerClassList += " flex-outer-container"
             }
