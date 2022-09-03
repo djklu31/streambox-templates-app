@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react"
 
-export default function Checkbox(props) {
+export default React.memo(function Checkbox(props) {
     return (
         <div className="input-div">
-            <label className="input-label">{props.label}: </label><input type="checkbox" defaultChecked={props.checked} />
+            <label className="input-label">{props.label}: </label>
+            <input type="checkbox" defaultChecked={props.checked} />
         </div>
     )
-}
+})
