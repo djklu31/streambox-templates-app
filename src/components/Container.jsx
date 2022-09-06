@@ -324,8 +324,6 @@ export default function Container(props) {
                         <Input
                             key={`input-${index}`}
                             name={filteredStat[0].cname}
-                            clearTimer={props.clearTimer}
-                            startTimer={props.startTimer}
                             endLabel={field.endLabel}
                             label={field.label}
                             value={filteredStat[0].val}
@@ -367,8 +365,6 @@ export default function Container(props) {
                         <Select
                             key={`select-${index}`}
                             name={filteredStat[0].cname}
-                            clearTimer={props.clearTimer}
-                            startTimer={props.startTimer}
                             subValues={filteredStat[0].sub_values}
                             value={filteredStat[0].val}
                             valLabels={filteredStat[0].val_labels}
@@ -387,8 +383,6 @@ export default function Container(props) {
                         key={`select-${index}`}
                         name="none"
                         value="none"
-                        clearTimer={props.clearTimer}
-                        startTimer={props.startTimer}
                         presetObj={props.presetObj}
                         label={field.label}
                         endLabel={field.endLabel}

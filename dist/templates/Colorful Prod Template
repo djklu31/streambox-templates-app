@@ -1,6 +1,5 @@
 {
   "template": {
-    "darkMode": false,
     "backgroundRefreshTime": 7000,
     "navbar": {
       "routes": [
@@ -12,7 +11,10 @@
           "containers": [
             {
               "title": "Video",
-              "apiSrc": ["/REST/encoder/status","/REST/encoder/audio"],
+              "apiSrc": [
+                "/REST/encoder/status",
+                "/REST/encoder/audio"
+              ],
               "type": "readonly",
               "containerStyle": {
                 "stretchVertically": 2
@@ -76,7 +78,7 @@
             {
               "title": "Network",
               "apiSrc": "/REST/encoder/status",
-              "backgroundColor": "#FFF",
+              "backgroundColor": "#C7D3D4FF",
               "fields": [
                 {
                   "type": "mappedText",

@@ -22,7 +22,9 @@
               "fields": [
                 {
                   "type": "video",
-                  "previewImageRoute": "/REST/encoder/preview/JPG"
+                  "hasVUMeter": true,
+                  "audioLevelEndpoint": "/REST/encoder/audiolevels.json",
+                  "previewImageRoute": "/REST/encoder/preview/JPG.jpeg"
                 },
                 {
                   "type": "mappedText",

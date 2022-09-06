@@ -31,20 +31,9 @@ export default React.memo(function Select(props) {
         <div className="input-div">
             <label className="input-label">{props.label}: </label>
             {presetObj ? (
-                <select
-                    id="preset-select"
-                    onFocus={props.clearTimer}
-                    onBlur={debounce(props.startTimer)}
-                >
-                    {options}
-                </select>
+                <select id="preset-select">{options}</select>
             ) : (
-                <select
-                    name={props.name}
-                    defaultValue={value}
-                    onFocus={props.clearTimer}
-                    onBlur={debounce(props.startTimer)}
-                >
+                <select name={props.name} defaultValue={value}>
                     {options}
                 </select>
             )}
