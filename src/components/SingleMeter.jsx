@@ -11,7 +11,7 @@ export default function SingleMeter({ volLevel, vuIndex }) {
         var boxGapFraction = config.boxGapFraction || 0.2
         var jitter = config.jitter || 0.02
 
-        // Colours
+        // Colors
         var redOn = "rgba(255,47,30,0.9)"
         var redOff = "rgba(64,12,8,0.9)"
         var yellowOn = "rgba(255,215,5,0.9)"
@@ -123,6 +123,8 @@ export default function SingleMeter({ volLevel, vuIndex }) {
         var demo = document.getElementById("demo-" + vuIndex)
         vumeter(demo, {
             boxCount: 50,
+            boxCountRed: 10,
+            boxCountYellow: 10,
             boxGapFraction: 0.25,
             max: 225,
         })

@@ -35,9 +35,12 @@ export default function Settings(props) {
             let json = await response.json()
             if (currentTemplateName === "none" && json && json.length > 0) {
                 //set json template to first template
-                alert(
-                    "No template is selected.  Please choose one and apply the template."
-                )
+                // alert(
+                //     "No template is selected.  Please choose one and apply the template."
+                // )
+                const firstTemplate = json.templates[0]
+                localStorage.setItem("templateName", firstTemplate)
+                setcurrentTemplateName(firstTemplate)
             } else if (currentTemplateName === "none") {
                 alert("No templates found on server. Please create some.")
             }

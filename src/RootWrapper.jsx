@@ -5,7 +5,7 @@ import Settings from "./Settings"
 
 export default function RootWrapper() {
     //is this in dev environment or prod?
-    let isLocalDev = false
+    let isLocalDev = true
 
     //set up initial state with template
     const [currentTemplate, setCurrentTemplate] = useState([])
@@ -22,7 +22,7 @@ export default function RootWrapper() {
     if (isLocalDev) {
         const hostname = "54.151.83.113"
         //moving port number
-        const port = "6715"
+        const port = "7814"
         endpoint = `http://${hostname}:${port}`
     } else {
         endpoint = location.origin
@@ -70,10 +70,22 @@ export default function RootWrapper() {
             }
             setIsLoading(false)
         } else {
-            setCurrentTemplate([])
-            setNavBtns([])
-            openSettings(true)
-            setIsLoading(false)
+            //if no templates are set in storage, set the first one. if none exist on the server throw an alert
+            let response = await fetch(`${endpoint}/REST/templates/`)
+            let json = await response.json()
+
+            if (json.templates && json.templates.length > 0) {
+                //set json template to first template
+                const firstTemplate = json.templates[0]
+                localStorage.setItem("templateName", firstTemplate)
+                setCurrentTemplate(firstTemplate)
+            } else if (currentTemplate === "none") {
+                alert("No templates found on server")
+            }
+            // setCurrentTemplate([])
+            // setNavBtns([])
+            // openSettings(true)
+            // setIsLoading(false)
         }
     }
 
