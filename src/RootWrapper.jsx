@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import App from "./App"
 import Navbar from "./components/Navbar"
 import Settings from "./Settings"
+import { authenticate } from "./Utils"
 
 export default function RootWrapper() {
     //is this in dev environment or prod?
@@ -42,6 +43,12 @@ export default function RootWrapper() {
     }
 
     async function getTemplate() {
+        let authorized = await authenticate()
+        if (!authorized) {
+            //TODO: change to remote login when ready
+            window.location = "http://localhost:5005/sbauth/"
+            return
+        }
         if (localStorage.getItem("templateName")) {
             try {
                 let response = await fetch(
@@ -70,22 +77,11 @@ export default function RootWrapper() {
             }
             setIsLoading(false)
         } else {
-            //if no templates are set in storage, set the first one. if none exist on the server throw an alert
-            let response = await fetch(`${endpoint}/REST/templates/`)
-            let json = await response.json()
-
-            if (json.templates && json.templates.length > 0) {
-                //set json template to first template
-                const firstTemplate = json.templates[0]
-                localStorage.setItem("templateName", firstTemplate)
-                setCurrentTemplate(firstTemplate)
-            } else if (currentTemplate === "none") {
-                alert("No templates found on server")
-            }
-            // setCurrentTemplate([])
-            // setNavBtns([])
-            // openSettings(true)
-            // setIsLoading(false)
+            //TODO: set json template to fallback here
+            setCurrentTemplate([])
+            setNavBtns([])
+            openSettings(true)
+            setIsLoading(false)
         }
     }
 

@@ -17,6 +17,13 @@ export default function Navbar(props) {
         ))
     }
 
+    function logout() {
+        //TODO: change to real remote url
+        localStorage.removeItem("user")
+        localStorage.removeItem("pass")
+        window.location = "http://localhost:5005/sbauth"
+    }
+
     return (
         <div className="navbar">
             <header>
@@ -35,8 +42,9 @@ export default function Navbar(props) {
                         >
                             Settings
                         </a>
-                        Logged in:&nbsp;<span>Administrator</span>
-                        <a className="logout-btn" href="/">
+                        Logged in:&nbsp;
+                        <span>{localStorage.getItem("user")}</span>
+                        <a className="logout-btn" onClick={logout}>
                             Logout
                         </a>
                     </div>

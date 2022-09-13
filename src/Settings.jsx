@@ -15,6 +15,12 @@ export default function Settings(props) {
     const [isRerender, setIsRerender] = useState(false)
     const endpoint = props.endpoint
 
+    //check if any url params present for userid
+    //if no url params passed in, check if local storage set with these vals
+    //if there are, then check against the 'db'
+    //if they match, then set local storage with these vals
+    //logout should destroy local storage for userid and pass
+
     useEffect(() => {
         document.querySelector(".settings-btn").classList.add("selected-route")
         if (isRerender) {
@@ -31,16 +37,20 @@ export default function Settings(props) {
         }
 
         const fetchData = async () => {
-            let response = await fetch(`${endpoint}/REST/templates/_list`)
+            try {
+                let response = await fetch(`${endpoint}/REST/templates/_list`)
+            } catch (err) {
+                alert(
+                    "There was a problem retrieving templates from the server."
+                )
+                return
+            }
             let json = await response.json()
             if (currentTemplateName === "none" && json && json.length > 0) {
-                //set json template to first template
-                // alert(
-                //     "No template is selected.  Please choose one and apply the template."
-                // )
-                const firstTemplate = json.templates[0]
-                localStorage.setItem("templateName", firstTemplate)
-                setcurrentTemplateName(firstTemplate)
+                //TODO: set json template to first template setTemplateName here
+                alert(
+                    "No template is selected.  Please choose one and apply the template."
+                )
             } else if (currentTemplateName === "none") {
                 alert("No templates found on server. Please create some.")
             }
@@ -56,12 +66,7 @@ export default function Settings(props) {
             )
             setTemplateOptions(templateOptionsArr)
         }
-
-        try {
-            fetchData()
-        } catch (err) {
-            alert("There was a problem retrieving templates from the server.")
-        }
+        fetchData()
     }, [currentTemplateName, isRerender])
 
     function applyTemplate(e) {

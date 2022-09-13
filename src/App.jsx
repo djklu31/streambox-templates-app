@@ -13,12 +13,9 @@ export default function App(props) {
 
     const combinedApiArray = []
     let presetObj
-    // const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
-    //     ? currentTemplate.template.backgroundRefreshTime
-    //     : 5000 //timer to fetch background data in milliseconds
-
-    //TODO: change back
-    const backgroundRefreshTime = 1000
+    const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
+        ? currentTemplate.template.backgroundRefreshTime
+        : 5000 //timer to fetch background data in milliseconds
 
     const endpoint = location.origin
 

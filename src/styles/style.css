@@ -77,6 +77,10 @@ input[type="submit"],
     letter-spacing: 1px;
 }
 
+.logout-btn:hover {
+    cursor: pointer;
+}
+
 .nav-btn {
     margin-right: 1em;
     margin-left: 1em;
