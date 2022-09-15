@@ -189,9 +189,9 @@ export default function Settings(props) {
             setCurrentEditTemplateName("none")
         } else if (
             //these should never be altered
-            value === "Colorful Prod Template" ||
-            value === "Dark Prod Template" ||
-            value === "Light Prod Template"
+            value === "Colorful Prod Template (Default)" ||
+            value === "Dark Prod Template (Default)" ||
+            value === "Light Prod Template (Default)"
         ) {
             setSaveDisabled(true)
             setDeleteDisabled(true)

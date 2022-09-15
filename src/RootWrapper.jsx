@@ -83,10 +83,13 @@ export default function RootWrapper() {
             setIsLoading(false)
         } else {
             //TODO: set json template to fallback here
-            setCurrentTemplate([])
-            setNavBtns([])
-            openSettings(true)
-            setIsLoading(false)
+            let fallbackTemplateName = "Dark Prod Template (Default)"
+            setTemplateName(fallbackTemplateName)
+
+            // setCurrentTemplate([])
+            // setNavBtns([])
+            // openSettings(true)
+            // setIsLoading(false)
         }
     }
 
