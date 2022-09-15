@@ -143,7 +143,7 @@ export default function SingleMeter({ volLevel, vuIndex }) {
             className="vu-meter"
             width="10"
             height="270"
-            data-val="0"
+            data-val="1"
         ></canvas>
     )
 }
