@@ -21,7 +21,7 @@ export default function Navbar(props) {
         //TODO: change to real remote url
         localStorage.removeItem("user")
         localStorage.removeItem("pass")
-        window.location = "http://localhost:5005/sbauth"
+        window.location = `${location.origin}/sbuiauth`
     }
 
     return (

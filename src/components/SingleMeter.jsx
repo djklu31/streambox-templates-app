@@ -132,6 +132,11 @@ export default function SingleMeter({ volLevel, vuIndex }) {
         demo.setAttribute("data-val", volLevel)
     }, [])
 
+    if (document.getElementById("demo-" + vuIndex)) {
+        document
+            .getElementById("demo-" + vuIndex)
+            .setAttribute("data-val", volLevel)
+    }
     return (
         <canvas
             id={`demo-${vuIndex}`}

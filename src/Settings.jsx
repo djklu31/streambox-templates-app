@@ -37,8 +37,9 @@ export default function Settings(props) {
         }
 
         const fetchData = async () => {
+            let response = ""
             try {
-                let response = await fetch(`${endpoint}/REST/templates/_list`)
+                response = await fetch(`${endpoint}/REST/templates/_list`)
             } catch (err) {
                 alert(
                     "There was a problem retrieving templates from the server."
