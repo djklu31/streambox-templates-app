@@ -48,7 +48,7 @@ export default function RootWrapper() {
             //TODO: change to remote login when ready
 
             //authenticate with remote server
-            window.location = `http://${endpoint}/sbuiauth/`
+            window.location = `${endpoint}/sbuiauth/`
 
             //authenticate with local server
             //window.location = "http://localhost:5005/sbuiauth/"
