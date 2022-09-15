@@ -34,14 +34,14 @@ export async function authenticate() {
         }
     }
 
-    const hostname = "http://localhost:5005"
+    const endpoint = location.origin
 
     let formData = new FormData()
     formData.append("username", user)
     formData.append("password", pass)
     formData.append("fromreact", true)
 
-    const response = await fetch(hostname + "/sbauth/auth.php", {
+    const response = await fetch(endpoint + "/sbuiauth/auth.php", {
         method: "POST",
         body: formData,
     })

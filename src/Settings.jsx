@@ -186,6 +186,14 @@ export default function Settings(props) {
             setSaveDisabled(true)
             setDeleteDisabled(true)
             setCurrentEditTemplateName("none")
+        } else if (
+            //these should never be altered
+            value === "Colorful Prod Template" ||
+            value === "Dark Prod Template" ||
+            value === "Light Prod Template"
+        ) {
+            setSaveDisabled(true)
+            setDeleteDisabled(true)
         } else {
             setCurrentEditTemplateName(value)
             setDeleteDisabled(false)

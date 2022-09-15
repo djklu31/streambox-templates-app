@@ -46,7 +46,12 @@ export default function RootWrapper() {
         let authorized = await authenticate()
         if (!authorized) {
             //TODO: change to remote login when ready
-            window.location = "http://localhost:5005/sbauth/"
+
+            //authenticate with remote server
+            window.location = `http://${endpoint}/sbuiauth/`
+
+            //authenticate with local server
+            //window.location = "http://localhost:5005/sbuiauth/"
             return
         }
         if (localStorage.getItem("templateName")) {
