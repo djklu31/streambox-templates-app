@@ -129,7 +129,7 @@ export default function SingleMeter({ volLevel, vuIndex }) {
             max: 225,
         })
 
-        demo.setAttribute("data-val", volLevel)
+        // demo.setAttribute("data-val", volLevel)
     }, [])
 
     if (document.getElementById("demo-" + vuIndex)) {
@@ -143,7 +143,7 @@ export default function SingleMeter({ volLevel, vuIndex }) {
             className="vu-meter"
             width="10"
             height="270"
-            data-val="1"
+            data-val="0"
         ></canvas>
     )
 }
