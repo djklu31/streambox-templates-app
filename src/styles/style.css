@@ -153,6 +153,10 @@ footer {
     margin-right: 5px;
 }
 
+.dark-mode footer {
+    color: white;
+}
+
 .giant-button-container {
     display: flex;
     height: 150px;
