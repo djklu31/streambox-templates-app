@@ -28,10 +28,7 @@ export default function Navbar(props) {
         <div className="navbar">
             <header>
                 <nav>
-                    <img
-                        className="streambox-logo"
-                        src="/images/streambox-logo.svg"
-                    />
+                    <img className="logo" src="/images/logo.png" />
 
                     <div className="routes-btns">{navBtns}</div>
 

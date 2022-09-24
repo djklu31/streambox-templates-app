@@ -19,11 +19,11 @@ export default function RootWrapper() {
     const [currentPageName, setCurrentPageName] = useState("")
     let endpoint = ""
 
-    //if developing on local machine
+    //if developing on local machine, reach out to REST api on remote machine
     if (isLocalDev) {
-        const hostname = "54.151.83.113"
+        const hostname = "184.106.155.61"
         //moving port number
-        const port = "7814"
+        const port = "7265"
         endpoint = `http://${hostname}:${port}`
     } else {
         endpoint = location.origin
@@ -43,17 +43,18 @@ export default function RootWrapper() {
     }
 
     async function getTemplate() {
-        let authorized = await authenticate()
-        if (!authorized) {
-            //TODO: change to remote login when ready
+        if (!isLocalDev) {
+            let authorized = await authenticate()
+            if (!authorized) {
+                //authenticate with remote server
+                window.location = `${endpoint}/sbuiauth/`
 
-            //authenticate with remote server
-            window.location = `${endpoint}/sbuiauth/`
-
-            //authenticate with local server
-            //window.location = "http://localhost:5005/sbuiauth/"
-            return
+                //authenticate with local server
+                //window.location = "http://localhost:5005/sbuiauth/"
+                return
+            }
         }
+
         if (localStorage.getItem("templateName")) {
             try {
                 let response = await fetch(
@@ -82,8 +83,11 @@ export default function RootWrapper() {
             }
             setIsLoading(false)
         } else {
-            //TODO: set json template to fallback here
-            let fallbackTemplateName = "Dark Prod Template (Default)"
+            //set json template to fallback if none are chosen
+            let fallbackTemplateName = isLocalDev
+                ? "Dark Dev Template"
+                : "Dark Prod Template (Default)"
+
             localStorage.setItem("templateName", fallbackTemplateName)
             setTemplateName(fallbackTemplateName)
 
