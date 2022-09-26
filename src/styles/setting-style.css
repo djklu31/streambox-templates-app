@@ -20,7 +20,7 @@
 
 .settings-outer-container {
     display: grid;
-    height: 100vh;
+    height: 85vh;
     background-color: #222;
 }
 
@@ -74,3 +74,8 @@
     margin-top: 25px;
     color: white;
 }
+
+/* .template-area-label-div {
+    display: flex;
+    justify-content: space-between;
+} */

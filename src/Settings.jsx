@@ -106,6 +106,19 @@ export default function Settings(props) {
         }
     }
 
+    function isDefaultTemplate(templateName) {
+        if (
+            //these should never be altered
+            templateName === "Colorful Prod Template (Default)" ||
+            templateName === "Dark Prod Template (Default)" ||
+            templateName === "Light Prod Template (Default)"
+        ) {
+            return true
+        }
+
+        return false
+    }
+
     async function editTemplate(e) {
         e.preventDefault()
         const selectedTemplate = e.target[0].value
@@ -113,10 +126,23 @@ export default function Settings(props) {
             let response = await fetch(
                 `${endpoint}/REST/templates/${selectedTemplate}`
             )
-            let json = await response.json()
+            let json
+            try {
+                json = await response.json()
+            } catch (e) {
+                document.querySelector(".edit-template-area").value =
+                    "This JSON file is not formatted correctly"
+                return
+            }
             const prettyJson = JSON.stringify(json, undefined, 2)
             document.querySelector(".edit-template-area").value = prettyJson
-            setSaveDisabled(false)
+            document.querySelector(
+                ".template-area-status"
+            ).textContent = `Editing template: ${selectedTemplate}`
+            isDefaultTemplate(selectedTemplate)
+                ? setSaveDisabled(true)
+                : setSaveDisabled(false)
+
             setCurrentEditTemplateName(selectedTemplate)
         }
     }
@@ -187,15 +213,11 @@ export default function Settings(props) {
             setSaveDisabled(true)
             setDeleteDisabled(true)
             setCurrentEditTemplateName("none")
-        } else if (
-            //these should never be altered
-            value === "Colorful Prod Template (Default)" ||
-            value === "Dark Prod Template (Default)" ||
-            value === "Light Prod Template (Default)"
-        ) {
+        } else if (isDefaultTemplate(value)) {
             setSaveDisabled(true)
             setDeleteDisabled(true)
         } else {
+            setSaveDisabled(false)
             setCurrentEditTemplateName(value)
             setDeleteDisabled(false)
         }
@@ -294,9 +316,12 @@ export default function Settings(props) {
                         </form>
                     </div>
                     <div className="template-area-div">
-                        <div>
+                        <div className="template-area-label-div">
                             <label className="template-area-label">
                                 <h3>Template area (create/edit)</h3>
+                            </label>
+                            <label className="template-area-status-label">
+                                <h5 className="template-area-status"></h5>
                             </label>
                         </div>
                         <textarea

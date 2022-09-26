@@ -113,7 +113,7 @@ input[type="submit"],
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    height: 90vh;
+    height: 85vh;
     align-items: center;
 }
 
@@ -133,6 +133,10 @@ input[type="submit"],
 .dark-mode button {
     background-color: rgb(58, 58, 58);
     color: rgb(225, 225, 225);
+}
+
+.dark-mode button:disabled {
+    background-color: gray;
 }
 
 .dark-mode .giant-button {

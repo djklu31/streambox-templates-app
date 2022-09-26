@@ -17,6 +17,30 @@ export default function Navbar(props) {
         ))
     }
 
+    async function findCorrectImage() {
+        const svgPromise = fetch("/images/logo.svg")
+        const pngPromise = fetch("/images/logo.png")
+        const jpgPromise = fetch("/images/logo.jpg")
+
+        let [svgRes, pngRes, jpgRes] = await Promise.all([
+            svgPromise,
+            pngPromise,
+            jpgPromise,
+        ])
+
+        const logo = document.querySelector(".logo")
+
+        if (svgRes.statusText === "OK") {
+            logo.src = "/images/logo.svg"
+        } else if (pngRes.statusText === "OK") {
+            logo.src = "/images/logo.png"
+        } else if (jpgRes.statusText === "OK") {
+            logo.src = "/images/logo.jpg"
+        }
+    }
+
+    findCorrectImage()
+
     function logout() {
         //TODO: change to real remote url
         localStorage.removeItem("user")
@@ -28,7 +52,7 @@ export default function Navbar(props) {
         <div className="navbar">
             <header>
                 <nav>
-                    <img className="logo" src="/images/logo.png" />
+                    <img className="logo" />
 
                     <div className="routes-btns">{navBtns}</div>
 
