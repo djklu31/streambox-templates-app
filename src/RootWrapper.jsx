@@ -23,7 +23,7 @@ export default function RootWrapper() {
     if (isLocalDev) {
         const hostname = "184.106.155.61"
         //moving port number
-        const port = "6985"
+        const port = "7036"
         endpoint = `http://${hostname}:${port}`
     } else {
         endpoint = location.origin

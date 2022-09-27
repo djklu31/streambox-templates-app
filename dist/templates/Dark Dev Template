@@ -16,7 +16,6 @@
                 "/REST/encoder/status.json",
                 "/REST/encoder/audio.json"
               ],
-              "type": "readonly",
               "containerStyle": {
                 "stretchVertically": 2
               },

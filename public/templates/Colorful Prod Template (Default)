@@ -15,7 +15,6 @@
                 "/REST/encoder/status",
                 "/REST/encoder/audio"
               ],
-              "type": "readonly",
               "containerStyle": {
                 "stretchVertically": 2
               },
