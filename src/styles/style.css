@@ -33,7 +33,7 @@ body {
 .containers {
     display: grid;
     gap: 1.8em;
-    margin: 3em 5em 2em;
+    margin: 5em 2em;
 }
 
 .container-title {
