@@ -61,7 +61,7 @@ export default function RootWrapper() {
             //set json template to fallback if none are chosen
             let fallbackTemplateName = isLocalDev
                 ? "Dark Dev Template"
-                : "Dark Prod Template (Default)"
+                : "Dark Prod Template (Default - Read-only)"
 
             localStorage.setItem("templateName", fallbackTemplateName)
             setTemplateName(fallbackTemplateName)

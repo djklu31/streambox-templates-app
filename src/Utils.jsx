@@ -1,5 +1,5 @@
 //set environment: true - local development, false - production
-export let isLocalDev = false
+export let isLocalDev = true
 
 export function debounce(callback, delay = 60000) {
     let timeout

@@ -108,9 +108,9 @@ export default function Settings(props) {
     function isDefaultTemplate(templateName) {
         if (
             //these should never be altered
-            templateName === "Colorful Prod Template (Default)" ||
-            templateName === "Dark Prod Template (Default)" ||
-            templateName === "Light Prod Template (Default)"
+            templateName === "Colorful Prod Template (Default - Read-only)" ||
+            templateName === "Dark Prod Template (Default - Read-only)" ||
+            templateName === "Light Prod Template (Default - Read-only)"
         ) {
             return true
         }
