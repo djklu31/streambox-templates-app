@@ -1,5 +1,6 @@
 import React from "react"
 import NavBtn from "./NavBtn"
+import { logout } from "../Utils"
 
 export default function Navbar(props) {
     let navBtns
@@ -41,11 +42,8 @@ export default function Navbar(props) {
 
     findCorrectImage()
 
-    function logout() {
-        //TODO: change to real remote url
-        localStorage.removeItem("user")
-        localStorage.removeItem("pass")
-        window.location = `${location.origin}/sbuiauth`
+    async function logoutWrapper() {
+        logout()
     }
 
     return (
@@ -65,7 +63,7 @@ export default function Navbar(props) {
                         </a>
                         Logged in:&nbsp;
                         <span>{localStorage.getItem("user")}</span>
-                        <a className="logout-btn" onClick={logout}>
+                        <a className="logout-btn" onClick={logoutWrapper}>
                             Logout
                         </a>
                     </div>

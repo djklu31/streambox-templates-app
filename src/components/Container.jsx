@@ -117,7 +117,7 @@ export default function Container(props) {
         let result
         let apiObjMissing = false
         let fieldMapMissing = false
-        let isPlainText = field.type === "plaintext" ? true : false
+        let isPlainText = field.type === "plainText" ? true : false
 
         //set up error message if api object is missing or mapping field is missing or can't be mapped
         if (!apiObj) {
@@ -167,7 +167,8 @@ export default function Container(props) {
                 apiObjMissing ||
                 (fieldMapMissing &&
                     field.type !== "button" &&
-                    field.type !== "video")
+                    field.type !== "video" &&
+                    field.type !== "presetSelect")
             ) {
                 return (
                     <p className="fields">
@@ -192,7 +193,7 @@ export default function Container(props) {
         //handle all types of input
         if (isPlainText) {
             returnArr = (
-                <p className="fields">
+                <p className="fields" key="${field.type}-${index}">
                     <span className="plain-text">{field.text}</span>
                 </p>
             )

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import Container from "./components/Container"
+import { authenticate } from "./Utils"
 
 export default function App(props) {
     //set up initial state with template
@@ -47,6 +48,16 @@ export default function App(props) {
 
         //fetch all api objects for this page and plop into an array
         async function fetchApiPages(apiSrcs) {
+            let authorized = await authenticate()
+            if (!authorized) {
+                //authenticate with remote server
+                //window.location = `${endpoint}/sbuiauth/`
+
+                //authenticate with local server
+                window.location = "http://localhost:5005/sbuiauth/"
+                return
+            }
+
             let fullEndpoint
             let response
             let jsonResult

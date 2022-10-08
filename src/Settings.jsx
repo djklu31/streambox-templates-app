@@ -48,7 +48,6 @@ export default function Settings(props) {
             }
             let json = await response.json()
             if (currentTemplateName === "none" && json && json.length > 0) {
-                //TODO: set json template to first template setTemplateName here
                 alert(
                     "No template is selected.  Please choose one and apply the template."
                 )

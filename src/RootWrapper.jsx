@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react"
 import App from "./App"
 import Navbar from "./components/Navbar"
 import Settings from "./Settings"
-import { authenticate } from "./Utils"
+import { isLocalDev, getRestEndpoint } from "./Utils"
 
 export default function RootWrapper() {
-    //is this in dev environment or prod?
-    let isLocalDev = false
-
     //set up initial state with template
     const [currentTemplate, setCurrentTemplate] = useState([])
     const [templateName, setTemplateName] = useState(
@@ -17,17 +14,7 @@ export default function RootWrapper() {
     const [isSettings, setIsSettings] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [currentPageName, setCurrentPageName] = useState("")
-    let endpoint = ""
-
-    //if developing on local machine, reach out to REST api on remote machine
-    if (isLocalDev) {
-        const hostname = "184.106.155.61"
-        //moving port number
-        const port = "7036"
-        endpoint = `http://${hostname}:${port}`
-    } else {
-        endpoint = location.origin
-    }
+    const endpoint = getRestEndpoint()
 
     function handleChangeTemplate(selectedTemplate) {
         setTemplateName(selectedTemplate)
@@ -43,18 +30,6 @@ export default function RootWrapper() {
     }
 
     async function getTemplate() {
-        if (!isLocalDev) {
-            let authorized = await authenticate()
-            if (!authorized) {
-                //authenticate with remote server
-                window.location = `${endpoint}/sbuiauth/`
-
-                //authenticate with local server
-                //window.location = "http://localhost:5005/sbuiauth/"
-                return
-            }
-        }
-
         if (localStorage.getItem("templateName")) {
             try {
                 let response = await fetch(
