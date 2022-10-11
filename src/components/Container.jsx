@@ -16,6 +16,7 @@ export default function Container(props) {
     const title = container.title
     const fields = container.fields
     let style = {}
+    let fieldStyle = {}
     const isForm = container.type === "form" ? true : false
     const isMultiChannelSelection =
         container.type === "multichannel-container" ? true : false
@@ -112,7 +113,7 @@ export default function Container(props) {
         return response.json() // parses JSON response into native JavaScript objects
     }
 
-    function handleFieldTypes(field, index) {
+    function handleFieldTypes(field, index, fieldStyle) {
         let filteredStat
         let result
         let apiObjMissing = false
@@ -171,8 +172,8 @@ export default function Container(props) {
                     field.type !== "presetSelect")
             ) {
                 return (
-                    <p className="fields">
-                        <span className="field-label">{field.label}</span>:{" "}
+                    <p className="fields" style={fieldStyle}>
+                        <span className="field-label">{field.label}</span>:
                         {result}
                     </p>
                 )
@@ -193,7 +194,11 @@ export default function Container(props) {
         //handle all types of input
         if (isPlainText) {
             returnArr = (
-                <p className="fields" key="${field.type}-${index}">
+                <p
+                    className="fields"
+                    key="${field.type}-${index}"
+                    style={fieldStyle}
+                >
                     <span className="plain-text">{field.text}</span>
                 </p>
             )
@@ -214,7 +219,11 @@ export default function Container(props) {
                 }
             }
             returnArr = (
-                <p className="fields" key={`${field.label}-${index}`}>
+                <p
+                    className="fields"
+                    key={`${field.label}-${index}`}
+                    style={fieldStyle}
+                >
                     <span className="field-label">{field.label}</span>: {result}
                 </p>
             )
@@ -271,7 +280,7 @@ export default function Container(props) {
                 }
             } else {
                 returnArr = (
-                    <p className="fields">
+                    <p className="fields" style={fieldStyle}>
                         <span className="error-text">
                             Missing parameter for video preview:
                             previewImageRoute
@@ -412,23 +421,20 @@ export default function Container(props) {
         }
     }
 
-    //handle different field types
-    const mappedFields = fields.map((field, index) => {
-        return handleFieldTypes(field, index)
-    })
-
-    if (container.backgroundColor) {
-        style = { backgroundColor: container.backgroundColor }
-    }
-
+    //set container styles
     if (container.containerStyle) {
+        if (container.containerStyle.backgroundColor) {
+            style = {
+                ...style,
+                backgroundColor: container.containerStyle.backgroundColor,
+            }
+        }
         if (container.containerStyle.stretchVertically) {
             style = {
                 ...style,
                 gridRow: "span " + container.containerStyle.stretchVertically,
             }
         }
-
         if (container.containerStyle.stretchHorizontally) {
             style = {
                 ...style,
@@ -437,7 +443,18 @@ export default function Container(props) {
                 maxWidth: "none",
             }
         }
+        if (container.containerStyle.lineSpacing) {
+            fieldStyle = {
+                ...fieldStyle,
+                margin: container.containerStyle.lineSpacing + " 2em",
+            }
+        }
     }
+
+    //handle different field types
+    const mappedFields = fields.map((field, index) => {
+        return handleFieldTypes(field, index, fieldStyle)
+    })
 
     return (
         <div
@@ -457,6 +474,7 @@ export default function Container(props) {
                 )}
             </h4>
             <hr />
+
             {isForm ? (
                 <Form
                     mappedFields={mappedFields}

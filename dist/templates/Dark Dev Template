@@ -78,6 +78,10 @@
             {
               "title": "Network",
               "apiSrc": "/REST/encoder/status.json",
+              "containerStyle": {
+                "backgroundColor": "pink",
+                "lineSpacing": "0px"
+              },
               "fields": [
                 {
                   "type": "mappedText",
