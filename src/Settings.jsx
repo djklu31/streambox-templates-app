@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import "./styles/setting-style.css"
 import ReactTooltip from "react-tooltip"
+import { isLocalDev } from "./Utils"
 
 export default function Settings(props) {
     const [templateOptions, setTemplateOptions] = useState([])
@@ -222,6 +223,26 @@ export default function Settings(props) {
         }
     }
 
+    async function handleUploadSubmit(e) {
+        e.preventDefault()
+        let formData = new FormData()
+        let fileInput = document.getElementById("file-input")
+        formData.append("file", fileInput.files[0])
+        console.log(fileInput.files[0])
+
+        if (isLocalDev) {
+            fetch("http://localhost:5005" + "/sbuiauth/receiveFile.php", {
+                method: "post",
+                body: formData,
+            }).catch(console.error)
+        } else {
+            response = await fetch(endpoint + "/sbuiauth/receiveFile.php", {
+                method: "post",
+                body: formData,
+            }).catch(console.error)
+        }
+    }
+
     return (
         <>
             <ReactTooltip />
@@ -255,6 +276,29 @@ export default function Settings(props) {
                             </select>
                             <input type="submit" value="Apply Template" />
                         </form>
+
+                        <div className="settings-label">
+                            <label className="template-label">
+                                <h4>Upload Logo</h4>
+                                <img
+                                    className="tooltip"
+                                    src="../../images/information.png"
+                                    data-tip="
+                            Upload a logo (.svg, .png, .jpg)
+                        "
+                                />
+                            </label>
+                        </div>
+
+                        <form id="form">
+                            <input type="file" id="file-input" />
+                            <input
+                                onClick={(e) => handleUploadSubmit(e)}
+                                type="submit"
+                                id="submit-btn"
+                            />
+                        </form>
+
                         <div className="settings-label">
                             <label className="template-label">
                                 <h4>Edit Template</h4>

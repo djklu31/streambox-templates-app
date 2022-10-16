@@ -75,6 +75,10 @@
     color: white;
 }
 
+input#file-input {
+    padding: 9px;
+}
+
 /* .template-area-label-div {
     display: flex;
     justify-content: space-between;

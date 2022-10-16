@@ -15,7 +15,6 @@ export default function RootWrapper() {
     const [isLoading, setIsLoading] = useState(true)
     const [currentPageName, setCurrentPageName] = useState("")
     const endpoint = getRestEndpoint()
-
     function handleChangeTemplate(selectedTemplate) {
         setTemplateName(selectedTemplate)
     }
