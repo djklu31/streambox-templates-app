@@ -1,9 +1,10 @@
 import React from "react"
 import NavBtn from "./NavBtn"
-import { logout } from "../Utils"
+import { isLocalDev, logout, getRestEndpoint } from "../Utils"
 
 export default function Navbar(props) {
     let navBtns
+    const endpoint = getRestEndpoint()
 
     if (props.navBtns.length === 0) {
         navBtns = ""
@@ -19,9 +20,19 @@ export default function Navbar(props) {
     }
 
     async function findCorrectImage() {
-        const svgPromise = fetch("/images/logo.svg")
-        const pngPromise = fetch("/images/logo.png")
-        const jpgPromise = fetch("/images/logo.jpg")
+        let svgPromise
+        let pngPromise
+        let jpgPromise
+
+        if (isLocalDev) {
+            svgPromise = fetch("/images/logo.svg")
+            pngPromise = fetch("/images/logo.png")
+            jpgPromise = fetch("/images/logo.jpg")
+        } else {
+            svgPromise = fetch(endpoint + "/images/logo.svg")
+            pngPromise = fetch(endpoint + "/images/logo.png")
+            jpgPromise = fetch(endpoint + "/images/logo.jpg")
+        }
 
         let [svgRes, pngRes, jpgRes] = await Promise.all([
             svgPromise,
@@ -30,13 +41,20 @@ export default function Navbar(props) {
         ])
 
         const logo = document.querySelector(".logo")
+        let endpointString
+
+        if (isLocalDev) {
+            endpointString = "/images/"
+        } else {
+            endpointString = endpoint + "/images/"
+        }
 
         if (svgRes.statusText === "OK") {
-            logo.src = "/images/logo.svg"
+            logo.src = endpointString + "logo.svg"
         } else if (pngRes.statusText === "OK") {
-            logo.src = "/images/logo.png"
+            logo.src = endpointString + "logo.png"
         } else if (jpgRes.statusText === "OK") {
-            logo.src = "/images/logo.jpg"
+            logo.src = endpointString + "logo.jpg"
         }
     }
 

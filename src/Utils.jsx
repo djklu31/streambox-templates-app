@@ -17,7 +17,7 @@ export function getRestEndpoint() {
     if (isLocalDev) {
         const hostname = "184.106.155.61"
         //moving port number
-        const port = "6551"
+        const port = "8899"
         return `http://${hostname}:${port}`
     } else {
         return location.origin
