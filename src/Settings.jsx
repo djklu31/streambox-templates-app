@@ -28,6 +28,7 @@ export default function Settings(props) {
             //reset all fields on settings rerender
             document.querySelector(".create-template-input").value = ""
             document.querySelector(".edit-template-area").value = ""
+            document.getElementById("file-input").value = ""
             let selects = document.getElementsByClassName("settings-select")
             for (let select of selects) {
                 select.value = "none"
@@ -229,17 +230,32 @@ export default function Settings(props) {
         let fileInput = document.getElementById("file-input")
         formData.append("file", fileInput.files[0])
         console.log(fileInput.files[0])
-
+        let response
         if (isLocalDev) {
-            fetch("http://localhost:5005" + "/sbuiauth/receiveFile.php", {
-                method: "post",
-                body: formData,
-            }).catch(console.error)
+            response = await fetch(
+                "http://localhost:5005" + "/sbuiauth/receiveFile.php",
+                {
+                    method: "post",
+                    body: formData,
+                }
+            ).catch(console.error)
         } else {
             response = await fetch(endpoint + "/sbuiauth/receiveFile.php", {
                 method: "post",
                 body: formData,
             }).catch(console.error)
+        }
+
+        let json = await response.text()
+        let [responseText, extension] = JSON.parse(json)
+
+        if (responseText === "success") {
+            alert("File uploaded successfully")
+            document.getElementsByClassName(
+                "logo"
+            )[0].src = `${endpoint}/sbuiauth/logo/logo${extension}`
+        } else if (responseText === "failure") {
+            alert("Invalid file format. Please use .svg, .png or .jpg files.")
         }
     }
 

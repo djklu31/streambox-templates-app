@@ -14,10 +14,11 @@ export function debounce(callback, delay = 60000) {
 }
 
 export function getRestEndpoint() {
+    ;``
     if (isLocalDev) {
         const hostname = "184.106.155.61"
         //moving port number
-        const port = "8899"
+        const port = "6531"
         return `http://${hostname}:${port}`
     } else {
         return location.origin

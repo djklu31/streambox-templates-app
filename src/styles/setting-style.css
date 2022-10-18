@@ -77,6 +77,12 @@
 
 input#file-input {
     padding: 9px;
+    padding-right: 70%;
+}
+
+#form {
+    display: flex;
+    justify-content: space-around;
 }
 
 /* .template-area-label-div {

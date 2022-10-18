@@ -26,12 +26,12 @@ export default function Navbar(props) {
 
         if (isLocalDev) {
             svgPromise = fetch("/images/logo.svg")
-            pngPromise = fetch("/images/logo.png")
-            jpgPromise = fetch("/images/logo.jpg")
+            pngPromise = fetch("/images/logo/logo.png")
+            jpgPromise = fetch("/images/logo/logo.jpg")
         } else {
-            svgPromise = fetch(endpoint + "/images/logo.svg")
-            pngPromise = fetch(endpoint + "/images/logo.png")
-            jpgPromise = fetch(endpoint + "/images/logo.jpg")
+            svgPromise = fetch(endpoint + "/sbuiauth/logo/logo.svg")
+            pngPromise = fetch(endpoint + "/sbuiauth/logo/logo.png")
+            jpgPromise = fetch(endpoint + "/sbuiauth/logo/logo.jpg")
         }
 
         let [svgRes, pngRes, jpgRes] = await Promise.all([
@@ -46,7 +46,7 @@ export default function Navbar(props) {
         if (isLocalDev) {
             endpointString = "/images/"
         } else {
-            endpointString = endpoint + "/images/"
+            endpointString = endpoint + "/sbuiauth/logo/"
         }
 
         if (svgRes.statusText === "OK") {
