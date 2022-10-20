@@ -18,7 +18,7 @@ export function getRestEndpoint() {
     if (isLocalDev) {
         const hostname = "184.106.155.61"
         //moving port number
-        const port = "6484"
+        const port = "6055"
         return `http://${hostname}:${port}`
     } else {
         return location.origin
@@ -37,14 +37,14 @@ export async function logout() {
     } else {
         //check local storage
         if (localStorage.getItem("user") && localStorage.getItem("token")) {
-            user = localStorage.getItem("user")
+            user = localStorage.getItem("user").toLowerCase()
             token = localStorage.getItem("token")
         }
     }
     const endpoint = location.origin
 
     let formData = new FormData()
-    formData.append("username", user)
+    formData.append("username", user.toLowerCase())
     formData.append("token", token)
     formData.append("fromreact", 1)
     formData.append("islogout", 1)
@@ -90,8 +90,11 @@ export async function authenticate() {
         token = urlParams.get("token")
     } else {
         //check local storage
-        if (localStorage.getItem("user") && localStorage.getItem("token")) {
-            user = localStorage.getItem("user")
+        if (
+            localStorage.getItem("user").toLowerCase() &&
+            localStorage.getItem("token")
+        ) {
+            user = localStorage.getItem("user").toLowerCase()
             token = localStorage.getItem("token")
         } else {
             return false
@@ -101,7 +104,7 @@ export async function authenticate() {
     const endpoint = location.origin
 
     let formData = new FormData()
-    formData.append("username", user)
+    formData.append("username", user.toLowerCase())
     formData.append("token", token)
     formData.append("fromreact", 1)
 
@@ -123,7 +126,7 @@ export async function authenticate() {
 
     if (loginStatus === "login success") {
         //set local storage
-        localStorage.setItem("user", user)
+        localStorage.setItem("user", user.toLowerCase())
         localStorage.setItem("token", token)
         return true
     } else if (loginStatus === "login failure") {
