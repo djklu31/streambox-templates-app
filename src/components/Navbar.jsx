@@ -56,7 +56,12 @@ export default function Navbar(props) {
         } else if (jpgRes.statusText === "OK") {
             logo.src = endpointString + "logo.jpg"
         }
+
+        console.log(`End ignore this`)
     }
+
+    console.log(`Ignore following fetch errors regarding logos.
+      This is a result of UI reaching out to find a "heartbeat" to support mutiple extensions:`)
 
     findCorrectImage()
 
