@@ -3,6 +3,12 @@ import "./styles/setting-style.css"
 import ReactTooltip from "react-tooltip"
 import { isLocalDev } from "./Utils"
 
+import Editor from "react-simple-code-editor"
+import { highlight, languages } from "prismjs/components/prism-core"
+import "prismjs/components/prism-clike"
+import "prismjs/components/prism-javascript"
+import "prismjs/themes/prism.css"
+
 export default function Settings(props) {
     const [templateOptions, setTemplateOptions] = useState([])
     const [currentTemplateName, setCurrentTemplateName] = useState(
@@ -15,6 +21,7 @@ export default function Settings(props) {
     const [deleteDisabled, setDeleteDisabled] = useState(true)
     const [createDisabled, setCreateDisabled] = useState(true)
     const [isRerender, setIsRerender] = useState(false)
+    const [codeValue, setCodeValue] = useState("")
     const endpoint = props.endpoint
 
     //check if any url params present for userid
@@ -27,7 +34,7 @@ export default function Settings(props) {
         document.querySelector(".settings-btn").classList.add("selected-route")
         if (isRerender) {
             //reset all fields on settings rerender
-            document.querySelector(".edit-template-area").value = ""
+            document.querySelector("#codeArea").textContent = ""
             document.getElementById("template-area").style.display = "none"
             document.getElementById("file-input").value = ""
             let selects = document.getElementsByClassName("settings-select")
@@ -72,6 +79,15 @@ export default function Settings(props) {
         }
         fetchData()
     }, [currentTemplateName, isRerender])
+
+    const hightlightWithLineNumbers = (input, language) =>
+        highlight(input, language)
+            .split("\n")
+            .map(
+                (line, i) =>
+                    `<span class='editorLineNumber'>${i + 1}</span>${line}`
+            )
+            .join("\n")
 
     function applyTemplate(e) {
         e.preventDefault()
@@ -144,16 +160,21 @@ export default function Settings(props) {
             try {
                 json = await response.json()
             } catch (e) {
-                document.querySelector(".edit-template-area").value =
-                    "This JSON file is not formatted correctly"
+                // document.querySelector(".edit-template-area").value =
+                //     "This JSON file is not formatted correctly"
+
+                setCodeValue("This JSON file is not formatted correctly")
                 return
             }
             const prettyJson = JSON.stringify(json, undefined, 2)
             document.getElementById("template-area").style.display = "flex"
-            document.querySelector(".edit-template-area").value = prettyJson
+            // document.querySelector(".edit-template-area").value = prettyJson
+
+            setCodeValue(prettyJson)
+
             document.querySelector(
                 ".template-area-status"
-            ).textContent = `Editing template: ${selectedTemplate}`
+            ).innerHTML = `Editing Template: <span style="color: #2195ce;">${selectedTemplate}</span>`
 
             if (isDefaultTemplate(selectedTemplate)) {
                 setSaveDisabled(true)
@@ -179,7 +200,7 @@ export default function Settings(props) {
             formData.append("filename", currentEditTemplateName)
             formData.append(
                 "filedata",
-                document.querySelector(".edit-template-area").value
+                document.querySelector("#codeArea").textContent
             )
 
             let response = await fetch(`${endpoint}/REST/templates/newfile`, {
@@ -193,6 +214,10 @@ export default function Settings(props) {
                 alert("Saved edited template: " + currentEditTemplateName)
             } else {
                 alert("Error saving template")
+            }
+
+            if (currentTemplateName === currentEditTemplateName) {
+                props.handleChangeTemplate(currentTemplateName)
             }
 
             setIsRerender(true)
@@ -210,7 +235,7 @@ export default function Settings(props) {
             formData.append("filename", templateName)
             formData.append(
                 "filedata",
-                document.querySelector(".edit-template-area").value
+                document.querySelector("#codeArea").textContent
             )
             let response = await fetch(`${endpoint}/REST/templates/newfile`, {
                 method: "POST",
@@ -430,7 +455,7 @@ export default function Settings(props) {
                         </button>
                     </div>
                 </div>
-                <div id="template-area" style={{ display: "none" }}>
+                {/* <div id="template-area" style={{ display: "none" }}>
                     <div className="template-area-div">
                         <div className="template-area-label-div">
                             <label className="template-area-status-label">
@@ -441,6 +466,33 @@ export default function Settings(props) {
                             className="edit-template-area"
                             placeholder="JSON template will populate here upon selection..."
                         ></textarea>
+                    </div>
+                </div> */}
+                <div id="template-area" style={{ display: "none" }}>
+                    <div className="template-area-div">
+                        <div className="template-area-label-div">
+                            <label className="template-area-status-label">
+                                <h3 className="template-area-status"></h3>
+                            </label>
+                        </div>
+                        <Editor
+                            value={codeValue}
+                            onValueChange={(code) => setCodeValue(code)}
+                            highlight={(code) =>
+                                hightlightWithLineNumbers(code, languages.js)
+                            }
+                            padding={10}
+                            textareaId="codeArea"
+                            className="editor"
+                            style={{
+                                fontFamily:
+                                    '"Fira code", "Fira Mono", monospace',
+                                fontSize: 18,
+                                outline: 0,
+                                backgroundColor: "white",
+                                color: "black",
+                            }}
+                        />
                     </div>
                 </div>
             </div>

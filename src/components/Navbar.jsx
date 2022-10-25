@@ -33,7 +33,6 @@ export default function Navbar(props) {
             pngPromise = fetch(endpoint + "/sbuiauth/logo/logo.png")
             jpgPromise = fetch(endpoint + "/sbuiauth/logo/logo.jpg")
         }
-
         let [svgRes, pngRes, jpgRes] = await Promise.all([
             svgPromise,
             pngPromise,

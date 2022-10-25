@@ -111,3 +111,31 @@ input#file-input {
     display: flex;
     justify-content: space-between;
 } */
+
+.editor {
+    counter-reset: line;
+    border: 1px solid #ced4da;
+}
+
+.editor #codeArea {
+    outline: none;
+    padding-left: 60px !important;
+}
+
+.editor #codeArea:hover {
+    cursor: auto;
+}
+
+.editor pre {
+    padding-left: 60px !important;
+}
+
+.editor .editorLineNumber {
+    position: absolute;
+    left: 0px;
+    color: #cccccc;
+    text-align: right;
+    width: 40px;
+    font-weight: 100;
+    color: black;
+}
