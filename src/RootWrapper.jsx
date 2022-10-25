@@ -25,6 +25,10 @@ export default function RootWrapper() {
 
     function openSettings() {
         setIsSettings(true)
+        if (currentPageName === "Settings") {
+            document.getElementById("create-container").style.display = "flex"
+            document.getElementById("edit-container").style.display = "none"
+        }
         setCurrentPageName("Settings")
     }
 

@@ -9,8 +9,8 @@
 
 .settings-inner-container {
     display: flex;
-    justify-content: space-evenly;
-    padding-bottom: 75px;
+    justify-content: center;
+    /* padding-bottom: 75px; */
     margin-left: auto;
     margin-right: auto;
     width: 1500px;
@@ -19,8 +19,12 @@
 }
 
 .settings-outer-container {
+    margin-top: 50px;
     display: grid;
     height: 85vh;
+}
+
+.dark-mode {
     background-color: #222;
 }
 
@@ -46,6 +50,10 @@
     align-items: center;
 }
 
+#edit-container .settings-inner-container {
+    min-height: 800px;
+}
+
 .settings-form {
     display: flex;
     flex-direction: column;
@@ -58,9 +66,18 @@
 }
 
 .edit-template-area {
-    height: 600px;
-    width: 600px;
-    margin-top: 1.5em;
+    height: 1200px;
+    width: 1200px;
+    /* margin-top: 1.5em; */
+}
+
+#edit-container {
+    flex-direction: column;
+}
+
+#template-area {
+    display: flex;
+    justify-content: center;
 }
 
 .current-template-readout {
@@ -78,11 +95,16 @@
 input#file-input {
     padding: 9px;
     padding-right: 70%;
+    background-color: #333;
 }
 
 #form {
     display: flex;
     justify-content: space-around;
+}
+
+#edit-btn {
+    padding: 10px 20px;
 }
 
 /* .template-area-label-div {

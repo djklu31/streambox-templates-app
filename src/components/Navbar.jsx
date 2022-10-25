@@ -69,11 +69,15 @@ export default function Navbar(props) {
         logout()
     }
 
+    function reloadPage() {
+        location.reload()
+    }
+
     return (
         <div className="navbar">
             <header>
                 <nav>
-                    <img className="logo" />
+                    <img onClick={reloadPage} className="logo" />
 
                     <div className="routes-btns">{navBtns}</div>
 

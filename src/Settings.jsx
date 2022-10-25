@@ -13,6 +13,7 @@ export default function Settings(props) {
     const [currentEditTemplateName, setCurrentEditTemplateName] = useState("")
     const [saveDisabled, setSaveDisabled] = useState(true)
     const [deleteDisabled, setDeleteDisabled] = useState(true)
+    const [createDisabled, setCreateDisabled] = useState(true)
     const [isRerender, setIsRerender] = useState(false)
     const endpoint = props.endpoint
 
@@ -26,13 +27,14 @@ export default function Settings(props) {
         document.querySelector(".settings-btn").classList.add("selected-route")
         if (isRerender) {
             //reset all fields on settings rerender
-            document.querySelector(".create-template-input").value = ""
             document.querySelector(".edit-template-area").value = ""
+            document.getElementById("template-area").style.display = "none"
             document.getElementById("file-input").value = ""
             let selects = document.getElementsByClassName("settings-select")
             for (let select of selects) {
                 select.value = "none"
             }
+            setCreateDisabled(true)
             setSaveDisabled(true)
             setDeleteDisabled(true)
             setIsRerender(false)
@@ -83,6 +85,16 @@ export default function Settings(props) {
         }
     }
 
+    function openEditPage() {
+        document.getElementById("create-container").style.display = "none"
+        document.getElementById("edit-container").style.display = "flex"
+    }
+
+    function openApplyPage() {
+        document.getElementById("create-container").style.display = "flex"
+        document.getElementById("edit-container").style.display = "none"
+    }
+
     async function deleteTemplate() {
         if (
             confirm(
@@ -124,6 +136,7 @@ export default function Settings(props) {
         e.preventDefault()
         const selectedTemplate = e.target[0].value
         if (selectedTemplate !== "none") {
+            setCreateDisabled(false)
             let response = await fetch(
                 `${endpoint}/REST/templates/${selectedTemplate}`
             )
@@ -136,13 +149,19 @@ export default function Settings(props) {
                 return
             }
             const prettyJson = JSON.stringify(json, undefined, 2)
+            document.getElementById("template-area").style.display = "flex"
             document.querySelector(".edit-template-area").value = prettyJson
             document.querySelector(
                 ".template-area-status"
             ).textContent = `Editing template: ${selectedTemplate}`
-            isDefaultTemplate(selectedTemplate)
-                ? setSaveDisabled(true)
-                : setSaveDisabled(false)
+
+            if (isDefaultTemplate(selectedTemplate)) {
+                setSaveDisabled(true)
+                setDeleteDisabled(true)
+            } else {
+                setSaveDisabled(false)
+                setDeleteDisabled(false)
+            }
 
             setCurrentEditTemplateName(selectedTemplate)
         }
@@ -182,30 +201,33 @@ export default function Settings(props) {
 
     async function createTemplate(e) {
         e.preventDefault()
-        const templateName = document.querySelector(
-            ".create-template-input"
-        ).value
-        let formData = new FormData()
-        formData.append("filename", templateName)
-        formData.append(
-            "filedata",
-            document.querySelector(".edit-template-area").value
-        )
-        let response = await fetch(`${endpoint}/REST/templates/newfile`, {
-            method: "POST",
-            body: formData,
-        })
 
-        let text = await response.text()
-        let parsedText = JSON.parse(text)
-
-        if (parsedText.errmsg === "written") {
-            alert("Created new template: " + templateName)
+        let templateName = prompt("Please enter a template new template name:")
+        if (templateName == null || templateName == "") {
+            alert("Template name is blank.")
         } else {
-            alert("Error creating template")
-        }
+            let formData = new FormData()
+            formData.append("filename", templateName)
+            formData.append(
+                "filedata",
+                document.querySelector(".edit-template-area").value
+            )
+            let response = await fetch(`${endpoint}/REST/templates/newfile`, {
+                method: "POST",
+                body: formData,
+            })
 
-        setIsRerender(true)
+            let text = await response.text()
+            let parsedText = JSON.parse(text)
+
+            if (parsedText.errmsg === "written") {
+                alert("Created new template: " + templateName)
+            } else {
+                alert("Error creating template")
+            }
+
+            setIsRerender(true)
+        }
     }
 
     function handleSaveTemplateBtn(e) {
@@ -213,12 +235,9 @@ export default function Settings(props) {
         if (value === "none") {
             setSaveDisabled(true)
             setDeleteDisabled(true)
+            setCreateDisabled(true)
             setCurrentEditTemplateName("none")
-        } else if (isDefaultTemplate(value)) {
-            setSaveDisabled(true)
-            setDeleteDisabled(true)
-        } else {
-            setSaveDisabled(false)
+        } else if (!isDefaultTemplate(value)) {
             setCurrentEditTemplateName(value)
             setDeleteDisabled(false)
         }
@@ -262,7 +281,7 @@ export default function Settings(props) {
     return (
         <>
             <ReactTooltip />
-            <div className="settings-outer-container">
+            <div id="create-container" className="settings-outer-container">
                 <div className="settings-inner-container">
                     <div className="settings-container">
                         <div className="current-template-readout template-form-padding">
@@ -317,12 +336,38 @@ export default function Settings(props) {
 
                         <div className="settings-label">
                             <label className="template-label">
+                                <h4>Edit Templates</h4>
+                                <img
+                                    className="tooltip"
+                                    src="../../images/information.png"
+                                    data-tip="
+                            Edit JSON templates for the app to render
+                        "
+                                />
+                            </label>
+                        </div>
+                        <button id="edit-btn" onClick={openEditPage}>
+                            Edit Template&nbsp;&nbsp;→
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="edit-container"
+                className="settings-outer-container"
+                style={{ display: "none" }}
+            >
+                <div className="settings-inner-container">
+                    <div className="settings-container">
+                        <div className="settings-label">
+                            <label className="template-label">
                                 <h4>Edit Template</h4>
                                 <img
                                     className="tooltip"
                                     src="../../images/information.png"
                                     data-tip="
-                            Edit, overwrite, or delete a template. When a file is chosen from the dropdown, the file can be edited in the 'Template area'.
+                            Edit, overwrite, delete or create a template. When a file is chosen from the dropdown, the file will populate in the text area below.  
+                            To create a template, click on 'Create Template'.  The template will be created using the JSON code in the text area.
                         "
                                 />
                             </label>
@@ -344,13 +389,20 @@ export default function Settings(props) {
                             Save Template
                         </button>
                         <button
-                            className="save-template-btn template-form-padding"
+                            className="save-template-btn"
                             onClick={deleteTemplate}
                             disabled={deleteDisabled}
                         >
                             Delete Template
                         </button>
-                        <div className="settings-label">
+                        <button
+                            className="save-template-btn template-form-padding"
+                            onClick={createTemplate}
+                            disabled={createDisabled}
+                        >
+                            Create Template
+                        </button>
+                        {/* <div className="settings-label">
                             <label className="template-label">
                                 <h4>Create Template</h4>
                                 <img
@@ -361,8 +413,8 @@ export default function Settings(props) {
                         "
                                 />
                             </label>
-                        </div>
-                        <form
+                        </div> */}
+                        {/* <form
                             className="settings-form"
                             onSubmit={createTemplate}
                         >
@@ -372,13 +424,15 @@ export default function Settings(props) {
                                 placeholder="Template Name..."
                             />
                             <input type="submit" value="Create Template" />
-                        </form>
+                        </form> */}
+                        <button id="edit-btn" onClick={openApplyPage}>
+                            ←&nbsp;&nbsp;Go Back
+                        </button>
                     </div>
+                </div>
+                <div id="template-area" style={{ display: "none" }}>
                     <div className="template-area-div">
                         <div className="template-area-label-div">
-                            <label className="template-area-label">
-                                <h3>Template area (create/edit)</h3>
-                            </label>
                             <label className="template-area-status-label">
                                 <h5 className="template-area-status"></h5>
                             </label>
