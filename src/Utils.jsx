@@ -14,7 +14,6 @@ export function debounce(callback, delay = 60000) {
 }
 
 export function getRestEndpoint() {
-    ;``
     if (isLocalDev) {
         const hostname = "184.106.155.61"
         //moving port number
