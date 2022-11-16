@@ -3,6 +3,7 @@ import App from "./App"
 import Navbar from "./components/Navbar"
 import Settings from "./Settings"
 import { isLocalDev, getRestEndpoint } from "./Utils"
+import testTemplate from "../public/templates/Dark Dev Template.json"
 
 export default function RootWrapper() {
     //set up initial state with template
@@ -14,7 +15,9 @@ export default function RootWrapper() {
     const [isSettings, setIsSettings] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [currentPageName, setCurrentPageName] = useState("")
+    const [sessionDashXML, setSessionDashXML] = useState("")
     const endpoint = getRestEndpoint()
+
     function handleChangeTemplate(selectedTemplate) {
         getTemplate()
         // setTemplateName(selectedTemplate)
@@ -35,32 +38,41 @@ export default function RootWrapper() {
 
     async function getTemplate() {
         if (localStorage.getItem("templateName")) {
-            try {
-                let response = await fetch(
-                    `${endpoint}/REST/templates/${localStorage.getItem(
-                        "templateName"
-                    )}`
-                )
-                let json = await response.json()
+            if (isLocalDev) {
+                let json = testTemplate
+                setCurrentTemplate(JSON.stringify(testTemplate))
+                setCurrentPageName(json.template.navbar.routes[0].routeName)
+                setIsLoading(false)
+            } else {
+                try {
+                    let response = await fetch(
+                        `${endpoint}/REST/templates/${localStorage.getItem(
+                            "templateName"
+                        )}`
+                    )
+                    let json = await response.json()
 
-                setCurrentTemplate(JSON.stringify(json))
-                setNavBtns(json.template.navbar.routes)
+                    setCurrentTemplate(JSON.stringify(json))
+                    setNavBtns(json.template.navbar.routes)
 
-                if (isSettings) {
-                    setCurrentPageName("Settings")
-                } else {
-                    setCurrentPageName(json.template.navbar.routes[0].routeName)
+                    if (isSettings) {
+                        setCurrentPageName("Settings")
+                    } else {
+                        setCurrentPageName(
+                            json.template.navbar.routes[0].routeName
+                        )
+                    }
+                } catch (err) {
+                    alert(
+                        "There was a problem with the JSON file. Please choose another."
+                    )
+                    setCurrentTemplate([])
+                    setNavBtns([])
+                    openSettings(true)
+                    setIsLoading(false)
                 }
-            } catch (err) {
-                alert(
-                    "There was a problem with the JSON file. Please choose another."
-                )
-                setCurrentTemplate([])
-                setNavBtns([])
-                openSettings(true)
                 setIsLoading(false)
             }
-            setIsLoading(false)
         } else {
             //set json template to fallback if none are chosen
             let fallbackTemplateName = isLocalDev
@@ -97,6 +109,27 @@ export default function RootWrapper() {
         }
     }, [currentPageName])
 
+    useEffect(() => {
+        //hook up to SB Live
+        async function getSBLive() {
+            let response = await fetch(
+                "https://tl1.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=ZQCGLH",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded",
+                    },
+                }
+            )
+            const xmlResponse = await response.text()
+            let parser = new DOMParser()
+            let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
+            setSessionDashXML(xmlDoc)
+        }
+
+        getSBLive()
+    }, [])
+
     return (
         <>
             {isLoading ? (
@@ -130,6 +163,7 @@ export default function RootWrapper() {
                             openSettings={openSettings}
                             currentPageName={currentPageName}
                             currentTemplate={JSON.parse(currentTemplate)}
+                            sessionDashXML={sessionDashXML}
                         />
                     )}
                 </>

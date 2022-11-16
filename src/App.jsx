@@ -121,6 +121,7 @@ export default function App(props) {
                                 triggerBackgroundFetch={triggerBackgroundFetch}
                                 apiObj={combinedApiArray[index]}
                                 container={container}
+                                sessionDashXML={props.sessionDashXML}
                             />
                         )
                     } else {

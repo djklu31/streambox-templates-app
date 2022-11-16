@@ -1,5 +1,5 @@
 //set environment: true - local development, false - production
-export let isLocalDev = false
+export let isLocalDev = true
 
 export function debounce(callback, delay = 60000) {
     let timeout
@@ -15,9 +15,9 @@ export function debounce(callback, delay = 60000) {
 
 export function getRestEndpoint() {
     if (isLocalDev) {
-        const hostname = "184.106.155.61"
+        const hostname = "10.0.3.219"
         //moving port number
-        const port = "6194"
+        const port = "80"
         return `http://${hostname}:${port}`
     } else {
         return location.origin

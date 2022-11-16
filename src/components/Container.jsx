@@ -6,6 +6,7 @@ import Checkbox from "./Checkbox"
 import Select from "./Select"
 import Form from "./Form"
 import AudioMeter from "./AudioMeters"
+import SessionsPanel from "./SessionsPanel"
 
 const endpoint = location.origin
 
@@ -15,8 +16,10 @@ export default function Container(props) {
     const apiObj = props.apiObj
     const title = container.title
     const fields = container.fields
+    const containerType = container.type
     let style = {}
     let fieldStyle = {}
+    let isModule = false
     const isForm = container.type === "form" ? true : false
     const isMultiChannelSelection =
         container.type === "multichannel-container" ? true : false
@@ -451,12 +454,28 @@ export default function Container(props) {
         }
     }
 
+    let mappedFields = ""
     //handle different field types
-    const mappedFields = fields.map((field, index) => {
-        return handleFieldTypes(field, index, fieldStyle)
-    })
+    if (fields) {
+        mappedFields = fields.map((field, index) => {
+            return handleFieldTypes(field, index, fieldStyle)
+        })
+    } else {
+        //handle different modules
+        isModule = true
 
-    return (
+        if (containerType === "sessionsPanel") {
+            mappedFields = (
+                <SessionsPanel sessionDashXML={props.sessionDashXML} />
+            )
+        }
+    }
+
+    return isModule ? (
+        <div className="container" style={style}>
+            {mappedFields}
+        </div>
+    ) : (
         <div
             className={
                 isMultiChannelSelection

@@ -33,7 +33,8 @@ body {
 .containers {
     display: grid;
     gap: 1.8em;
-    margin: 5em 2em;
+    margin: 1em 0.5em;
+    padding-bottom: 35px;
 }
 
 .container-title {
@@ -199,6 +200,97 @@ footer {
 .video-audio-meter-container {
     display: flex;
     justify-content: center;
+}
+
+.sessions-panel-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.sessions-panel-top-btns {
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.email-page-title {
+    padding: 15px;
+}
+
+.email-page-title-input {
+    margin-left: 10px;
+    width: 90%;
+    height: 35px;
+    border-radius: 5px;
+}
+
+.email-page-body-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.email-page-body-select {
+    height: 30px;
+    width: 450px;
+}
+
+.disconnect-btn,
+.send-invite-btn {
+    margin-top: 15px;
+    height: 35px;
+    border-radius: 5px;
+}
+
+.quality-text-good,
+.quality-text-bad,
+.quality-text-fair {
+    border-radius: 5px;
+    padding: 1px 10px;
+    margin-left: 20px;
+}
+.quality-text-good {
+    background-color: green;
+}
+
+.quality-text-bad {
+    background-color: red;
+}
+
+.quality-text-fair {
+    background-color: yellow;
+}
+
+.sessions-panel-container {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.device-record {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.device-record-text-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.device-record-text-bottom {
+    display: grid;
+    grid-template-columns: 0.65fr 1fr;
+}
+
+.host-name-input {
+    border-radius: 5px;
+}
+
+.email-page-body-wrapper {
+}
+
+.device-record-text-wrapper {
+    padding: 10px;
 }
 
 .error-text-margin {
