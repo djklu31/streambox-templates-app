@@ -1,5 +1,5 @@
 import React from "react"
-import NavBtn from "./NavBtn"
+import NavBtn from "./Navbtn"
 import { isLocalDev, logout, getRestEndpoint } from "../Utils"
 
 export default function Navbar(props) {
