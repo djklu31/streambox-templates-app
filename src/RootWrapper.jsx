@@ -15,7 +15,6 @@ export default function RootWrapper() {
     const [isSettings, setIsSettings] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [currentPageName, setCurrentPageName] = useState("")
-    const [sessionDashXML, setSessionDashXML] = useState("")
     const endpoint = getRestEndpoint()
 
     function handleChangeTemplate(selectedTemplate) {
@@ -109,27 +108,6 @@ export default function RootWrapper() {
         }
     }, [currentPageName])
 
-    useEffect(() => {
-        //hook up to SB Live
-        async function getSBLive() {
-            let response = await fetch(
-                "https://tl1.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=ZQCGLH",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-type": "application/x-www-form-urlencoded",
-                    },
-                }
-            )
-            const xmlResponse = await response.text()
-            let parser = new DOMParser()
-            let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
-            setSessionDashXML(xmlDoc)
-        }
-
-        getSBLive()
-    }, [])
-
     return (
         <>
             {isLoading ? (
@@ -163,7 +141,6 @@ export default function RootWrapper() {
                             openSettings={openSettings}
                             currentPageName={currentPageName}
                             currentTemplate={JSON.parse(currentTemplate)}
-                            sessionDashXML={sessionDashXML}
                         />
                     )}
                 </>

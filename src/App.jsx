@@ -11,6 +11,7 @@ export default function App(props) {
     const [currentContainers, setCurrentContainers] = useState([])
     const containerStyles = useRef([navBtns[0].containersStyle])
     const [backgroundFetchCount, setBackgroundFetchCount] = useState(0)
+    const [sessionDashXML, setSessionDashXML] = useState("")
 
     const combinedApiArray = []
     let presetObj
@@ -121,7 +122,10 @@ export default function App(props) {
                                 triggerBackgroundFetch={triggerBackgroundFetch}
                                 apiObj={combinedApiArray[index]}
                                 container={container}
-                                sessionDashXML={props.sessionDashXML}
+                                sessionDashXML={sessionDashXML}
+                                handleCreateNewSessionBtn={
+                                    handleCreateNewSessionBtn
+                                }
                             />
                         )
                     } else {
@@ -147,6 +151,63 @@ export default function App(props) {
             clearTimer()
         }
     }, [currentPageName, backgroundFetchCount])
+
+    //get session info from sb live
+    useEffect(() => {
+        if (localStorage.getItem("sessionDRM")) {
+            //hook up to SB Live
+            async function getSessionDashboard() {
+                let sessionDRM = localStorage.getItem("sessionDRM")
+                sessionDRM = sessionDRM.substring(1, sessionDRM.length)
+                let response = await fetch(
+                    `https://tl1.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-type": "application/x-www-form-urlencoded",
+                        },
+                    }
+                )
+                const xmlResponse = await response.text()
+                setSessionDashXML(xmlResponse)
+            }
+            getSessionDashboard()
+        } else {
+            setSessionDashXML("none")
+        }
+    }, [backgroundFetchCount])
+
+    async function handleCreateNewSessionBtn() {
+        await createNewSession()
+        setBackgroundFetchCount(true)
+    }
+
+    //create new session
+    async function createNewSession() {
+        //TODO: replace with userId used to log into SB cloud
+        let userId = 308337
+        let response = await fetch(
+            `https://tl1.streambox.com/ls/CreateNewSessionXML.php?USER_ID=${userId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded",
+                },
+            }
+        )
+        const xmlResponse = await response.text()
+
+        let parser = new DOMParser()
+        let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
+        let parsedXML = xmlDoc.getElementsByTagName("body")[0]
+        let enc_key = parsedXML.getAttribute("enc_key")
+        let dec_key = parsedXML.getAttribute("dec_key")
+
+        localStorage.setItem("sessionDRM", enc_key)
+        localStorage.setItem("sessionID", dec_key)
+
+        return enc_key
+    }
 
     let timer
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 
 export default function SingleMeter({ volLevel, vuIndex }) {
-    console.log(`VU Input found on channel ${vuIndex}: ${volLevel}`)
+    // console.log(`VU Input found on channel ${vuIndex}: ${volLevel}`)
     function vumeter(elem, config) {
         // Settings
         var max = config.max || 100

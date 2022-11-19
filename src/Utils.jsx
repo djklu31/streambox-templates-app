@@ -90,6 +90,7 @@ export async function authenticate() {
     } else {
         //check local storage
         if (
+            localStorage.getItem("user") &&
             localStorage.getItem("user").toLowerCase() &&
             localStorage.getItem("token")
         ) {

@@ -466,7 +466,10 @@ export default function Container(props) {
 
         if (containerType === "sessionsPanel") {
             mappedFields = (
-                <SessionsPanel sessionDashXML={props.sessionDashXML} />
+                <SessionsPanel
+                    sessionDashXML={props.sessionDashXML}
+                    handleCreateNewSessionBtn={props.handleCreateNewSessionBtn}
+                />
             )
         }
     }

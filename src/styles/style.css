@@ -267,6 +267,11 @@ footer {
     overflow: auto;
 }
 
+#no-session-msg {
+    text-align: center;
+    padding: 10px;
+}
+
 .device-record {
     display: grid;
     grid-template-columns: 5fr 1fr;
@@ -291,6 +296,35 @@ footer {
 
 .device-record-text-wrapper {
     padding: 10px;
+}
+
+.quality-badge {
+    border: 0px solid black;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+.pending-quality {
+    background-color: slategrey;
+    color: white;
+}
+
+.fair-quality {
+    background-color: #da8e00;
+    color: white;
+}
+
+.good-quality {
+    background-color: green;
+    color: white;
+}
+
+.bad-quality {
+    background-color: red;
+    color: white;
 }
 
 .error-text-margin {
