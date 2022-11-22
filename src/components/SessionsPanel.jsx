@@ -1,10 +1,17 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Select from "react-select"
 import DecoderInfo from "./DecoderInfo"
+import { isLocalDev } from "../Utils"
 
 export default function SessionsPanel(props) {
     let [showEmailPage, setShowEmailPage] = useState(false)
+    let [selectedOptions, setSelectedOptions] = useState([])
+    let [emailOptions, setEmailOptions] = useState(
+        JSON.parse(localStorage.getItem("storedEmails"))
+    )
     let sessionDashXML = props.sessionDashXML
+    const endpoint = location.origin
+
     async function handleCreateNewSessionBtnWrapper() {
         let sessionIDElems = document.getElementsByClassName("session-id-top")
         for (let elem of sessionIDElems) {
@@ -12,6 +19,131 @@ export default function SessionsPanel(props) {
         }
 
         await props.handleCreateNewSessionBtn()
+    }
+
+    function sendInvites() {
+        const hostName = document.querySelector(".host-name-input").value
+        const emailTitle = document.querySelector(
+            ".email-page-title-input"
+        ).value
+        let sessionID = document.querySelector(".session-id-top").textContent
+        sessionID = sessionID.substring(1, sessionID.length)
+
+        let emailAddresses = selectedOptions.map((email) => email.value)
+
+        if (hostName && emailTitle && emailAddresses.length > 0) {
+            sendEmailsViaPHP(emailAddresses, hostName, emailTitle, sessionID)
+        } else {
+            alert(
+                "Please enter a host name, session title and at least one email address."
+            )
+        }
+    }
+
+    function validateEmail(email) {
+        var re = /\S+@\S+\.\S+/
+        return re.test(email)
+    }
+
+    useEffect(() => {
+        if (document.querySelector(".email-page-body-select")) {
+            document
+                .querySelector(".email-page-body-select")
+                .addEventListener("keypress", function (event) {
+                    if (event.key === "Enter") {
+                        let email =
+                            document.querySelector(".select__input").value
+
+                        if (validateEmail(email)) {
+                            let emailObj = {
+                                value: email,
+                                label: email,
+                            }
+
+                            let storedEmails = JSON.parse(
+                                localStorage.getItem("storedEmails")
+                            )
+
+                            let emailExists = false
+
+                            if (storedEmails) {
+                                for (let thisEmail of storedEmails) {
+                                    if (email === thisEmail.value) {
+                                        emailExists = true
+                                    }
+                                }
+
+                                if (storedEmails.length >= 10) {
+                                    storedEmails.shift()
+                                }
+                            }
+
+                            console.log(storedEmails)
+                            console.log(emailOptions)
+
+                            if (!emailExists) {
+                                if (storedEmails) {
+                                    localStorage.setItem(
+                                        "storedEmails",
+                                        JSON.stringify([
+                                            ...storedEmails,
+                                            emailObj,
+                                        ])
+                                    )
+                                } else {
+                                    localStorage.setItem(
+                                        "storedEmails",
+                                        JSON.stringify([emailObj])
+                                    )
+                                }
+
+                                setEmailOptions(
+                                    JSON.parse(
+                                        localStorage.getItem("storedEmails")
+                                    )
+                                )
+                            }
+                        } else {
+                            alert(
+                                "The email entered is invalid. Please enter valid email."
+                            )
+                        }
+                    }
+                })
+        }
+    }, [showEmailPage])
+
+    async function sendEmailsViaPHP(
+        emailAddresses,
+        hostName,
+        emailTitle,
+        sessionID
+    ) {
+        if (isLocalDev) {
+            await fetch(
+                `http://localhost:5005/sbuiauth/sendEmail.php?emailAddresses=${emailAddresses.join(
+                    ","
+                )}&hostName=${encodeURIComponent(
+                    hostName
+                )}&emailTitle=${encodeURIComponent(
+                    emailTitle
+                )}&sessionID=${sessionID}`
+            )
+        } else {
+            await fetch(
+                `${endpoint}/sbuiauth/sendEmail.php?emailAddresses=${emailAddresses.join(
+                    ","
+                )}&hostName=${encodeURIComponent(
+                    hostName
+                )}&emailTitle=${encodeURIComponent(
+                    emailTitle
+                )}&sessionID=${sessionID}`
+            )
+        }
+    }
+
+    const handleChange = (options) => {
+        setSelectedOptions(options)
     }
 
     if (sessionDashXML === "") {
@@ -40,9 +172,7 @@ export default function SessionsPanel(props) {
                 </div>
                 <hr />
                 <div id="no-session-msg">
-                    <span style={{ color: "#cf9d20" }}>
-                        Fetching Session Dashboard Data...
-                    </span>
+                    <span>Fetching Session Dashboard Data...</span>
                 </div>
             </div>
         )
@@ -89,19 +219,6 @@ export default function SessionsPanel(props) {
             }),
         }
 
-        let emailOptions = [
-            {
-                value: "dave@streambox.com",
-                label: "dave@streambox.com",
-            },
-            { value: "kenny@streambox.com", label: "kenny@streambox.com" },
-            { value: "alex@streambox.com", label: "alex@streambox.com" },
-            { value: "taylor@streambox.com", label: "taylor@streambox.com" },
-        ]
-
-        // console.log(parsedXML)
-        // console.log(decoderInfo)
-
         let decInfoArray = []
 
         if (decoderInfo) {
@@ -130,9 +247,9 @@ export default function SessionsPanel(props) {
                         className="host-name-input"
                         type="text"
                     />
-                    <button className="sessions-panel-top-btns">
+                    {/* <button className="sessions-panel-top-btns">
                         Send All Invites
-                    </button>
+                    </button> */}
                     <button
                         className="sessions-panel-top-btns"
                         onClick={() => handleClick("close")}
@@ -156,12 +273,16 @@ export default function SessionsPanel(props) {
                                 className="email-page-body-select"
                                 options={emailOptions}
                                 isMulti
+                                onChange={handleChange}
                                 name="emails"
                                 styles={styles}
                                 classNamePrefix="select"
                             />
-                            <button className="send-invite-btn">
-                                Send Invite
+                            <button
+                                onClick={sendInvites}
+                                className="send-invite-btn"
+                            >
+                                Send Invites
                             </button>
                         </div>
                     </div>
