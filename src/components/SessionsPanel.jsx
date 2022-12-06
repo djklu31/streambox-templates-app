@@ -63,7 +63,9 @@ export default function SessionsPanel(props) {
                         let email =
                             document.querySelector(".select__input").value
 
-                        if (validateEmail(email)) {
+                        if (email === "") {
+                            sendInvites()
+                        } else if (validateEmail(email)) {
                             let emailObj = {
                                 value: email,
                                 label: email,
