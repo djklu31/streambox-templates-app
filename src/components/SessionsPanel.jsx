@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from "react"
 import Select from "react-select"
 import DecoderInfo from "./DecoderInfo"
-import { isLocalDev } from "../Utils"
+import { debounce, isLocalDev, getStreamingStatus, POSTData } from "../Utils"
 
 export default function SessionsPanel(props) {
     let [showEmailPage, setShowEmailPage] = useState(false)
     let [selectedOptions, setSelectedOptions] = useState([])
-    let [emailOptions, setEmailOptions] = useState(
-        JSON.parse(localStorage.getItem("storedEmails"))
-    )
+    let localStorageEmails = JSON.parse(localStorage.getItem("storedEmails"))
+    let opts = []
+    if (localStorageEmails) {
+        opts = localStorageEmails
+    }
+
+    let [emailOptions, setEmailOptions] = useState(opts)
+
     let sessionDashXML = props.sessionDashXML
     const endpoint = location.origin
 
     async function handleCreateNewSessionBtnWrapper() {
         let sessionIDElems = document.getElementsByClassName("session-id-top")
-        for (let elem of sessionIDElems) {
-            elem.innerHTML = `<span style="color: green">Creating new session...</span>`
-        }
+        let res = await props.handleCreateNewSessionBtn()
 
-        await props.handleCreateNewSessionBtn()
+        if (res !== undefined && res !== null) {
+            for (let elem of sessionIDElems) {
+                elem.innerHTML = `<div style="color: green">Creating...</div>`
+            }
+        }
     }
 
     function sendInvites() {
@@ -47,6 +54,8 @@ export default function SessionsPanel(props) {
 
     useEffect(() => {
         if (document.querySelector(".email-page-body-select")) {
+            getSessionLocalStorage()
+
             document
                 .querySelector(".email-page-body-select")
                 .addEventListener("keypress", function (event) {
@@ -77,9 +86,6 @@ export default function SessionsPanel(props) {
                                     storedEmails.shift()
                                 }
                             }
-
-                            console.log(storedEmails)
-                            console.log(emailOptions)
 
                             if (!emailExists) {
                                 if (storedEmails) {
@@ -113,14 +119,30 @@ export default function SessionsPanel(props) {
         }
     }, [showEmailPage])
 
+    function getSessionLocalStorage() {
+        document.querySelector(".host-name-input").value =
+            localStorage.getItem("hostName")
+        document.querySelector(".email-page-title-input").value =
+            localStorage.getItem("sessionTitle")
+    }
+
+    function handleClick(text) {
+        if (text === "openEmailPage") {
+            setShowEmailPage(true)
+        } else if (text === "close") {
+            setShowEmailPage(false)
+        }
+    }
+
     async function sendEmailsViaPHP(
         emailAddresses,
         hostName,
         emailTitle,
         sessionID
     ) {
+        let response = ""
         if (isLocalDev) {
-            await fetch(
+            response = await fetch(
                 `http://localhost:5005/sbuiauth/sendEmail.php?emailAddresses=${emailAddresses.join(
                     ","
                 )}&hostName=${encodeURIComponent(
@@ -130,7 +152,7 @@ export default function SessionsPanel(props) {
                 )}&sessionID=${sessionID}`
             )
         } else {
-            await fetch(
+            response = await fetch(
                 `${endpoint}/sbuiauth/sendEmail.php?emailAddresses=${emailAddresses.join(
                     ","
                 )}&hostName=${encodeURIComponent(
@@ -140,6 +162,25 @@ export default function SessionsPanel(props) {
                 )}&sessionID=${sessionID}`
             )
         }
+        document.querySelector(".send-invite-btn").textContent = "Sending..."
+        let result = await response.text()
+        alert(result)
+
+        if ((await getStreamingStatus()) == 0) {
+            if (
+                confirm(
+                    "Streaming is stopped. Would you like to start streaming?"
+                ) == true
+            ) {
+                POSTData(endpoint + "/REST/encoder/action", {
+                    action_list: ["start"],
+                }).then((data) => {
+                    console.log("Streaming started" + JSON.stringify(data))
+                    props.triggerBackgroundFetch()
+                })
+            }
+        }
+        handleClick("close")
     }
 
     const handleChange = (options) => {
@@ -171,8 +212,10 @@ export default function SessionsPanel(props) {
                     </button>
                 </div>
                 <hr />
-                <div id="no-session-msg">
-                    <span>Fetching Session Dashboard Data...</span>
+                <div className="msg-wrapper">
+                    <div className="no-session-msg">
+                        Fetching Session Dashboard Data...
+                    </div>
                 </div>
             </div>
         )
@@ -186,7 +229,7 @@ export default function SessionsPanel(props) {
                     </div>
                     <button
                         className="sessions-panel-top-btns"
-                        onClick={handleCreateNewSessionBtn}
+                        onClick={handleCreateNewSessionBtnWrapper}
                     >
                         Create New Session
                     </button>
@@ -195,7 +238,11 @@ export default function SessionsPanel(props) {
                     </button>
                 </div>
                 <hr />
-                <div id="no-session-msg">Please create a new session</div>
+                <div className="msg-wrapper">
+                    <div className="no-session-msg">
+                        Please create a new session
+                    </div>
+                </div>
             </div>
         )
     } else {
@@ -204,22 +251,15 @@ export default function SessionsPanel(props) {
         let parsedXML = xmlDoc.getElementsByTagName("body")[0]
         let decoderInfo = xmlDoc.getElementsByTagName("body")[0].childNodes
 
-        function handleClick(text) {
-            if (text === "openEmailPage") {
-                setShowEmailPage(true)
-            } else if (text === "close") {
-                setShowEmailPage(false)
-            }
-        }
-
         const styles = {
-            option: (provided, state) => ({
+            option: (provided) => ({
                 ...provided,
                 color: "black",
             }),
         }
 
         let decInfoArray = []
+        let sessionIsLive = parsedXML.getAttribute("session_islive")
 
         if (decoderInfo) {
             // for (let decoder of decoderInfo) {
@@ -243,6 +283,12 @@ export default function SessionsPanel(props) {
                         </span>
                     </div>
                     <input
+                        onChange={debounce(() => {
+                            localStorage.setItem(
+                                "hostName",
+                                document.querySelector(".host-name-input").value
+                            )
+                        })}
                         placeholder=" Enter Host Name"
                         className="host-name-input"
                         type="text"
@@ -262,6 +308,14 @@ export default function SessionsPanel(props) {
                     <div className="email-page-title">
                         <span>Title:</span>
                         <input
+                            onChange={debounce(() => {
+                                localStorage.setItem(
+                                    "sessionTitle",
+                                    document.querySelector(
+                                        ".email-page-title-input"
+                                    ).value
+                                )
+                            })}
                             className="email-page-title-input"
                             placeholder=" Color Review of 'Blazing Saddles'"
                         />
@@ -314,7 +368,13 @@ export default function SessionsPanel(props) {
                 {decInfoArray.length > 0 ? (
                     decInfoArray
                 ) : (
-                    <div id="no-session-msg">No Decoders Connected</div>
+                    <div className="msg-wrapper">
+                        <div className="no-session-msg">
+                            {sessionIsLive == 1
+                                ? "No Decoders Connected"
+                                : "Waiting for Host to Start Session..."}
+                        </div>
+                    </div>
                 )}
                 {/* <div className="device-record">
                     <div className="device-record-text-wrapper">

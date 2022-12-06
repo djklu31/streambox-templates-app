@@ -63,7 +63,7 @@ nav {
 
 .fields {
     padding-left: 0.75em;
-    margin: 10px 2em;
+    margin: 15px;
 }
 
 header {
@@ -71,7 +71,8 @@ header {
 }
 
 input[type="submit"],
-.save-template-btn {
+.save-template-btn,
+#logout-btn {
     padding: 10px 20px;
     letter-spacing: 1px;
 }
@@ -162,10 +163,10 @@ footer {
 
 .giant-button-container {
     display: flex;
-    height: 150px;
+
     justify-content: center;
     align-items: center;
-    margin-bottom: 0.5em;
+    margin-bottom: 2.5em;
 }
 
 .field-label {
@@ -264,12 +265,22 @@ footer {
 
 .sessions-panel-container {
     max-height: 400px;
+    min-height: 180px;
     overflow: auto;
+    height: 100%;
 }
 
-#no-session-msg {
-    text-align: center;
+.no-session-msg {
+    /* text-align: center;
     padding: 10px;
+    padding-top: 20px; */
+}
+
+.msg-wrapper {
+    height: 62%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .device-record {
@@ -289,9 +300,6 @@ footer {
 
 .host-name-input {
     border-radius: 5px;
-}
-
-.email-page-body-wrapper {
 }
 
 .device-record-text-wrapper {
@@ -337,6 +345,11 @@ footer {
 .settings-btn {
     color: white;
     text-decoration: none;
+}
+
+.fields-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .vu-meters {

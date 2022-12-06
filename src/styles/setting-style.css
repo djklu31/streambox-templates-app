@@ -60,7 +60,8 @@
 }
 
 .settings-select,
-.create-template-input {
+.create-template-input,
+.login-input {
     height: 45px;
     width: 100%;
 }
@@ -80,7 +81,8 @@
     justify-content: center;
 }
 
-.current-template-readout {
+.current-template-readout,
+.login-status-container {
     padding: 15px 7px;
     background-color: antiquewhite;
     color: black;
@@ -94,7 +96,8 @@
 
 input#file-input {
     padding: 9px;
-    padding-right: 70%;
+    /* padding-right: 70%; */
+    width: 100%;
     background-color: #333;
 }
 
@@ -105,6 +108,11 @@ input#file-input {
 
 #edit-btn {
     padding: 10px 20px;
+}
+
+.custom-hr {
+    border-color: #555;
+    width: 100%;
 }
 
 /* .template-area-label-div {

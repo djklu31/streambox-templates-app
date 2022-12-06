@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import "./styles/setting-style.css"
 import ReactTooltip from "react-tooltip"
-import { isLocalDev } from "./Utils"
+import { isLocalDev, md5, attemptLogin } from "./Utils"
 
 import Editor from "react-simple-code-editor"
 import { highlight, languages } from "prismjs/components/prism-core"
@@ -31,6 +31,7 @@ export default function Settings(props) {
     //logout should destroy local storage for userid and pass
 
     useEffect(() => {
+        initializeLoginSection()
         document.querySelector(".settings-btn").classList.add("selected-route")
         if (isRerender) {
             //reset all fields on settings rerender
@@ -101,6 +102,52 @@ export default function Settings(props) {
         }
     }
 
+    async function attemptLoginSubmit(e) {
+        e.preventDefault()
+        const login = e.target[0].value
+        const hashedPass = md5(e.target[1].value)
+
+        const controller = new AbortController()
+        //timeout if no signal for 15 seconds
+        const timeoutId = setTimeout(() => controller.abort(), 15000)
+        let response = await fetch(
+            `https://tl1.streambox.com/ls/VerifyLoginXML.php?login=${login}&hashedPass=${hashedPass}`,
+            {
+                method: "GET",
+                signal: controller.signal,
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded",
+                },
+            }
+        ).catch((e) => {
+            document.querySelector("#login-status").textContent =
+                "The Server is Down..."
+            document.querySelector("#login-status").style.color = "red"
+        })
+
+        let result = await response.text()
+
+        let parser = new DOMParser()
+        let xmlDoc = parser.parseFromString(result, "text/xml")
+        let parsedXML = xmlDoc.getElementsByTagName("body")[0]
+
+        if (parsedXML.getAttribute("result") === "success") {
+            //login success
+            hideLoginElems()
+
+            document.querySelector("#login-status").textContent = "Logged In"
+            document.querySelector("#login-status").style.color = "green"
+
+            localStorage.setItem("cloudLogin", login)
+            localStorage.setItem("cloudPass", hashedPass)
+
+            //hide the inputs and present a logout button
+        } else {
+            document.querySelector("#login-status").textContent =
+                "Login Failure: Username/Password is incorrect"
+            document.querySelector("#login-status").style.color = "red"
+        }
+    }
     function openEditPage() {
         document.getElementById("create-container").style.display = "none"
         document.getElementById("edit-container").style.display = "flex"
@@ -109,6 +156,16 @@ export default function Settings(props) {
     function openApplyPage() {
         document.getElementById("create-container").style.display = "flex"
         document.getElementById("edit-container").style.display = "none"
+    }
+
+    async function initializeLoginSection() {
+        let loginResult = await attemptLogin()
+        if (loginResult === "success") {
+            hideLoginElems()
+
+            document.querySelector("#login-status").textContent = "Logged In"
+            document.querySelector("#login-status").style.color = "green"
+        }
     }
 
     async function deleteTemplate() {
@@ -303,18 +360,84 @@ export default function Settings(props) {
         }
     }
 
+    function logout() {
+        showLoginElems()
+
+        localStorage.removeItem("cloudLogin")
+        localStorage.removeItem("cloudPass")
+    }
+
+    function hideLoginElems() {
+        let elems = document.getElementsByClassName("login-input")
+        for (let elem of elems) {
+            elem.style.display = "none"
+        }
+        document.getElementById("logout-btn").style.display = "initial"
+    }
+
+    function showLoginElems() {
+        let elems = document.getElementsByClassName("login-input")
+        for (let elem of elems) {
+            elem.style.display = "initial"
+        }
+        document.getElementById("logout-btn").style.display = "none"
+
+        document.querySelector("#login-status").textContent = "Logged Out"
+        document.querySelector("#login-status").style.color = "red"
+    }
+
     return (
         <>
             <ReactTooltip />
             <div id="create-container" className="settings-outer-container">
                 <div className="settings-inner-container">
                     <div className="settings-container">
-                        <div className="current-template-readout template-form-padding">
-                            <label>Current Template:</label>&nbsp;
-                            <span style={{ color: "forestgreen" }}>
-                                {currentTemplateName}
+                        <div className="settings-label">
+                            <label className="template-label">
+                                <h4>Streambox Cloud Login</h4>
+                                <img
+                                    className="tooltip"
+                                    src="../../images/information.png"
+                                    data-tip="
+                            Login to Streambox Cloud to access session dashboard features
+                        "
+                                />
+                            </label>
+                        </div>
+                        <form
+                            onSubmit={attemptLoginSubmit}
+                            className="settings-form template-form-padding"
+                        >
+                            <input
+                                className="login-input"
+                                type="text"
+                                placeholder=" Username"
+                            />
+                            <input
+                                className="login-input"
+                                type="password"
+                                placeholder=" Password"
+                            />
+                            <input
+                                className="login-input"
+                                type="submit"
+                                value="Login"
+                            />
+                        </form>
+                        <div className="login-status-container template-form-padding">
+                            <label>Login Status:</label>&nbsp;
+                            <span id="login-status" style={{ color: "red" }}>
+                                Logged Out
                             </span>
                         </div>
+                        <button
+                            id="logout-btn"
+                            style={{ display: "none" }}
+                            onClick={logout}
+                        >
+                            Logout
+                        </button>
+                        <hr className="custom-hr" />
                         <div className="settings-label">
                             <label className="template-label">
                                 <h4>Apply Template</h4>
@@ -322,7 +445,7 @@ export default function Settings(props) {
                                     className="tooltip"
                                     src="../../images/information.png"
                                     data-tip="
-                            Choose and apply a template.
+                            Choose and apply a template
                         "
                                 />
                             </label>
@@ -336,6 +459,12 @@ export default function Settings(props) {
                             </select>
                             <input type="submit" value="Apply Template" />
                         </form>
+                        <div className="current-template-readout template-form-padding">
+                            <label>Current Template:</label>&nbsp;
+                            <span style={{ color: "forestgreen" }}>
+                                {currentTemplateName}
+                            </span>
+                        </div>
 
                         <div className="settings-label">
                             <label className="template-label">

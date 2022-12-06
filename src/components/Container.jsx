@@ -7,6 +7,7 @@ import Select from "./Select"
 import Form from "./Form"
 import AudioMeter from "./AudioMeters"
 import SessionsPanel from "./SessionsPanel"
+import { POSTData } from "../Utils"
 
 const endpoint = location.origin
 
@@ -104,16 +105,6 @@ export default function Container(props) {
             console.log("Streaming stopped" + JSON.stringify(data))
             props.triggerBackgroundFetch()
         })
-    }
-
-    async function POSTData(url = "", data = {}) {
-        let formData = new FormData()
-        formData.append("c", JSON.stringify(data))
-        const response = await fetch(url, {
-            method: "POST",
-            body: formData,
-        })
-        return response.json() // parses JSON response into native JavaScript objects
     }
 
     function handleFieldTypes(field, index, fieldStyle) {
@@ -503,7 +494,7 @@ export default function Container(props) {
                     handleFormSubmit={handleFormSubmit}
                 />
             ) : (
-                mappedFields
+                <div className="fields-container">{mappedFields}</div>
             )}
         </div>
     )

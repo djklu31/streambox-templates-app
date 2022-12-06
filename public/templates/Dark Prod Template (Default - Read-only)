@@ -40,38 +40,35 @@
                       "type": "mappedText",
                       "label": "Bitrate",
                       "mapping": "cur_bitrate"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Quality",
+                      "mapping": "vquality"
                     }
                   ]
                 },
                 {
                   "type": "mappedText",
-                  "label": "Quality",
-                  "mapping": "vquality"
-                },
-                {
-                  "type": "boolean",
-                  "label": "Is Streaming?",
-                  "mapping": "isStreaming"
-                },
-                {
-                  "type": "mappedText",
                   "label": "Dropped Captured Frames",
-                  "mapping": "dropCapture"
-                },
-                {
-                  "type": "mappedText",
-                  "label": "Dropped Encoder Frames",
-                  "mapping": "dropEnc"
-                },
-                {
-                  "type": "mappedText",
-                  "label": "SDI errors",
-                  "mapping": "sdi_error"
-                },
-                {
-                  "type": "mappedText",
-                  "label": "Frame Delay",
-                  "mapping": "frame_delay"
+                  "mapping": "dropCapture",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Dropped Encoder Frames",
+                      "mapping": "dropEnc"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "SDI errors",
+                      "mapping": "sdi_error"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Frame Delay",
+                      "mapping": "frame_delay"
+                    }
+                  ]
                 }
               ]
             },
@@ -120,6 +117,9 @@
                   "mapping": "is_ldmp"
                 }
               ]
+            },
+            {
+              "type": "sessionsPanel"
             },
             {
               "title": "Start Streaming",

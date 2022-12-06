@@ -40,6 +40,7 @@ export default function RootWrapper() {
             if (isLocalDev) {
                 let json = testTemplate
                 setCurrentTemplate(JSON.stringify(testTemplate))
+                setNavBtns(json.template.navbar.routes)
                 setCurrentPageName(json.template.navbar.routes[0].routeName)
                 setIsLoading(false)
             } else {

@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from "react"
 import Container from "./components/Container"
-import { authenticate, isLocalDev } from "./Utils"
+import {
+    attemptLogin,
+    authenticate,
+    getStreamingStatus,
+    isLocalDev,
+} from "./Utils"
+import { POSTData } from "./Utils"
 
 export default function App(props) {
     //set up initial state with template
@@ -154,59 +160,141 @@ export default function App(props) {
 
     //get session info from sb live
     useEffect(() => {
-        if (localStorage.getItem("sessionDRM")) {
-            //hook up to SB Live
-            async function getSessionDashboard() {
-                let sessionDRM = localStorage.getItem("sessionDRM")
-                sessionDRM = sessionDRM.substring(1, sessionDRM.length)
-                let response = await fetch(
-                    `https://tl1.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-type": "application/x-www-form-urlencoded",
-                        },
+        async function attemptLoginDashboard() {
+            if ((await attemptLogin()) === "success") {
+                if (localStorage.getItem("sessionDRM")) {
+                    //hook up to SB Live
+                    async function getSessionDashboard() {
+                        let sessionDRM = localStorage.getItem("sessionDRM")
+                        const controller = new AbortController()
+                        sessionDRM = sessionDRM.substring(1, sessionDRM.length)
+                        //timeout if no signal for 10 seconds
+                        const timeoutId = setTimeout(
+                            () => controller.abort(),
+                            15000
+                        )
+                        let response = await fetch(
+                            `https://tl1.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}&login=${localStorage.getItem(
+                                "cloudLogin"
+                            )}$hashedPass=${localStorage.getItem("cloudPass")}`,
+                            {
+                                method: "GET",
+                                signal: controller.signal,
+                                headers: {
+                                    "Content-type":
+                                        "application/x-www-form-urlencoded",
+                                },
+                            }
+                        ).catch((e) => {
+                            document.querySelector(
+                                ".no-session-msg"
+                            ).textContent = "The Server is Down..."
+                        })
+                        const xmlResponse = await response.text()
+                        setSessionDashXML(xmlResponse)
                     }
-                )
-                const xmlResponse = await response.text()
-                setSessionDashXML(xmlResponse)
+                    getSessionDashboard()
+                } else {
+                    setSessionDashXML("none")
+                }
+            } else {
+                document.querySelector(".no-session-msg").textContent =
+                    "Log into Streambox Cloud in Settings"
             }
-            getSessionDashboard()
-        } else {
-            setSessionDashXML("none")
         }
+
+        attemptLoginDashboard()
     }, [backgroundFetchCount])
 
     async function handleCreateNewSessionBtn() {
-        await createNewSession()
+        let res = await createNewSession()
         setBackgroundFetchCount(true)
+        return res
     }
 
     //create new session
     async function createNewSession() {
-        //TODO: replace with userId used to log into SB cloud
-        let userId = 308337
-        let response = await fetch(
-            `https://tl1.streambox.com/ls/CreateNewSessionXML.php?USER_ID=${userId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/x-www-form-urlencoded",
-                },
+        let encKey = ""
+        if ((await getStreamingStatus()) == 1) {
+            if (
+                confirm(
+                    "In order to create a new session, the current streaming session needs to be stopped.  Is this okay?"
+                ) == true
+            ) {
+                POSTData(endpoint + "/REST/encoder/action", {
+                    action_list: ["stop"],
+                }).then((data) => {
+                    console.log("Streaming stopped" + JSON.stringify(data))
+                    props.triggerBackgroundFetch()
+                })
+
+                encKey = await createSession()
             }
-        )
-        const xmlResponse = await response.text()
+        } else {
+            encKey = await createSession()
+        }
 
-        let parser = new DOMParser()
-        let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
-        let parsedXML = xmlDoc.getElementsByTagName("body")[0]
-        let enc_key = parsedXML.getAttribute("enc_key")
-        let dec_key = parsedXML.getAttribute("dec_key")
+        async function createSession() {
+            var sessionName = prompt(
+                "What would you like to name your session? (For email purposes)"
+            )
 
-        localStorage.setItem("sessionDRM", enc_key)
-        localStorage.setItem("sessionID", dec_key)
+            if (
+                sessionName === null ||
+                sessionName === undefined ||
+                sessionName === ""
+            ) {
+                alert(
+                    "Session name cannot be blank.  Please click 'Create New Session' again."
+                )
+            } else {
+                //TODO: replace with userId used to log into SB cloud
+                let userId = 308337
+                const controller = new AbortController()
+                //timeout if no signal for 10 seconds
+                const timeoutId = setTimeout(() => controller.abort(), 15000)
+                let response = await fetch(
+                    `https://tl1.streambox.com/ls/CreateNewSessionXML.php?USER_ID=${userId}&SESSION_NAME=${sessionName}`,
+                    {
+                        method: "GET",
+                        signal: controller.signal,
+                        headers: {
+                            "Content-type": "application/x-www-form-urlencoded",
+                        },
+                    }
+                ).catch((e) => {
+                    document.querySelector(".no-session-msg").textContent =
+                        "The Server is Down..."
+                })
+                const xmlResponse = await response.text()
 
-        return enc_key
+                let parser = new DOMParser()
+                let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
+                let parsedXML = xmlDoc.getElementsByTagName("body")[0]
+                let enc_key = parsedXML.getAttribute("enc_key")
+                let dec_key = parsedXML.getAttribute("dec_key")
+
+                localStorage.setItem("sessionDRM", enc_key)
+                localStorage.setItem("sessionID", dec_key)
+                localStorage.setItem("sessionTitle", sessionName)
+                localStorage.setItem("hostName", "")
+
+                POSTData(endpoint + "/REST/encoder/metadata", {
+                    val_list: [{ cname: "Meta_Network1", val: enc_key }],
+                }).then((data) => {
+                    console.log(
+                        "Data POSTED to " +
+                            endpoint +
+                            "/REST/encoder/metadata" +
+                            ": " +
+                            JSON.stringify(data)
+                    )
+                })
+
+                return enc_key
+            }
+        }
+        return encKey
     }
 
     let timer
