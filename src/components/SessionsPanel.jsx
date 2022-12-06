@@ -176,7 +176,6 @@ export default function SessionsPanel(props) {
                     action_list: ["start"],
                 }).then((data) => {
                     console.log("Streaming started" + JSON.stringify(data))
-                    props.triggerBackgroundFetch()
                 })
             }
         }

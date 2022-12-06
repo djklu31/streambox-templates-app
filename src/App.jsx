@@ -225,7 +225,6 @@ export default function App(props) {
                     action_list: ["stop"],
                 }).then((data) => {
                     console.log("Streaming stopped" + JSON.stringify(data))
-                    props.triggerBackgroundFetch()
                 })
 
                 encKey = await createSession()
