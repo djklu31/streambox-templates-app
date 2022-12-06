@@ -45,6 +45,7 @@ export default function SessionsPanel(props) {
                 "Please enter a host name, session title and at least one email address."
             )
         }
+        setSelectedOptions([])
     }
 
     function validateEmail(email) {
@@ -63,9 +64,7 @@ export default function SessionsPanel(props) {
                         let email =
                             document.querySelector(".select__input").value
 
-                        if (email === "") {
-                            sendInvites()
-                        } else if (validateEmail(email)) {
+                        if (validateEmail(email)) {
                             let emailObj = {
                                 value: email,
                                 label: email,
