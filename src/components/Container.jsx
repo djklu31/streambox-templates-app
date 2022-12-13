@@ -91,6 +91,14 @@ export default function Container(props) {
                 props.triggerBackgroundFetch()
             }
         )
+
+        if (
+            postEndpoint === "/REST/encoder/metadata" ||
+            postEndpoint === "/REST/encoder/metadata.json"
+        ) {
+            localStorage.removeItem("sessionDRM")
+            localStorage.removeItem("sessionID")
+        }
     }
 
     async function startStreaming() {
@@ -108,13 +116,19 @@ export default function Container(props) {
 
         const apiDRM = networkObj[0]["val"]
 
-        if (localStorage.getItem("sessionDRM") !== apiDRM) {
-            if (
-                confirm(
-                    "There is a mismatch between the session DRM and DRM on the encoder.  Would you like to set the encoder DRM to the session DRM?"
-                ) == true
-            ) {
-                await setNetwork1Api(localStorage.getItem("sessionDRM"))
+        if (
+            localStorage.getItem("sessionDRM") !== undefined &&
+            localStorage.getItem("sessionDRM") !== null &&
+            localStorage.getItem("sessionDRM") !== ""
+        ) {
+            if (localStorage.getItem("sessionDRM") !== apiDRM) {
+                if (
+                    confirm(
+                        "There is a mismatch between the session DRM and DRM on the encoder.  Would you like to set the encoder DRM to the session DRM?"
+                    ) == true
+                ) {
+                    await setNetwork1Api(localStorage.getItem("sessionDRM"))
+                }
             }
         }
 

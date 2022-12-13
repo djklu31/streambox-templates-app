@@ -1,5 +1,5 @@
 //set environment: true - local development, false - production
-export let isLocalDev = false
+export let isLocalDev = true
 const endpoint = location.origin
 
 export function debounce(callback, delay = 500) {
@@ -165,8 +165,6 @@ export async function authenticate() {
         alert("Something went wrong with the authentication server")
     }
 }
-
-export function startStream() {}
 
 export async function setNetwork1Api(enc_key) {
     await POSTData(endpoint + "/REST/encoder/metadata", {
