@@ -10,7 +10,7 @@ export default React.memo(function Select(props) {
 
     if (presetObj) {
         options = presetObj.preset_list.map((preset, index) => {
-            if (preset.pid === localStorage.getItem("presetPID")) {
+            if (preset.pid == localStorage.getItem("presetPID")) {
                 return (
                     <option
                         key={`preset-select-${index}`}

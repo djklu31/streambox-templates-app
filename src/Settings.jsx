@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import "./styles/setting-style.css"
 import ReactTooltip from "react-tooltip"
-import { isLocalDev, md5, attemptLogin } from "./Utils"
+import { isLocalDev, md5, attemptLogin, debounce } from "./Utils"
 
 import Editor from "react-simple-code-editor"
 import { highlight, languages } from "prismjs/components/prism-core"
@@ -106,7 +106,7 @@ export default function Settings(props) {
         e.preventDefault()
         const login = e.target[0].value
         const hashedPass = md5(e.target[1].value)
-        const serverIndex = e.target[3].selectedIndex
+        const serverIndex = e.target[4].selectedIndex
         const chosenServer = serverList[serverIndex]
 
         localStorage.setItem("cloudServer", chosenServer)
@@ -190,6 +190,9 @@ export default function Settings(props) {
                 option.selected = true
             }
         }
+
+        document.querySelector(".hostname-input").value =
+            localStorage.getItem("hostName")
     }
 
     async function deleteTemplate() {
@@ -472,6 +475,30 @@ export default function Settings(props) {
                                 className="login-input"
                                 type="submit"
                                 value="Login"
+                            />
+                            <div className="settings-label">
+                                <label className="template-label">
+                                    <h4>Host Name</h4>
+                                    <img
+                                        className="tooltip"
+                                        src="../../images/information.png"
+                                        data-tip="
+                            The host name that will be presented in the email invites
+                        "
+                                    />
+                                </label>
+                            </div>
+                            <input
+                                type="text"
+                                class="hostname-input"
+                                onChange={debounce(() => {
+                                    localStorage.setItem(
+                                        "hostName",
+                                        document.querySelector(
+                                            ".hostname-input"
+                                        ).value
+                                    )
+                                })}
                             />
                             <div className="settings-label">
                                 <label className="template-label">

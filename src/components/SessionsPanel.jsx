@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react"
 import Select from "react-select"
 import DecoderInfo from "./DecoderInfo"
-import { debounce, isLocalDev, getStreamingStatus, POSTData } from "../Utils"
+import {
+    debounce,
+    isLocalDev,
+    getStreamingStatus,
+    POSTData,
+    setNetwork1Api,
+} from "../Utils"
 
 export default function SessionsPanel(props) {
     let [showEmailPage, setShowEmailPage] = useState(false)
@@ -29,7 +35,7 @@ export default function SessionsPanel(props) {
     }
 
     function sendInvites() {
-        const hostName = document.querySelector(".host-name-input").value
+        const hostName = localStorage.getItem("hostName")
         const emailTitle = document.querySelector(
             ".email-page-title-input"
         ).value
@@ -39,6 +45,11 @@ export default function SessionsPanel(props) {
         let emailAddresses = selectedOptions.map((email) => email.value)
 
         if (hostName && emailTitle && emailAddresses.length > 0) {
+            sendEmailsViaPHP(emailAddresses, hostName, emailTitle, sessionID)
+        } else if (!hostName && emailTitle && emailAddresses.length > 0) {
+            let host = prompt("Please enter a host name for this email")
+            localStorage.setItem("hostName", host)
+
             sendEmailsViaPHP(emailAddresses, hostName, emailTitle, sessionID)
         } else {
             alert(
@@ -121,8 +132,8 @@ export default function SessionsPanel(props) {
     }, [showEmailPage])
 
     function getSessionLocalStorage() {
-        document.querySelector(".host-name-input").value =
-            localStorage.getItem("hostName")
+        // document.querySelector(".host-name-input").value =
+        //     localStorage.getItem("hostName")
         document.querySelector(".email-page-title-input").value =
             localStorage.getItem("sessionTitle")
     }
@@ -173,7 +184,33 @@ export default function SessionsPanel(props) {
                     "Streaming is stopped. Would you like to start streaming?"
                 ) == true
             ) {
-                POSTData(endpoint + "/REST/encoder/action", {
+                let response = ""
+                if (isLocalDev) {
+                    response = await fetch(
+                        endpoint + "/REST/encoder/metadata.json"
+                    )
+                } else {
+                    response = await fetch(endpoint + "/REST/encoder/metadata")
+                }
+                let metadataResult = await response.json()
+
+                let networkObj = metadataResult.current_stat.filter(
+                    (res) => res.cname === "Meta_Network1"
+                )
+
+                const apiDRM = networkObj[0]["val"]
+
+                if (localStorage.getItem("sessionDRM") !== apiDRM) {
+                    if (
+                        confirm(
+                            "There is a mismatch between the session DRM and DRM on the encoder.  Would you like to set the encoder DRM to the session DRM?"
+                        ) == true
+                    ) {
+                        await setNetwork1Api(localStorage.getItem("sessionDRM"))
+                    }
+                }
+
+                await POSTData(endpoint + "/REST/encoder/action", {
                     action_list: ["start"],
                 }).then((data) => {
                     console.log("Streaming started" + JSON.stringify(data))
@@ -192,7 +229,7 @@ export default function SessionsPanel(props) {
             <div className="sessions-panel-container">
                 <div className="sessions-panel-top">
                     <div>
-                        Session:{" "}
+                        Session ID:{" "}
                         <span
                             className="session-id-top"
                             style={{ color: "red" }}
@@ -225,7 +262,7 @@ export default function SessionsPanel(props) {
             <div className="sessions-panel-container">
                 <div className="sessions-panel-top">
                     <div>
-                        Session: <span className="session-id-top">none</span>
+                        Session ID: <span className="session-id-top">none</span>
                     </div>
                     <button
                         className="sessions-panel-top-btns"
@@ -277,12 +314,12 @@ export default function SessionsPanel(props) {
             <div>
                 <div className="sessions-panel-top">
                     <div>
-                        Session:{" "}
+                        Session ID:{" "}
                         <span className="session-id-top">
                             {parsedXML.getAttribute("dec_key")}
                         </span>
                     </div>
-                    <input
+                    {/* <input
                         onChange={debounce(() => {
                             localStorage.setItem(
                                 "hostName",
@@ -292,7 +329,7 @@ export default function SessionsPanel(props) {
                         placeholder=" Enter Host Name"
                         className="host-name-input"
                         type="text"
-                    />
+                    /> */}
                     {/* <button className="sessions-panel-top-btns">
                         Send All Invites
                     </button> */}
@@ -346,7 +383,7 @@ export default function SessionsPanel(props) {
             <div className="sessions-panel-container">
                 <div className="sessions-panel-top">
                     <div>
-                        Session:{" "}
+                        Session ID:{" "}
                         <span className="session-id-top">
                             {parsedXML.getAttribute("dec_key")}
                         </span>

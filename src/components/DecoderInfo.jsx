@@ -33,7 +33,7 @@ export default function DecoderInfo({ decoderInfo }) {
         <div className="device-record">
             <div className="device-record-text-wrapper">
                 <div className="device-record-text-top">
-                    <div>Owner: Not Assigned</div>
+                    {/* <div>Owner: Not Assigned</div> */}
                     <div>
                         IP: {decoderInfo.getAttribute("ip")}:
                         {decoderInfo.getAttribute("port")}
@@ -54,7 +54,7 @@ export default function DecoderInfo({ decoderInfo }) {
                             decoderInfo.getAttribute("force_pending") == 1
                         )}
                     </div>
-                    <div>Email: joe@streambox.com</div>
+                    {/* <div>Email: joe@streambox.com</div> */}
                 </div>
             </div>
             <button className="disconnect-btn">Disconnect</button>

@@ -7,7 +7,7 @@ import Select from "./Select"
 import Form from "./Form"
 import AudioMeter from "./AudioMeters"
 import SessionsPanel from "./SessionsPanel"
-import { POSTData } from "../Utils"
+import { isLocalDev, POSTData, setNetwork1Api } from "../Utils"
 
 const endpoint = location.origin
 
@@ -42,7 +42,7 @@ export default function Container(props) {
     }
 
     async function applyPreset(pid) {
-        POSTData(endpoint + "/REST/encoder/presets", {
+        await POSTData(endpoint + "/REST/encoder/presets", {
             command: "apply",
             pid: pid,
         }).then((data) => {
@@ -77,21 +77,48 @@ export default function Container(props) {
             }
         }
 
-        POSTData(endpoint + postEndpoint, { val_list: arr }).then((data) => {
-            console.log(
-                "Data POSTED to " +
-                    endpoint +
-                    postEndpoint +
-                    ": " +
-                    JSON.stringify(data)
-            )
-            alert("Changes have been applied")
-            props.triggerBackgroundFetch()
-        })
+        await POSTData(endpoint + postEndpoint, { val_list: arr }).then(
+            (data) => {
+                console.log(
+                    "Data POSTED to " +
+                        endpoint +
+                        postEndpoint +
+                        ": " +
+                        JSON.stringify(data)
+                )
+                alert("Changes have been applied")
+                localStorage.setItem("presetPID", "custom")
+                props.triggerBackgroundFetch()
+            }
+        )
     }
 
     async function startStreaming() {
-        POSTData(endpoint + "/REST/encoder/action", {
+        let response = ""
+        if (isLocalDev) {
+            response = await fetch(endpoint + "/REST/encoder/metadata.json")
+        } else {
+            response = await fetch(endpoint + "/REST/encoder/metadata")
+        }
+        let metadataResult = await response.json()
+
+        let networkObj = metadataResult.current_stat.filter(
+            (res) => res.cname === "Meta_Network1"
+        )
+
+        const apiDRM = networkObj[0]["val"]
+
+        if (localStorage.getItem("sessionDRM") !== apiDRM) {
+            if (
+                confirm(
+                    "There is a mismatch between the session DRM and DRM on the encoder.  Would you like to set the encoder DRM to the session DRM?"
+                ) == true
+            ) {
+                await setNetwork1Api(localStorage.getItem("sessionDRM"))
+            }
+        }
+
+        await POSTData(endpoint + "/REST/encoder/action", {
             action_list: ["start"],
         }).then((data) => {
             console.log("Streaming started" + JSON.stringify(data))
@@ -100,7 +127,7 @@ export default function Container(props) {
     }
 
     async function stopStreaming() {
-        POSTData(endpoint + "/REST/encoder/action", {
+        await POSTData(endpoint + "/REST/encoder/action", {
             action_list: ["stop"],
         }).then((data) => {
             console.log("Streaming stopped" + JSON.stringify(data))

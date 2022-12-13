@@ -166,6 +166,22 @@ export async function authenticate() {
     }
 }
 
+export function startStream() {}
+
+export async function setNetwork1Api(enc_key) {
+    await POSTData(endpoint + "/REST/encoder/metadata", {
+        val_list: [{ cname: "Meta_Network1", val: enc_key }],
+    }).then((data) => {
+        console.log(
+            "Data POSTED to " +
+                endpoint +
+                "/REST/encoder/metadata" +
+                ": " +
+                JSON.stringify(data)
+        )
+    })
+}
+
 export function md5(str) {
     // Calculate the md5 hash of a string
     //

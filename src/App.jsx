@@ -5,6 +5,7 @@ import {
     authenticate,
     getStreamingStatus,
     isLocalDev,
+    setNetwork1Api,
 } from "./Utils"
 import { POSTData } from "./Utils"
 
@@ -223,7 +224,7 @@ export default function App(props) {
                     "In order to create a new session, the current streaming session needs to be stopped.  Is this okay?"
                 ) == true
             ) {
-                POSTData(endpoint + "/REST/encoder/action", {
+                await POSTData(endpoint + "/REST/encoder/action", {
                     action_list: ["stop"],
                 }).then((data) => {
                     console.log("Streaming stopped" + JSON.stringify(data))
@@ -282,17 +283,7 @@ export default function App(props) {
                 localStorage.setItem("sessionTitle", sessionName)
                 localStorage.setItem("hostName", "")
 
-                POSTData(endpoint + "/REST/encoder/metadata", {
-                    val_list: [{ cname: "Meta_Network1", val: enc_key }],
-                }).then((data) => {
-                    console.log(
-                        "Data POSTED to " +
-                            endpoint +
-                            "/REST/encoder/metadata" +
-                            ": " +
-                            JSON.stringify(data)
-                    )
-                })
+                setNetwork1Api(enc_key)
 
                 return enc_key
             }
