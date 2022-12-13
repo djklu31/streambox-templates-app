@@ -109,6 +109,11 @@ export default function Settings(props) {
         const serverIndex = e.target[4].selectedIndex
         const chosenServer = serverList[serverIndex]
 
+        if (chosenServer !== localStorage.getItem("cloudServer")) {
+            localStorage.removeItem("sessionID")
+            localStorage.removeItem("sessionDRM")
+        }
+
         localStorage.setItem("cloudServer", chosenServer)
 
         const controller = new AbortController()

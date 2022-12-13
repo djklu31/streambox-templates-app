@@ -10,7 +10,8 @@
 .settings-inner-container {
     display: flex;
     justify-content: center;
-    /* padding-bottom: 75px; */
+    padding-top: 25px;
+    padding-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
     width: 1500px;
@@ -19,7 +20,6 @@
 }
 
 .settings-outer-container {
-    margin-top: 50px;
     display: grid;
     height: 85vh;
 }

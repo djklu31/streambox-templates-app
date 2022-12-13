@@ -7,7 +7,13 @@ import Select from "./Select"
 import Form from "./Form"
 import AudioMeter from "./AudioMeters"
 import SessionsPanel from "./SessionsPanel"
-import { isLocalDev, POSTData, setNetwork1Api } from "../Utils"
+import {
+    isLocalDev,
+    POSTData,
+    getPropertyFromAPI,
+    setDecoderIPToServerIP,
+    setNetwork1Api,
+} from "../Utils"
 
 const endpoint = location.origin
 
@@ -115,19 +121,41 @@ export default function Container(props) {
         )
 
         const apiDRM = networkObj[0]["val"]
+        const apiServerIP = await getPropertyFromAPI(
+            "decoderIP",
+            "/REST/encoder/network"
+        )
+        const sessionServerIP = localStorage.getItem("sessionServerIP")
+        const sessionDRM = localStorage.getItem("sessionDRM")
 
         if (
-            localStorage.getItem("sessionDRM") !== undefined &&
-            localStorage.getItem("sessionDRM") !== null &&
-            localStorage.getItem("sessionDRM") !== ""
+            sessionDRM !== undefined &&
+            sessionDRM !== null &&
+            sessionDRM !== ""
         ) {
-            if (localStorage.getItem("sessionDRM") !== apiDRM) {
+            if (sessionDRM !== apiDRM) {
                 if (
                     confirm(
                         "There is a mismatch between the session DRM and DRM on the encoder.  Would you like to set the encoder DRM to the session DRM?"
                     ) == true
                 ) {
-                    await setNetwork1Api(localStorage.getItem("sessionDRM"))
+                    await setNetwork1Api(sessionDRM)
+                }
+            }
+        }
+
+        if (
+            sessionServerIP !== undefined &&
+            sessionServerIP !== null &&
+            sessionServerIP !== ""
+        ) {
+            if (sessionServerIP !== apiServerIP) {
+                if (
+                    confirm(
+                        `Decoder IP is not set to the correct server IP (${sessionServerIP}). Do you want to set this?`
+                    ) == true
+                ) {
+                    await setDecoderIPToServerIP(sessionServerIP)
                 }
             }
         }

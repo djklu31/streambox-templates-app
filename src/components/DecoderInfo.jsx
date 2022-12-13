@@ -39,12 +39,6 @@ export default function DecoderInfo({ decoderInfo }) {
                         {decoderInfo.getAttribute("port")}
                     </div>
                     <div>
-                        Duration:
-                        {decoderInfo.getAttribute("time_elapsed_for_decoder")}
-                    </div>
-                </div>
-                <div className="device-record-text-bottom">
-                    <div>
                         Quality:
                         {printoutQuality(
                             decoderInfo.getAttribute(
@@ -54,7 +48,10 @@ export default function DecoderInfo({ decoderInfo }) {
                             decoderInfo.getAttribute("force_pending") == 1
                         )}
                     </div>
-                    {/* <div>Email: joe@streambox.com</div> */}
+                    <div>
+                        Duration:
+                        {decoderInfo.getAttribute("time_elapsed_for_decoder")}
+                    </div>
                 </div>
             </div>
             <button className="disconnect-btn">Disconnect</button>

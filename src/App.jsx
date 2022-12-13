@@ -281,7 +281,6 @@ export default function App(props) {
                 localStorage.setItem("sessionDRM", enc_key)
                 localStorage.setItem("sessionID", dec_key)
                 localStorage.setItem("sessionTitle", sessionName)
-                localStorage.setItem("hostName", "")
 
                 setNetwork1Api(enc_key)
 

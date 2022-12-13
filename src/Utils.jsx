@@ -1,5 +1,5 @@
 //set environment: true - local development, false - production
-export let isLocalDev = true
+export let isLocalDev = false
 const endpoint = location.origin
 
 export function debounce(callback, delay = 500) {
@@ -11,6 +11,34 @@ export function debounce(callback, delay = 500) {
             callback()
         }, delay)
     }
+}
+
+export async function setDecoderIPToServerIP(sessionServerIP) {
+    await POSTData(endpoint + "/REST/encoder/network", {
+        val_list: [{ cname: "decoderIP", val: sessionServerIP }],
+    }).then((data) => {
+        console.log(
+            "Data POSTED to " +
+                endpoint +
+                "/REST/encoder/network" +
+                ": " +
+                JSON.stringify(data)
+        )
+    })
+}
+
+//get decoder ip from api side
+export async function getPropertyFromAPI(cname, route) {
+    let response = ""
+    if (isLocalDev) {
+        response = await fetch(endpoint + route + ".json")
+    } else {
+        response = await fetch(endpoint + route)
+    }
+
+    let result = await response.json()
+
+    return result.current_stat.filter((obj) => obj.cname === cname)[0].val
 }
 
 export async function POSTData(url = "", data = {}) {

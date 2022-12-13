@@ -3,6 +3,7 @@ import Select from "react-select"
 import DecoderInfo from "./DecoderInfo"
 import {
     debounce,
+    setDecoderIPToServerIP,
     isLocalDev,
     getStreamingStatus,
     POSTData,
@@ -305,6 +306,8 @@ export default function SessionsPanel(props) {
 
         let decInfoArray = []
         let sessionIsLive = parsedXML.getAttribute("session_islive")
+        const sessionServerIP = parsedXML.getAttribute("session_transporter_ip")
+        localStorage.setItem("sessionServerIP", sessionServerIP)
 
         if (decoderInfo) {
             // for (let decoder of decoderInfo) {
@@ -421,201 +424,6 @@ export default function SessionsPanel(props) {
                         </div>
                     </div>
                 )}
-                {/* <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-good">Good</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-fair">Fair</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-bad">Bad</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-good">Good</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-good">Good</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-fair">Fair</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-bad">Bad</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-good">Good</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-fair">Fair</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-bad">Bad</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div>
-    
-                <div className="device-record">
-                    <div className="device-record-text-wrapper">
-                        <div className="device-record-text-top">
-                            <div>Owner: Not Assigned</div>
-                            <div>IP: 123.456.789</div>
-                            <div>Duration: 0hr 31min</div>
-                        </div>
-                        <div className="device-record-text-bottom">
-                            <div>
-                                Quality:
-                                <span className="quality-text-good">Good</span>
-                            </div>
-                            <div>Email: joe@streambox.com</div>
-                        </div>
-                    </div>
-                    <button className="disconnect-btn">Disconnect</button>
-                </div> */}
             </div>
         )
     }
