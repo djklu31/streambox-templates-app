@@ -47,6 +47,7 @@ export default function Container(props) {
             pid: pid,
         }).then((data) => {
             alert("Preset Changed Successfully")
+            localStorage.setItem("presetPID", pid)
             console.log("Preset changed" + JSON.stringify(data))
             props.triggerBackgroundFetch()
         })

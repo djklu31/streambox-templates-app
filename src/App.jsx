@@ -174,7 +174,9 @@ export default function App(props) {
                             15000
                         )
                         let response = await fetch(
-                            `https://tl1.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}&login=${localStorage.getItem(
+                            `https://${localStorage.getItem(
+                                "cloudServer"
+                            )}.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}&login=${localStorage.getItem(
                                 "cloudLogin"
                             )}$hashedPass=${localStorage.getItem("cloudPass")}`,
                             {
@@ -248,12 +250,14 @@ export default function App(props) {
                 )
             } else {
                 //TODO: replace with userId used to log into SB cloud
-                let userId = 308337
+                let userId = localStorage.getItem("user_id")
                 const controller = new AbortController()
                 //timeout if no signal for 10 seconds
                 const timeoutId = setTimeout(() => controller.abort(), 15000)
                 let response = await fetch(
-                    `https://tl1.streambox.com/ls/CreateNewSessionXML.php?USER_ID=${userId}&SESSION_NAME=${sessionName}`,
+                    `https://${localStorage.getItem(
+                        "cloudServer"
+                    )}.streambox.com/ls/CreateNewSessionXML.php?USER_ID=${userId}&SESSION_NAME=${sessionName}`,
                     {
                         method: "GET",
                         signal: controller.signal,

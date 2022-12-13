@@ -87,6 +87,14 @@ export default function RootWrapper() {
             // openSettings(true)
             // setIsLoading(false)
         }
+
+        if (
+            localStorage.getItem("cloudServer") === "" ||
+            localStorage.getItem("cloudServer") === undefined ||
+            localStorage.getItem("cloudServer") === null
+        ) {
+            localStorage.setItem("cloudServer", "TL1")
+        }
     }
 
     useEffect(() => {

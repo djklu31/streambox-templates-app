@@ -106,12 +106,18 @@ export default function Settings(props) {
         e.preventDefault()
         const login = e.target[0].value
         const hashedPass = md5(e.target[1].value)
+        const serverIndex = e.target[3].selectedIndex
+        const chosenServer = serverList[serverIndex]
+
+        localStorage.setItem("cloudServer", chosenServer)
 
         const controller = new AbortController()
         //timeout if no signal for 15 seconds
         const timeoutId = setTimeout(() => controller.abort(), 15000)
         let response = await fetch(
-            `https://tl1.streambox.com/ls/VerifyLoginXML.php?login=${login}&hashedPass=${hashedPass}`,
+            `https://${localStorage.getItem(
+                "cloudServer"
+            )}.streambox.com/ls/VerifyLoginXML.php?login=${login}&hashedPass=${hashedPass}`,
             {
                 method: "GET",
                 signal: controller.signal,
@@ -135,13 +141,14 @@ export default function Settings(props) {
             //login success
             hideLoginElems()
 
-            document.querySelector("#login-status").textContent = "Logged In"
+            document.querySelector("#login-status").textContent =
+                "Logged In" + `- ${localStorage.getItem("cloudServer")}`
             document.querySelector("#login-status").style.color = "green"
 
             localStorage.setItem("cloudLogin", login)
             localStorage.setItem("cloudPass", hashedPass)
 
-            //hide the inputs and present a logout button
+            localStorage.setItem("user_id", parsedXML.getAttribute("user_id"))
         } else {
             document.querySelector("#login-status").textContent =
                 "Login Failure: Username/Password is incorrect"
@@ -163,8 +170,25 @@ export default function Settings(props) {
         if (loginResult === "success") {
             hideLoginElems()
 
-            document.querySelector("#login-status").textContent = "Logged In"
+            document.querySelector("#login-status").textContent =
+                "Logged In" + `- ${localStorage.getItem("cloudServer")}`
             document.querySelector("#login-status").style.color = "green"
+        }
+
+        if (
+            localStorage.getItem("cloudServer") === "" ||
+            localStorage.getItem("cloudServer") === undefined ||
+            localStorage.getItem("cloudServer") === null
+        ) {
+            localStorage.setItem("cloudServer", "TL1")
+        }
+        const storedCloudServer = localStorage.getItem("cloudServer")
+        let options = document.querySelector(".server-select").options
+
+        for (let option of options) {
+            if (option.value === storedCloudServer) {
+                option.selected = true
+            }
         }
     }
 
@@ -365,6 +389,7 @@ export default function Settings(props) {
 
         localStorage.removeItem("cloudLogin")
         localStorage.removeItem("cloudPass")
+        localStorage.removeItem("user_id")
     }
 
     function hideLoginElems() {
@@ -382,9 +407,34 @@ export default function Settings(props) {
         }
         document.getElementById("logout-btn").style.display = "none"
 
-        document.querySelector("#login-status").textContent = "Logged Out"
+        document.querySelector("#login-status").textContent =
+            "Logged Out" + `- ${localStorage.getItem("cloudServer")}`
         document.querySelector("#login-status").style.color = "red"
     }
+
+    function handleServerOptions(e) {
+        console.log(e)
+    }
+
+    let serverList = [
+        "TL1",
+        "LiveUS",
+        "LiveUSEast",
+        "LivePOST",
+        "LiveJP",
+        "LiveAU",
+        "LiveSG",
+        "LiveEU",
+        "LiveIN",
+        "LiveSA",
+        "LiveDE",
+    ]
+
+    let serverOptions = serverList.map((server, index) => (
+        <option key={`server-option-${index}`} value={server}>
+            {server}
+        </option>
+    ))
 
     return (
         <>
@@ -423,11 +473,28 @@ export default function Settings(props) {
                                 type="submit"
                                 value="Login"
                             />
+                            <div className="settings-label">
+                                <label className="template-label">
+                                    <h4>Cloud Server</h4>
+                                    <img
+                                        className="tooltip"
+                                        src="../../images/information.png"
+                                        data-tip="
+                            Select which cloud server to pull data from
+                        "
+                                    />
+                                </label>
+                            </div>
+                            <select className="server-select">
+                                {serverOptions}
+                            </select>
                         </form>
+
                         <div className="login-status-container template-form-padding">
                             <label>Login Status:</label>&nbsp;
                             <span id="login-status" style={{ color: "red" }}>
-                                Logged Out
+                                Logged Out -{" "}
+                                {localStorage.getItem("cloudServer")}
                             </span>
                         </div>
                         <button

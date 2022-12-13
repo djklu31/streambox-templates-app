@@ -1,5 +1,5 @@
 //set environment: true - local development, false - production
-export let isLocalDev = true
+export let isLocalDev = false
 const endpoint = location.origin
 
 export function debounce(callback, delay = 500) {
@@ -404,7 +404,9 @@ export async function attemptLogin() {
     //timeout if no signal for 15 seconds
     const timeoutId = setTimeout(() => controller.abort(), 15000)
     let response = await fetch(
-        `https://tl1.streambox.com/ls/VerifyLoginXML.php?login=${login}&hashedPass=${hashedPass}`,
+        `https://${localStorage.getItem(
+            "cloudServer"
+        )}.streambox.com/ls/VerifyLoginXML.php?login=${login}&hashedPass=${hashedPass}`,
         {
             method: "GET",
             signal: controller.signal,
@@ -413,6 +415,8 @@ export async function attemptLogin() {
             },
         }
     ).catch((e) => {
+        document.querySelector(".no-session-msg").textContent =
+            "The Server is Down..."
         console.log("The server is down")
     })
 

@@ -9,16 +9,39 @@ export default React.memo(function Select(props) {
     let value = props.value
 
     if (presetObj) {
-        options = presetObj.preset_list.map((preset, index) => (
-            <option key={`preset-select-${index}`} value={preset.pid}>
-                {preset.pname}
-            </option>
-        ))
-        options.unshift(
-            <option key="preset-obj-option-default" value="not-selected">
-                Choose One
-            </option>
-        )
+        options = presetObj.preset_list.map((preset, index) => {
+            if (preset.pid === localStorage.getItem("presetPID")) {
+                return (
+                    <option
+                        key={`preset-select-${index}`}
+                        selected
+                        value={preset.pid}
+                    >
+                        {preset.pname}
+                    </option>
+                )
+            }
+
+            return (
+                <option key={`preset-select-${index}`} value={preset.pid}>
+                    {preset.pname}
+                </option>
+            )
+        })
+
+        if (localStorage.getItem("presetPID") === "custom") {
+            options.unshift(
+                <option key="preset-obj-option-default" value="custom">
+                    Custom
+                </option>
+            )
+        } else {
+            options.unshift(
+                <option key="preset-obj-option-default" value="not-selected">
+                    Choose One
+                </option>
+            )
+        }
     } else {
         options = subValues.map((subValue, index) => (
             <option key={`preset-options-${index}`} value={subValue}>
