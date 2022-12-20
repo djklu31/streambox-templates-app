@@ -76,6 +76,10 @@ export default function Container(props) {
                 tempObj.cname = field.name
                 tempObj.val = field.value
                 arr = [...arr, { ...tempObj }]
+
+                if (tempObj.cname === "Meta_Network1") {
+                    localStorage.setItem("sessionDRM", tempObj.val)
+                }
             }
 
             if (field.type === "submit") {
@@ -102,7 +106,6 @@ export default function Container(props) {
             postEndpoint === "/REST/encoder/metadata" ||
             postEndpoint === "/REST/encoder/metadata.json"
         ) {
-            localStorage.removeItem("sessionDRM")
             localStorage.removeItem("sessionID")
         }
     }

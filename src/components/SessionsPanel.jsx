@@ -261,13 +261,7 @@ export default function SessionsPanel(props) {
             <div className="sessions-panel-container">
                 <div className="sessions-panel-top">
                     <div>
-                        Session ID:{" "}
-                        <span
-                            className="session-id-top"
-                            style={{ color: "red" }}
-                        >
-                            none
-                        </span>
+                        Session ID: <span className="session-id-top">none</span>
                     </div>
                     <button
                         className="sessions-panel-top-btns"
@@ -330,6 +324,7 @@ export default function SessionsPanel(props) {
         let decInfoArray = []
         let sessionIsLive = parsedXML.getAttribute("session_islive")
         const sessionServerIP = parsedXML.getAttribute("session_transporter_ip")
+        const sessionID = parsedXML.getAttribute("dec_key")
         localStorage.setItem("sessionServerIP", sessionServerIP)
 
         if (decoderInfo) {
@@ -350,7 +345,9 @@ export default function SessionsPanel(props) {
                     <div>
                         Session ID:{" "}
                         <span className="session-id-top">
-                            {parsedXML.getAttribute("dec_key")}
+                            {sessionID !== ""
+                                ? parsedXML.getAttribute("dec_key")
+                                : "Not Found"}
                         </span>
                     </div>
                     {/* <input
@@ -419,7 +416,9 @@ export default function SessionsPanel(props) {
                     <div>
                         Session ID:{" "}
                         <span className="session-id-top">
-                            {parsedXML.getAttribute("dec_key")}
+                            {sessionID !== ""
+                                ? parsedXML.getAttribute("dec_key")
+                                : "Not Found"}
                         </span>
                     </div>
                     <button
@@ -440,11 +439,18 @@ export default function SessionsPanel(props) {
                     decInfoArray
                 ) : (
                     <div className="msg-wrapper">
-                        <div className="no-session-msg">
-                            {sessionIsLive == 1
-                                ? "No Decoders Connected"
-                                : "Waiting for Host to Start Session..."}
-                        </div>
+                        {sessionID !== "" ? (
+                            <div className="no-session-msg">
+                                {sessionIsLive == 1
+                                    ? "No Decoders Connected"
+                                    : "Waiting for Host to Start Session..."}
+                            </div>
+                        ) : (
+                            <div className="no-session-msg">
+                                Session DRM {localStorage.getItem("sessionDRM")}{" "}
+                                is not found
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
