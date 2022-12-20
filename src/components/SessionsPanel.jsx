@@ -11,7 +11,7 @@ import {
     getPropertyFromAPI,
 } from "../Utils"
 
-export default async function SessionsPanel(props) {
+export default function SessionsPanel(props) {
     let [showEmailPage, setShowEmailPage] = useState(false)
     let [selectedOptions, setSelectedOptions] = useState([])
     let localStorageEmails = JSON.parse(localStorage.getItem("storedEmails"))
@@ -327,7 +327,7 @@ export default async function SessionsPanel(props) {
         const sessionID = parsedXML.getAttribute("dec_key")
         localStorage.setItem("sessionServerIP", sessionServerIP)
 
-        await setDecoderIPToServerIP(sessionServerIP)
+        setDecoderIPToServerIP(sessionServerIP)
 
         if (decoderInfo) {
             // for (let decoder of decoderInfo) {
