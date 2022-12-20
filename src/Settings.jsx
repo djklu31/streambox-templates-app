@@ -110,7 +110,6 @@ export default function Settings(props) {
         const chosenServer = serverList[serverIndex]
 
         if (chosenServer !== localStorage.getItem("cloudServer")) {
-            localStorage.removeItem("sessionID")
             localStorage.removeItem("sessionDRM")
         }
 

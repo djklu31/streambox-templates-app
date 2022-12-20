@@ -101,13 +101,6 @@ export default function Container(props) {
                 props.triggerBackgroundFetch()
             }
         )
-
-        if (
-            postEndpoint === "/REST/encoder/metadata" ||
-            postEndpoint === "/REST/encoder/metadata.json"
-        ) {
-            localStorage.removeItem("sessionID")
-        }
     }
 
     async function startStreaming() {

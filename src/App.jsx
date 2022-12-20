@@ -6,6 +6,7 @@ import {
     getStreamingStatus,
     isLocalDev,
     setNetwork1Api,
+    setDecoderIPToServerIP,
 } from "./Utils"
 import { POSTData } from "./Utils"
 
@@ -278,10 +279,11 @@ export default function App(props) {
                 let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
                 let parsedXML = xmlDoc.getElementsByTagName("body")[0]
                 let enc_key = parsedXML.getAttribute("enc_key")
-                let dec_key = parsedXML.getAttribute("dec_key")
+
+                const sessionServerIP = localStorage.getItem("sessionServerIP")
+                await setDecoderIPToServerIP(sessionServerIP)
 
                 localStorage.setItem("sessionDRM", enc_key)
-                localStorage.setItem("sessionID", dec_key)
                 localStorage.setItem("sessionTitle", sessionName)
 
                 setNetwork1Api(enc_key)
