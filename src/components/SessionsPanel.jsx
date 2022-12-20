@@ -8,6 +8,7 @@ import {
     getStreamingStatus,
     POSTData,
     setNetwork1Api,
+    getPropertyFromAPI,
 } from "../Utils"
 
 export default function SessionsPanel(props) {
@@ -201,6 +202,12 @@ export default function SessionsPanel(props) {
 
                 const apiDRM = networkObj[0]["val"]
 
+                const apiServerIP = await getPropertyFromAPI(
+                    "decoderIP",
+                    "/REST/encoder/network"
+                )
+                const sessionServerIP = localStorage.getItem("sessionServerIP")
+
                 if (
                     localStorage.getItem("sessionDRM") !== undefined &&
                     localStorage.getItem("sessionDRM") !== null &&
@@ -215,6 +222,22 @@ export default function SessionsPanel(props) {
                             await setNetwork1Api(
                                 localStorage.getItem("sessionDRM")
                             )
+                        }
+                    }
+                }
+
+                if (
+                    sessionServerIP !== undefined &&
+                    sessionServerIP !== null &&
+                    sessionServerIP !== ""
+                ) {
+                    if (sessionServerIP !== apiServerIP) {
+                        if (
+                            confirm(
+                                `Decoder IP is not set to the correct server IP (${sessionServerIP}). Do you want to set this?`
+                            ) == true
+                        ) {
+                            await setDecoderIPToServerIP(sessionServerIP)
                         }
                     }
                 }

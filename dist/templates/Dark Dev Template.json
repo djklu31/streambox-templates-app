@@ -5,6 +5,102 @@
         "navbar": {
             "routes": [
                 {
+                    "routeName": "Session",
+                    "containersStyle": {
+                        "numberOfColumns": 2
+                    },
+                    "containers": [
+                        {
+                            "title": "Video",
+                            "apiSrc": [
+                                "/REST/encoder/status.json",
+                                "/REST/encoder/audio.json"
+                            ],
+                            "containerStyle": {
+                                "stretchVertically": 2
+                            },
+                            "fields": [
+                                {
+                                    "type": "video",
+                                    "hasVUMeter": true,
+                                    "audioLevelEndpoint": "/REST/encoder/audiolevels.json",
+                                    "previewImageRoute": "/REST/encoder/preview/JPG.jpeg"
+                                },
+                                {
+                                    "type": "mappedText",
+                                    "label": "Source Video Format",
+                                    "mapping": "inputsignal",
+                                    "inlineElements": [
+                                        {
+                                            "type": "mappedText",
+                                            "label": "Network Mode",
+                                            "mapping": "cnetworkmode"
+                                        },
+                                        {
+                                            "type": "mappedText",
+                                            "label": "Bitrate",
+                                            "mapping": "cur_bitrate"
+                                        },
+                                        {
+                                            "type": "mappedText",
+                                            "label": "Quality",
+                                            "mapping": "vquality"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "mappedText",
+                                    "label": "Dropped Captured Frames",
+                                    "mapping": "dropCapture",
+                                    "inlineElements": [
+                                        {
+                                            "type": "mappedText",
+                                            "label": "Dropped Encoder Frames",
+                                            "mapping": "dropEnc"
+                                        },
+                                        {
+                                            "type": "mappedText",
+                                            "label": "SDI errors",
+                                            "mapping": "sdi_error"
+                                        },
+                                        {
+                                            "type": "mappedText",
+                                            "label": "Frame Delay",
+                                            "mapping": "frame_delay"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Start Streaming",
+                            "apiSrc": [
+                                "/REST/encoder/status.json",
+                                "/REST/encoder/presets.json"
+                            ],
+                            "fields": [
+                                {
+                                    "type": "button",
+                                    "size": "giant",
+                                    "mapping": "isStreaming",
+                                    "action": "toggleStreaming"
+                                },
+                                {
+                                    "type": "presetSelect",
+                                    "label": "Preset",
+                                    "btnPresetSrc": "/REST/encoder/presets.json",
+                                    "btnLabel": "Apply Preset",
+                                    "btnAction": "applyPreset",
+                                    "mapping": "none"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "sessionsPanel"
+                        }
+                    ]
+                },
+                {
                     "routeName": "Info",
                     "containersStyle": {
                         "numberOfColumns": 2
@@ -75,7 +171,6 @@
                         {
                             "title": "Network",
                             "apiSrc": "/REST/encoder/status.json",
-                            "containerStyle": {},
                             "fields": [
                                 {
                                     "type": "mappedText",
@@ -120,10 +215,6 @@
                             ]
                         },
                         {
-                            "containerStyle": {},
-                            "type": "sessionsPanel"
-                        },
-                        {
                             "title": "Start Streaming",
                             "apiSrc": [
                                 "/REST/encoder/status.json",
@@ -161,7 +252,7 @@
                                 "/REST/encoder/video.json"
                             ],
                             "type": "form",
-                            "postEndpoint": "/REST/encoder/video",
+                            "postEndpoint": "/REST/encoder/video.json",
                             "fields": [
                                 {
                                     "type": "input",
@@ -191,7 +282,7 @@
                         {
                             "title": "Transport Settings",
                             "apiSrc": "/REST/encoder/transport.json",
-                            "postEndpoint": "/REST/encoder/transport",
+                            "postEndpoint": "/REST/encoder/transport.json",
                             "type": "form",
                             "containerStyle": {
                                 "stretchVertically": 2
@@ -312,6 +403,10 @@
                 },
                 {
                     "routeName": "Config",
+                    "containersStyle": {
+                        "numberOfColumns": 2
+                    },
+
                     "containers": [
                         {
                             "title": "Video Settings",
@@ -403,24 +498,6 @@
                                     "action": "submitLocalForm",
                                     "size": "small",
                                     "label": "Apply Changes"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "routeName": "Audio",
-                    "containers": [
-                        {
-                            "title": "Audio",
-                            "apiSrc": "/REST/encoder/audiolevels.json",
-                            "type": "form",
-                            "postEndpoint": "/REST/encoder/audiolevels.json",
-                            "fields": [
-                                {
-                                    "type": "mappedText",
-                                    "label": "Audio Levels",
-                                    "mapping": "audiolevels"
                                 }
                             ]
                         }

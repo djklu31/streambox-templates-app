@@ -45,6 +45,11 @@
     margin-bottom: 0;
 }
 
+#login-submit-btn,
+#logout-btn {
+    margin-bottom: 15px;
+}
+
 .template-label {
     display: flex;
     align-items: center;

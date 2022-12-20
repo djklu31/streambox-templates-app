@@ -201,8 +201,10 @@ export default function App(props) {
                     setSessionDashXML("none")
                 }
             } else {
-                document.querySelector(".no-session-msg").textContent =
-                    "Log into Streambox Cloud in Settings"
+                localStorage.removeItem("sessionServerIP")
+                document.querySelector(
+                    ".no-session-msg"
+                ).innerHTML = `Log into Streambox Cloud in Settings`
             }
         }
 

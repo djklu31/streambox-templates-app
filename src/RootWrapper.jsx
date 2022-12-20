@@ -89,7 +89,7 @@ export default function RootWrapper() {
             localStorage.getItem("cloudServer") === undefined ||
             localStorage.getItem("cloudServer") === null
         ) {
-            localStorage.setItem("cloudServer", "TL1")
+            localStorage.setItem("cloudServer", "LivePOST")
         }
     }
 

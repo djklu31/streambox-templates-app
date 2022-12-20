@@ -5,6 +5,102 @@
     "navbar": {
       "routes": [
         {
+          "routeName": "Session",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "Video",
+              "apiSrc": [
+                "/REST/encoder/status",
+                "/REST/encoder/audio"
+              ],
+              "containerStyle": {
+                "stretchVertically": 2
+              },
+              "fields": [
+                {
+                  "type": "video",
+                  "hasVUMeter": true,
+                  "audioLevelEndpoint": "/REST/encoder/audiolevels",
+                  "previewImageRoute": "/REST/encoder/preview/JPG"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Source Video Format",
+                  "mapping": "inputsignal",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Network Mode",
+                      "mapping": "cnetworkmode"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Bitrate",
+                      "mapping": "cur_bitrate"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Quality",
+                      "mapping": "vquality"
+                    }
+                  ]
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Dropped Captured Frames",
+                  "mapping": "dropCapture",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Dropped Encoder Frames",
+                      "mapping": "dropEnc"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "SDI errors",
+                      "mapping": "sdi_error"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Frame Delay",
+                      "mapping": "frame_delay"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Start Streaming",
+              "apiSrc": [
+                "/REST/encoder/status",
+                "/REST/encoder/presets"
+              ],
+              "fields": [
+                {
+                  "type": "button",
+                  "size": "giant",
+                  "mapping": "isStreaming",
+                  "action": "toggleStreaming"
+                },
+                {
+                  "type": "presetSelect",
+                  "label": "Preset",
+                  "btnPresetSrc": "/REST/encoder/presets",
+                  "btnLabel": "Apply Preset",
+                  "btnAction": "applyPreset",
+                  "mapping": "none"
+                }
+              ]
+            },
+            {
+              "type": "sessionsPanel"
+            }
+          ]
+        },
+        {
           "routeName": "Info",
           "containersStyle": {
             "numberOfColumns": 2
@@ -117,9 +213,6 @@
                   "mapping": "is_ldmp"
                 }
               ]
-            },
-            {
-              "type": "sessionsPanel"
             },
             {
               "title": "Start Streaming",
@@ -310,6 +403,10 @@
         },
         {
           "routeName": "Config",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+
           "containers": [
             {
               "title": "Video Settings",
@@ -401,24 +498,6 @@
                   "action": "submitLocalForm",
                   "size": "small",
                   "label": "Apply Changes"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "routeName": "Audio",
-          "containers": [
-            {
-              "title": "Audio",
-              "apiSrc": "/REST/encoder/audiolevels",
-              "type": "form",
-              "postEndpoint": "/REST/encoder/audiolevels",
-              "fields": [
-                {
-                  "type": "mappedText",
-                  "label": "Audio Levels",
-                  "mapping": "audiolevels"
                 }
               ]
             }

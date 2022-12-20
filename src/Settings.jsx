@@ -185,7 +185,7 @@ export default function Settings(props) {
             localStorage.getItem("cloudServer") === undefined ||
             localStorage.getItem("cloudServer") === null
         ) {
-            localStorage.setItem("cloudServer", "TL1")
+            localStorage.setItem("cloudServer", "LivePOST")
         }
         const storedCloudServer = localStorage.getItem("cloudServer")
         let options = document.querySelector(".server-select").options
@@ -398,6 +398,7 @@ export default function Settings(props) {
         localStorage.removeItem("cloudLogin")
         localStorage.removeItem("cloudPass")
         localStorage.removeItem("user_id")
+        localStorage.removeItem("sessionServerIP")
     }
 
     function hideLoginElems() {
@@ -420,23 +421,21 @@ export default function Settings(props) {
         document.querySelector("#login-status").style.color = "red"
     }
 
-    function handleServerOptions(e) {
-        console.log(e)
-    }
+    // let serverList = [
+    //     "TL1",
+    //     "LiveUS",
+    //     "LiveUSEast",
+    //     "LivePOST",
+    //     "LiveJP",
+    //     "LiveAU",
+    //     "LiveSG",
+    //     "LiveEU",
+    //     "LiveIN",
+    //     "LiveSA",
+    //     "LiveDE",
+    // ]
 
-    let serverList = [
-        "TL1",
-        "LiveUS",
-        "LiveUSEast",
-        "LivePOST",
-        "LiveJP",
-        "LiveAU",
-        "LiveSG",
-        "LiveEU",
-        "LiveIN",
-        "LiveSA",
-        "LiveDE",
-    ]
+    let serverList = ["LiveUSEast", "LivePOST", "LiveJP", "LiveAU", "LiveEU"]
 
     let serverOptions = serverList.map((server, index) => (
         <option key={`server-option-${index}`} value={server}>
@@ -477,10 +476,21 @@ export default function Settings(props) {
                                 placeholder=" Password"
                             />
                             <input
+                                id="login-submit-btn"
                                 className="login-input"
                                 type="submit"
                                 value="Login"
                             />
+                            <div className="login-status-container template-form-padding">
+                                <label>Login Status:</label>&nbsp;
+                                <span
+                                    id="login-status"
+                                    style={{ color: "red" }}
+                                >
+                                    Logged Out -{" "}
+                                    {localStorage.getItem("cloudServer")}
+                                </span>
+                            </div>
                             <div className="settings-label">
                                 <label className="template-label">
                                     <h4>Host Name</h4>
@@ -521,14 +531,6 @@ export default function Settings(props) {
                                 {serverOptions}
                             </select>
                         </form>
-
-                        <div className="login-status-container template-form-padding">
-                            <label>Login Status:</label>&nbsp;
-                            <span id="login-status" style={{ color: "red" }}>
-                                Logged Out -{" "}
-                                {localStorage.getItem("cloudServer")}
-                            </span>
-                        </div>
                         <button
                             id="logout-btn"
                             style={{ display: "none" }}
