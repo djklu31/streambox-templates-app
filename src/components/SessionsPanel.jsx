@@ -15,8 +15,13 @@ export default function SessionsPanel(props) {
     let [showEmailPage, setShowEmailPage] = useState(false)
     let [selectedOptions, setSelectedOptions] = useState([])
     let localStorageEmails = JSON.parse(localStorage.getItem("storedEmails"))
+    let [isFromClearSession, setIsFromClearSession] = useState(false)
 
     let sessionDashXML = props.sessionDashXML
+
+    if (isFromClearSession) {
+        sessionDashXML = "none"
+    }
 
     let opts = []
     if (localStorageEmails) {
@@ -28,28 +33,33 @@ export default function SessionsPanel(props) {
     const endpoint = location.origin
 
     async function handleCreateNewSessionBtnWrapper() {
-        let sessionIDElems = document.getElementsByClassName("session-id-top")
+        let sessionIDElems =
+            document.getElementsByClassName("session-id-readout")
         let res = await props.handleCreateNewSessionBtn()
 
         if (res !== undefined && res !== null) {
             for (let elem of sessionIDElems) {
-                elem.innerHTML = `<div style="color: green">Creating...</div>`
+                elem.innerHTML = `<span style="color: green">Creating...</span>`
+                document.querySelector(".close-session-btn").style.display =
+                    "none"
+
+                setTimeout(() => {
+                    document.querySelector(".close-session-btn").style.display =
+                        "initial"
+                }, 7000)
             }
         }
+
+        setIsFromClearSession(false)
     }
 
     function clearSession() {
+        let sessionDRM = localStorage.getItem("sessionDRM")
+        localStorage.setItem("lastSessionFromClear", sessionDRM)
         localStorage.removeItem("sessionDRM")
         localStorage.removeItem("sessionTitle")
-        document.querySelector(".session-id-top").textContent = "none"
-        let btns = document.getElementsByClassName("sessions-panel-top-btns")
-        if (btns.length > 0) {
-            btns[1].disabled = true
-        }
-
-        document.querySelector(".no-session-msg").textContent =
-            "Please create a new session"
-        document.querySelector(".close-session-btn").style.display = "none"
+        setShowEmailPage(false)
+        setIsFromClearSession(true)
     }
 
     function sendInvites() {
@@ -57,7 +67,9 @@ export default function SessionsPanel(props) {
         const emailTitle = document.querySelector(
             ".email-page-title-input"
         ).value
-        let sessionID = document.querySelector(".session-id-top").textContent
+        let sessionID = document.querySelector(
+            ".session-id-readout"
+        ).textContent
         sessionID = sessionID.substring(1, sessionID.length)
 
         let emailAddresses = selectedOptions.map((email) => email.value)
@@ -293,9 +305,7 @@ export default function SessionsPanel(props) {
                 </div>
                 <hr />
                 <div className="msg-wrapper">
-                    <div className="no-session-msg">
-                        Fetching Session Dashboard Data...
-                    </div>
+                    <div className="no-session-msg">Logging Into Server...</div>
                 </div>
             </div>
         )
@@ -359,22 +369,48 @@ export default function SessionsPanel(props) {
             // }
         }
 
+        let lastSessionFromClear = localStorage.getItem("lastSessionFromClear")
+        let decKey = parsedXML.getAttribute("dec_key")
+        let encKey = parsedXML.getAttribute("enc_key")
+
+        if (encKey === lastSessionFromClear) {
+            let sessionIDElems =
+                document.getElementsByClassName("session-id-readout")
+
+            for (let elem of sessionIDElems) {
+                elem.innerHTML = `<span style="color: green">Creating...</span>`
+                document.querySelector(".close-session-btn").style.display =
+                    "none"
+
+                setTimeout(() => {
+                    document.querySelector(".close-session-btn").style.display =
+                        "initial"
+                }, 7000)
+            }
+        }
+
         return showEmailPage ? (
             <div>
                 <div className="sessions-panel-top">
                     <div>
                         Session ID:{" "}
                         <span className="session-id-top">
-                            {sessionID !== ""
-                                ? parsedXML.getAttribute("dec_key")
-                                : "Not Found"}
+                            {sessionID !== "" ? (
+                                <span className="session-id-readout-wrapper">
+                                    <span className="session-id-readout">
+                                        {decKey}
+                                    </span>
+                                    <button
+                                        className="close-session-btn"
+                                        onClick={clearSession}
+                                    >
+                                        x
+                                    </button>
+                                </span>
+                            ) : (
+                                "Not Found"
+                            )}
                         </span>
-                        <button
-                            className="close-session-btn"
-                            onClick={clearSession}
-                        >
-                            x
-                        </button>
                     </div>
                     {/* <input
                         onChange={debounce(() => {
@@ -442,16 +478,22 @@ export default function SessionsPanel(props) {
                     <div>
                         Session ID:{" "}
                         <span className="session-id-top">
-                            {sessionID !== ""
-                                ? parsedXML.getAttribute("dec_key")
-                                : "Not Found"}
+                            {sessionID !== "" ? (
+                                <span className="session-id-readout-wrapper">
+                                    <span className="session-id-readout">
+                                        {decKey}
+                                    </span>
+                                    <button
+                                        className="close-session-btn"
+                                        onClick={clearSession}
+                                    >
+                                        x
+                                    </button>
+                                </span>
+                            ) : (
+                                "Not Found"
+                            )}
                         </span>
-                        <button
-                            className="close-session-btn"
-                            onClick={clearSession}
-                        >
-                            x
-                        </button>
                     </div>
                     <button
                         className="sessions-panel-top-btns"

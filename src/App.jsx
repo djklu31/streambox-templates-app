@@ -24,7 +24,7 @@ export default function App(props) {
     let presetObj
     const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
         ? currentTemplate.template.backgroundRefreshTime
-        : 3000 //timer to fetch background data in milliseconds
+        : 5000 //timer to fetch background data in milliseconds
 
     const endpoint = location.origin
 
