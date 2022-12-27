@@ -1,5 +1,5 @@
 //set environment: true - local development, false - production
-export let isLocalDev = true
+export let isLocalDev = false
 const endpoint = location.origin
 
 export function debounce(callback, delay = 500) {
