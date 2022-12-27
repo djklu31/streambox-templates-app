@@ -20,7 +20,18 @@ export default function SessionsPanel(props) {
     let sessionDashXML = props.sessionDashXML
 
     if (isFromClearSession) {
-        sessionDashXML = "none"
+        if (sessionDashXML === "none" || sessionDashXML === "") {
+            setIsFromClearSession(false)
+        } else {
+            let parser = new DOMParser()
+            let xmlDoc = parser.parseFromString(sessionDashXML, "text/xml")
+            let parsedXML = xmlDoc.getElementsByTagName("body")[0]
+            const encKey = parsedXML.getAttribute("enc_key")
+
+            if (localStorage.getItem("lastSessionFromClear") === encKey) {
+                sessionDashXML = "none"
+            }
+        }
     }
 
     let opts = []
@@ -40,13 +51,17 @@ export default function SessionsPanel(props) {
         if (res !== undefined && res !== null) {
             for (let elem of sessionIDElems) {
                 elem.innerHTML = `<span style="color: green">Creating...</span>`
-                document.querySelector(".close-session-btn").style.display =
-                    "none"
 
-                setTimeout(() => {
+                if (document.querySelector(".close-session-btn")) {
                     document.querySelector(".close-session-btn").style.display =
-                        "initial"
-                }, 7000)
+                        "none"
+
+                    setTimeout(() => {
+                        document.querySelector(
+                            ".close-session-btn"
+                        ).style.display = "initial"
+                    }, 7000)
+                }
             }
         }
 
@@ -290,7 +305,10 @@ export default function SessionsPanel(props) {
             <div className="sessions-panel-container">
                 <div className="sessions-panel-top">
                     <div>
-                        Session ID: <span className="session-id-top">none</span>
+                        Session ID:{" "}
+                        <span className="session-id-top">
+                            <span className="session-id-readout">none</span>
+                        </span>
                     </div>
                     <button
                         className="sessions-panel-top-btns"
@@ -315,7 +333,10 @@ export default function SessionsPanel(props) {
             <div className="sessions-panel-container">
                 <div className="sessions-panel-top">
                     <div>
-                        Session ID: <span className="session-id-top">none</span>
+                        Session ID:{" "}
+                        <span className="session-id-top">
+                            <span className="session-id-readout">none</span>
+                        </span>
                     </div>
                     <button
                         className="sessions-panel-top-btns"
@@ -379,13 +400,17 @@ export default function SessionsPanel(props) {
 
             for (let elem of sessionIDElems) {
                 elem.innerHTML = `<span style="color: green">Creating...</span>`
-                document.querySelector(".close-session-btn").style.display =
-                    "none"
 
-                setTimeout(() => {
+                if (document.querySelector(".close-session-btn")) {
                     document.querySelector(".close-session-btn").style.display =
-                        "initial"
-                }, 7000)
+                        "none"
+
+                    setTimeout(() => {
+                        document.querySelector(
+                            ".close-session-btn"
+                        ).style.display = "initial"
+                    }, 7000)
+                }
             }
         }
 
