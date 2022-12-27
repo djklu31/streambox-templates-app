@@ -24,7 +24,7 @@ export default function App(props) {
     let presetObj
     const backgroundRefreshTime = currentTemplate.template.backgroundRefreshTime
         ? currentTemplate.template.backgroundRefreshTime
-        : 5000 //timer to fetch background data in milliseconds
+        : 3000 //timer to fetch background data in milliseconds
 
     const endpoint = location.origin
 
@@ -252,7 +252,6 @@ export default function App(props) {
                     "Session name cannot be blank.  Please click 'Create New Session' again."
                 )
             } else {
-                //TODO: replace with userId used to log into SB cloud
                 let userId = localStorage.getItem("user_id")
                 const controller = new AbortController()
                 //timeout if no signal for 10 seconds

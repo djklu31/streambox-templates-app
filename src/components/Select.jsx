@@ -52,7 +52,7 @@ export default React.memo(function Select(props) {
 
     return (
         <div className="input-div">
-            <label className="input-label">{props.label}: </label>
+            <label className="input-label preset-label">{props.label}: </label>
             {presetObj ? (
                 <select id="preset-select">{options}</select>
             ) : (

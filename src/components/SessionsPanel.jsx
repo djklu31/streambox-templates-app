@@ -15,6 +15,9 @@ export default function SessionsPanel(props) {
     let [showEmailPage, setShowEmailPage] = useState(false)
     let [selectedOptions, setSelectedOptions] = useState([])
     let localStorageEmails = JSON.parse(localStorage.getItem("storedEmails"))
+
+    let sessionDashXML = props.sessionDashXML
+
     let opts = []
     if (localStorageEmails) {
         opts = localStorageEmails
@@ -22,7 +25,6 @@ export default function SessionsPanel(props) {
 
     let [emailOptions, setEmailOptions] = useState(opts)
 
-    let sessionDashXML = props.sessionDashXML
     const endpoint = location.origin
 
     async function handleCreateNewSessionBtnWrapper() {
@@ -34,6 +36,20 @@ export default function SessionsPanel(props) {
                 elem.innerHTML = `<div style="color: green">Creating...</div>`
             }
         }
+    }
+
+    function clearSession() {
+        localStorage.removeItem("sessionDRM")
+        localStorage.removeItem("sessionTitle")
+        document.querySelector(".session-id-top").textContent = "none"
+        let btns = document.getElementsByClassName("sessions-panel-top-btns")
+        if (btns.length > 0) {
+            btns[1].disabled = true
+        }
+
+        document.querySelector(".no-session-msg").textContent =
+            "Please create a new session"
+        document.querySelector(".close-session-btn").style.display = "none"
     }
 
     function sendInvites() {
@@ -226,6 +242,7 @@ export default function SessionsPanel(props) {
                     }
                 }
 
+                //TODO:  this check is probably redundant now
                 if (
                     sessionServerIP !== undefined &&
                     sessionServerIP !== null &&
@@ -327,6 +344,7 @@ export default function SessionsPanel(props) {
         const sessionID = parsedXML.getAttribute("dec_key")
         localStorage.setItem("sessionServerIP", sessionServerIP)
 
+        //will always run whenever server refreshes
         setDecoderIPToServerIP(sessionServerIP)
 
         if (decoderInfo) {
@@ -351,6 +369,12 @@ export default function SessionsPanel(props) {
                                 ? parsedXML.getAttribute("dec_key")
                                 : "Not Found"}
                         </span>
+                        <button
+                            className="close-session-btn"
+                            onClick={clearSession}
+                        >
+                            x
+                        </button>
                     </div>
                     {/* <input
                         onChange={debounce(() => {
@@ -422,6 +446,12 @@ export default function SessionsPanel(props) {
                                 ? parsedXML.getAttribute("dec_key")
                                 : "Not Found"}
                         </span>
+                        <button
+                            className="close-session-btn"
+                            onClick={clearSession}
+                        >
+                            x
+                        </button>
                     </div>
                     <button
                         className="sessions-panel-top-btns"

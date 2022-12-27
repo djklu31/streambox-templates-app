@@ -22,6 +22,10 @@ body {
     max-width: 700px;
 }
 
+#preset-select {
+    width: 280px;
+}
+
 .dark-mode {
     background-color: rgb(10, 10, 12);
 }
@@ -169,6 +173,11 @@ footer {
     justify-content: center;
     align-items: center;
     margin-bottom: 2.5em;
+}
+
+.close-session-btn {
+    margin-left: 5px;
+    border-radius: 5px;
 }
 
 .field-label {
@@ -622,4 +631,9 @@ Multichannel Page Styles
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+.preset-label {
+    width: initial;
+    margin-right: 95px;
 }

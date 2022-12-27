@@ -140,6 +140,7 @@ export default function Container(props) {
             }
         }
 
+        //TODO:  this check is probably redundant now
         if (
             sessionServerIP !== undefined &&
             sessionServerIP !== null &&
