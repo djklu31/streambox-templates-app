@@ -177,9 +177,7 @@ export default function App(props) {
                         let response = await fetch(
                             `https://${localStorage.getItem(
                                 "cloudServer"
-                            )}.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}&login=${localStorage.getItem(
-                                "cloudLogin"
-                            )}$hashedPass=${localStorage.getItem("cloudPass")}`,
+                            )}.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}`,
                             {
                                 method: "GET",
                                 signal: controller.signal,
