@@ -294,6 +294,13 @@ footer {
     align-items: center;
 }
 
+.wrong-login-msg {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .device-record {
     display: grid;
     grid-template-columns: 5fr 1fr;

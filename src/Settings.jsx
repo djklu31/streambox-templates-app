@@ -420,21 +420,25 @@ export default function Settings(props) {
         document.querySelector("#login-status").style.color = "red"
     }
 
-    // let serverList = [
-    //     "TL1",
-    //     "LiveUS",
-    //     "LiveUSEast",
-    //     "LivePOST",
-    //     "LiveJP",
-    //     "LiveAU",
-    //     "LiveSG",
-    //     "LiveEU",
-    //     "LiveIN",
-    //     "LiveSA",
-    //     "LiveDE",
-    // ]
+    let serverList = []
 
-    let serverList = ["LiveUSEast", "LivePOST", "LiveJP", "LiveAU", "LiveEU"]
+    if (isLocalDev) {
+        serverList = [
+            "TL1",
+            "LiveUS",
+            "LiveUSEast",
+            "LivePOST",
+            "LiveJP",
+            "LiveAU",
+            "LiveSG",
+            "LiveEU",
+            "LiveIN",
+            "LiveSA",
+            "LiveDE",
+        ]
+    } else {
+        serverList = ["LiveUSEast", "LivePOST", "LiveJP", "LiveAU", "LiveEU"]
+    }
 
     let serverOptions = serverList.map((server, index) => (
         <option key={`server-option-${index}`} value={server}>

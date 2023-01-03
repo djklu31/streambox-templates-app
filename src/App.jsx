@@ -174,10 +174,12 @@ export default function App(props) {
                             () => controller.abort(),
                             15000
                         )
+                        let login = localStorage.getItem("cloudLogin")
+                        let hashedPass = localStorage.getItem("cloudPass")
                         let response = await fetch(
                             `https://${localStorage.getItem(
                                 "cloudServer"
-                            )}.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}`,
+                            )}.streambox.com/ls/GetSessionDashboardXML.php?SESSION_DRM=${sessionDRM}&login=${login}&hashedPass=${hashedPass}`,
                             {
                                 method: "GET",
                                 signal: controller.signal,
@@ -251,13 +253,15 @@ export default function App(props) {
                 )
             } else {
                 let userId = localStorage.getItem("user_id")
+                let login = localStorage.getItem("cloudLogin")
+                let hashedPass = localStorage.getItem("cloudPass")
                 const controller = new AbortController()
                 //timeout if no signal for 10 seconds
                 const timeoutId = setTimeout(() => controller.abort(), 15000)
                 let response = await fetch(
                     `https://${localStorage.getItem(
                         "cloudServer"
-                    )}.streambox.com/ls/CreateNewSessionXML.php?USER_ID=${userId}&SESSION_NAME=${sessionName}`,
+                    )}.streambox.com/ls/CreateNewSessionXML.php?USER_ID=${userId}&SESSION_NAME=${sessionName}&login=${login}&hashedPass=${hashedPass}`,
                     {
                         method: "GET",
                         signal: controller.signal,
@@ -274,14 +278,20 @@ export default function App(props) {
                 let parser = new DOMParser()
                 let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
                 let parsedXML = xmlDoc.getElementsByTagName("body")[0]
-                let enc_key = parsedXML.getAttribute("enc_key")
 
-                localStorage.setItem("sessionDRM", enc_key)
-                localStorage.setItem("sessionTitle", sessionName)
+                if (parsedXML.getAttributeNames().length !== 0) {
+                    let enc_key = parsedXML.getAttribute("enc_key")
 
-                setNetwork1Api(enc_key)
+                    localStorage.setItem("sessionDRM", enc_key)
+                    localStorage.setItem("sessionTitle", sessionName)
 
-                return enc_key
+                    setNetwork1Api(enc_key)
+
+                    return enc_key
+                } else {
+                    localStorage.setItem("sessionDRM", "Invalid Login")
+                    return "Invalid Login"
+                }
             }
         }
         return encKey

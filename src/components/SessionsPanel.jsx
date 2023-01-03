@@ -48,7 +48,7 @@ export default function SessionsPanel(props) {
             document.getElementsByClassName("session-id-readout")
         let res = await props.handleCreateNewSessionBtn()
 
-        if (res !== undefined && res !== null) {
+        if (res !== undefined && res !== null && res !== "Invalid Login") {
             for (let elem of sessionIDElems) {
                 elem.innerHTML = `<span style="color: green">Creating...</span>`
 
@@ -360,61 +360,86 @@ export default function SessionsPanel(props) {
         let parser = new DOMParser()
         let xmlDoc = parser.parseFromString(sessionDashXML, "text/xml")
         let parsedXML = xmlDoc.getElementsByTagName("body")[0]
-        let decoderInfo = xmlDoc.getElementsByTagName("body")[0].childNodes
+        let wrongLogin = false
+        let decoderInfo
+        let styles
+        let decInfoArray
+        let sessionIsLive
+        let sessionServerIP
+        let sessionID
+        let lastSessionFromClear
+        let decKey
+        let encKey
+        let localStorageSessionDRM = localStorage.getItem("sessionDRM")
 
-        const styles = {
-            option: (provided) => ({
-                ...provided,
-                color: "black",
-            }),
-        }
-
-        let decInfoArray = []
-        let sessionIsLive = parsedXML.getAttribute("session_islive")
-        const sessionServerIP = parsedXML.getAttribute("session_transporter_ip")
-        const sessionID = parsedXML.getAttribute("dec_key")
-        localStorage.setItem("sessionServerIP", sessionServerIP)
-
-        //will always run whenever server refreshes
-        setDecoderIPToServerIP(sessionServerIP)
-
-        if (decoderInfo) {
-            // for (let decoder of decoderInfo) {
-            if (decoderInfo[0].getElementsByTagName("dec")[0]) {
-                for (let decInfo of decoderInfo[0].getElementsByTagName(
-                    "dec"
-                )) {
-                    decInfoArray.push(<DecoderInfo decoderInfo={decInfo} />)
-                }
+        if (
+            parsedXML.getAttributeNames().length === 0 ||
+            localStorageSessionDRM === "Invalid Login"
+        ) {
+            if (localStorageSessionDRM === "Invalid Login") {
+                localStorage.removeItem("sessionDRM")
             }
-            // }
-        }
+            wrongLogin = true
+        } else {
+            decoderInfo = xmlDoc.getElementsByTagName("body")[0].childNodes
 
-        let lastSessionFromClear = localStorage.getItem("lastSessionFromClear")
-        let decKey = parsedXML.getAttribute("dec_key")
-        let encKey = parsedXML.getAttribute("enc_key")
+            styles = {
+                option: (provided) => ({
+                    ...provided,
+                    color: "black",
+                }),
+            }
+            decInfoArray = []
 
-        if (encKey === lastSessionFromClear) {
-            let sessionIDElems =
-                document.getElementsByClassName("session-id-readout")
+            sessionIsLive = parsedXML.getAttribute("session_islive")
+            sessionServerIP = parsedXML.getAttribute("session_transporter_ip")
+            sessionID = parsedXML.getAttribute("dec_key")
+            localStorage.setItem("sessionServerIP", sessionServerIP)
 
-            for (let elem of sessionIDElems) {
-                elem.innerHTML = `<span style="color: green">Creating...</span>`
+            //will always run whenever server refreshes
+            setDecoderIPToServerIP(sessionServerIP)
 
-                if (document.querySelector(".close-session-btn")) {
-                    document.querySelector(".close-session-btn").style.display =
-                        "none"
+            if (decoderInfo) {
+                // for (let decoder of decoderInfo) {
+                if (decoderInfo[0].getElementsByTagName("dec")[0]) {
+                    for (let decInfo of decoderInfo[0].getElementsByTagName(
+                        "dec"
+                    )) {
+                        decInfoArray.push(<DecoderInfo decoderInfo={decInfo} />)
+                    }
+                }
+                // }
+            }
 
-                    setTimeout(() => {
+            lastSessionFromClear = localStorage.getItem("lastSessionFromClear")
+            decKey = parsedXML.getAttribute("dec_key")
+            encKey = parsedXML.getAttribute("enc_key")
+
+            if (encKey === lastSessionFromClear) {
+                let sessionIDElems =
+                    document.getElementsByClassName("session-id-readout")
+
+                for (let elem of sessionIDElems) {
+                    elem.innerHTML = `<span style="color: green">Creating...</span>`
+
+                    if (document.querySelector(".close-session-btn")) {
                         document.querySelector(
                             ".close-session-btn"
-                        ).style.display = "initial"
-                    }, 7000)
+                        ).style.display = "none"
+
+                        setTimeout(() => {
+                            document.querySelector(
+                                ".close-session-btn"
+                            ).style.display = "initial"
+                        }, 7000)
+                    }
                 }
             }
         }
 
-        return showEmailPage ? (
+        return wrongLogin ? (
+            <div class="wrong-login-msg">Invalid API Call Login/Password</div>
+        ) : showEmailPage ? (
             <div>
                 <div className="sessions-panel-top">
                     <div>
