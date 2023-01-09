@@ -101,7 +101,7 @@ export default function Settings(props) {
             //save template name in local storage
             localStorage.setItem("templateName", selectedTemplate)
             setCurrentTemplateName(selectedTemplate)
-            props.handleChangeTemplate(selectedTemplate)
+            props.handleChangeTemplate()
             alert("Template Applied")
         }
     }
@@ -142,6 +142,7 @@ export default function Settings(props) {
 
         alert(result)
 
+        props.handleChangeTemplate()
         setCurrentTemplateName(templateName)
     }
 
@@ -423,7 +424,7 @@ export default function Settings(props) {
             }
 
             if (currentTemplateName === currentEditTemplateName) {
-                props.handleChangeTemplate(currentTemplateName)
+                props.handleChangeTemplate()
             }
 
             setIsRerender(true)
