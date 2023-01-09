@@ -120,13 +120,23 @@ export default function Settings(props) {
         let formData = new FormData()
         formData.append("templatename", templateName)
 
-        response = await fetch(
-            "http://localhost:5005" + `/sbuiauth/changeDefaultTemplate.php`,
-            {
-                method: "post",
-                body: formData,
-            }
-        ).catch(console.error)
+        if (isLocalDev) {
+            response = await fetch(
+                "http://localhost:5005" + `/sbuiauth/changeDefaultTemplate.php`,
+                {
+                    method: "post",
+                    body: formData,
+                }
+            ).catch(console.error)
+        } else {
+            response = await fetch(
+                endpoint + `/sbuiauth/changeDefaultTemplate.php`,
+                {
+                    method: "post",
+                    body: formData,
+                }
+            ).catch(console.error)
+        }
 
         let result = await response.text()
 
