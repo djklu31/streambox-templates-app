@@ -48,7 +48,7 @@ export default function RootWrapper() {
             } else {
                 try {
                     let response = await fetch(
-                        `${endpoint}/REST/templates/${template}}`
+                        `${endpoint}/REST/templates/${template}`
                     )
                     let json = await response.json()
 
