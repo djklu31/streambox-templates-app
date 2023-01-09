@@ -94,14 +94,14 @@ export default function Settings(props) {
             )
             .join("\n")
 
-    function applyTemplate(e) {
+    async function applyTemplate(e) {
         e.preventDefault()
         const selectedTemplate = e.target[0].value
         if (selectedTemplate !== "none") {
             //save template name in local storage
             localStorage.setItem("templateName", selectedTemplate)
             setCurrentTemplateName(selectedTemplate)
-            props.handleChangeTemplate()
+            await props.handleChangeTemplate()
             alert("Template Applied")
         }
     }
@@ -140,9 +140,8 @@ export default function Settings(props) {
 
         let result = await response.text()
         setCurrentTemplateName(templateName)
+        await props.handleChangeTemplate()
         alert(result)
-
-        props.handleChangeTemplate()
     }
 
     async function getDefaultTemplate() {

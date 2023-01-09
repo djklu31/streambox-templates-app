@@ -19,8 +19,8 @@ export default function RootWrapper() {
     const [currentPageName, setCurrentPageName] = useState("")
     const endpoint = getRestEndpoint()
 
-    function handleChangeTemplate() {
-        getTemplate()
+    async function handleChangeTemplate() {
+        await getTemplate()
     }
 
     function changeRoute(routeName) {
