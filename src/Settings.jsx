@@ -139,11 +139,10 @@ export default function Settings(props) {
         }
 
         let result = await response.text()
-
+        setCurrentTemplateName(templateName)
         alert(result)
 
         props.handleChangeTemplate()
-        setCurrentTemplateName(templateName)
     }
 
     async function getDefaultTemplate() {
