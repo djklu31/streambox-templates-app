@@ -34,8 +34,9 @@ export default function RootWrapper() {
     }
 
     async function getTemplate() {
+        let useDefaultTemplate = localStorage.getItem("useDefaultTemplate")
         let template =
-            localStorage.getItem("useDefaultTemplate") === "true"
+            useDefaultTemplate === "true"
                 ? localStorage.getItem("defaultTemplate")
                 : localStorage.getItem("templateName")
         if (template) {
@@ -79,7 +80,9 @@ export default function RootWrapper() {
                 ? "Dark Dev Template"
                 : "Dark Prod Template (Read-only)"
 
-            localStorage.setItem("templateName", fallbackTemplateName)
+            useDefaultTemplate === "true"
+                ? localStorage.setItem("defaultTemplate", fallbackTemplateName)
+                : localStorage.setItem("templateName", fallbackTemplateName)
             setTemplateName(fallbackTemplateName)
 
             // setCurrentTemplate([])
