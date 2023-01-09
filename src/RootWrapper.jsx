@@ -9,7 +9,9 @@ export default function RootWrapper() {
     //set up initial state with template
     const [currentTemplate, setCurrentTemplate] = useState([])
     const [templateName, setTemplateName] = useState(
-        localStorage.getItem("templateName")
+        localStorage.getItem("useDefaultTemplate") === "true"
+            ? localStorage.getItem("defaultTemplate")
+            : localStorage.getItem("templateName")
     )
     const [navBtns, setNavBtns] = useState([])
     const [isSettings, setIsSettings] = useState(false)
@@ -32,7 +34,11 @@ export default function RootWrapper() {
     }
 
     async function getTemplate() {
-        if (localStorage.getItem("templateName")) {
+        let template =
+            localStorage.getItem("useDefaultTemplate") === "true"
+                ? localStorage.getItem("defaultTemplate")
+                : localStorage.getItem("templateName")
+        if (template) {
             if (isLocalDev) {
                 let json = testTemplate
                 setCurrentTemplate(JSON.stringify(testTemplate))
