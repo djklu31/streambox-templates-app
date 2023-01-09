@@ -24,6 +24,10 @@
     height: 85vh;
 }
 
+.change-default-template-submit {
+    width: 100%;
+}
+
 .dark-mode {
     background-color: #222;
 }
@@ -53,6 +57,11 @@
 .template-label {
     display: flex;
     align-items: center;
+}
+
+.default-template-cbox {
+    margin-left: 50px;
+    transform: scale(1.2);
 }
 
 #edit-container .settings-inner-container {

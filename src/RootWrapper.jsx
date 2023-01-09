@@ -3,7 +3,7 @@ import App from "./App"
 import Navbar from "./components/Navbar"
 import Settings from "./Settings"
 import { isLocalDev, getRestEndpoint } from "./Utils"
-import testTemplate from "../public/templates/Dark Dev Template.json"
+import testTemplate from "../public/DevTemplates/Dark Dev Template.json"
 
 export default function RootWrapper() {
     //set up initial state with template
@@ -73,7 +73,7 @@ export default function RootWrapper() {
             //set json template to fallback if none are chosen
             let fallbackTemplateName = isLocalDev
                 ? "Dark Dev Template"
-                : "Dark Prod Template (Default - Read-only)"
+                : "Dark Prod Template (Read-only)"
 
             localStorage.setItem("templateName", fallbackTemplateName)
             setTemplateName(fallbackTemplateName)

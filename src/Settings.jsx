@@ -22,6 +22,9 @@ export default function Settings(props) {
     const [createDisabled, setCreateDisabled] = useState(true)
     const [isRerender, setIsRerender] = useState(false)
     const [codeValue, setCodeValue] = useState("")
+    const [useDefaultTemplateState, setUseDefaultTemplateState] = useState(
+        localStorage.getItem("useDefaultTemplate")
+    )
     const endpoint = props.endpoint
 
     //check if any url params present for userid
@@ -32,6 +35,7 @@ export default function Settings(props) {
 
     useEffect(() => {
         initializeLoginSection()
+        initializeTemplateSection()
         document.querySelector(".settings-btn").classList.add("selected-route")
         if (isRerender) {
             //reset all fields on settings rerender
@@ -102,11 +106,62 @@ export default function Settings(props) {
         }
     }
 
+    async function changeDefaultTemplateWrapper(e) {
+        e.preventDefault()
+        let templateName = e.target[0].value
+        if (templateName !== "none") {
+            changeDefaultTemplate(templateName)
+        }
+    }
+
+    async function changeDefaultTemplate(templateName) {
+        let response
+
+        let formData = new FormData()
+        formData.append("templatename", templateName)
+
+        response = await fetch(
+            "http://localhost:5005" + `/sbuiauth/changeDefaultTemplate.php`,
+            {
+                method: "post",
+                body: formData,
+            }
+        ).catch(console.error)
+
+        let result = await response.text()
+
+        alert(result)
+
+        setCurrentTemplateName(templateName)
+    }
+
+    async function getDefaultTemplate() {
+        let response
+
+        if (isLocalDev) {
+            response = await fetch(
+                "http://localhost:5005" + "/sbuiauth/getDefaultTemplate.php"
+            ).catch(console.error)
+
+            let result = await response.text()
+
+            localStorage.setItem("defaultTemplate", result)
+        } else {
+            response = await fetch(
+                endpoint + "/sbuiauth/getDefaultTemplate.php"
+            ).catch(console.error)
+
+            let result = await response.text()
+
+            localStorage.setItem("defaultTemplate", result)
+        }
+    }
+
     async function attemptLoginSubmit(e) {
         e.preventDefault()
-        const login = e.target[0].value
-        const hashedPass = md5(e.target[1].value)
-        const serverIndex = e.target[4].selectedIndex
+        const login = e.target[1].value
+        const hashedPass = md5(e.target[2].value)
+        const serverIndex = e.target[0].selectedIndex
         const chosenServer = serverList[serverIndex]
 
         if (chosenServer !== localStorage.getItem("cloudServer")) {
@@ -199,6 +254,59 @@ export default function Settings(props) {
             localStorage.getItem("hostName")
     }
 
+    async function initializeTemplateSection() {
+        await getDefaultTemplate()
+        // changeDefaultTemplate()
+
+        let useDefaultTemplate = useDefaultTemplateState
+
+        if (useDefaultTemplate === null) {
+            localStorage.setItem("useDefaultTemplate", "true")
+            setUseDefaultTemplateState("true")
+            useDefaultTemplate = "true"
+        }
+
+        if (useDefaultTemplate === "true") {
+            document.querySelector(".default-template-cbox").checked = true
+            let defaultTemplate = localStorage.getItem("defaultTemplate")
+
+            if (defaultTemplate === null) {
+                localStorage.setItem(
+                    "defaultTemplate",
+                    "Dark Prod Template (Read-only)"
+                )
+                defaultTemplate = "Dark Prod Template (Read-only)"
+            }
+            handleCheckedDefaultBox(defaultTemplate, "true")
+        } else if (useDefaultTemplate === "false") {
+            document.querySelector(".default-template-cbox").checked = false
+            let templateName = localStorage.getItem("templateName")
+            handleUncheckedDefaultBox(templateName, "false")
+        }
+    }
+
+    function handleCheckedDefaultBox(defaultTemplate, defaultTemplateState) {
+        document.querySelector(
+            ".change-default-template-wrapper"
+        ).style.display = "initial"
+        document.querySelector(
+            ".change-custom-template-wrapper"
+        ).style.display = "none"
+        setUseDefaultTemplateState(defaultTemplateState)
+        setCurrentTemplateName(defaultTemplate)
+    }
+
+    function handleUncheckedDefaultBox(template, defaultTemplateState) {
+        document.querySelector(
+            ".change-default-template-wrapper"
+        ).style.display = "none"
+        document.querySelector(
+            ".change-custom-template-wrapper"
+        ).style.display = "initial"
+        setUseDefaultTemplateState(defaultTemplateState)
+        setCurrentTemplateName(template)
+    }
+
     async function deleteTemplate() {
         if (
             confirm(
@@ -223,12 +331,12 @@ export default function Settings(props) {
         }
     }
 
-    function isDefaultTemplate(templateName) {
+    function isReadOnlyTemplate(templateName) {
         if (
             //these should never be altered
-            templateName === "Colorful Prod Template (Default - Read-only)" ||
-            templateName === "Dark Prod Template (Default - Read-only)" ||
-            templateName === "Light Prod Template (Default - Read-only)"
+            templateName === "Colorful Prod Template (Read-only)" ||
+            templateName === "Dark Prod Template (Read-only)" ||
+            templateName === "Light Prod Template (Read-only)"
         ) {
             return true
         }
@@ -264,7 +372,7 @@ export default function Settings(props) {
                 ".template-area-status"
             ).innerHTML = `Editing Template: <span style="color: #2195ce;">${selectedTemplate}</span>`
 
-            if (isDefaultTemplate(selectedTemplate)) {
+            if (isReadOnlyTemplate(selectedTemplate)) {
                 setSaveDisabled(true)
                 setDeleteDisabled(true)
             } else {
@@ -350,7 +458,7 @@ export default function Settings(props) {
             setDeleteDisabled(true)
             setCreateDisabled(true)
             setCurrentEditTemplateName("none")
-        } else if (!isDefaultTemplate(value)) {
+        } else if (!isReadOnlyTemplate(value)) {
             setCurrentEditTemplateName(value)
             setDeleteDisabled(false)
         }
@@ -405,6 +513,7 @@ export default function Settings(props) {
         for (let elem of elems) {
             elem.style.display = "none"
         }
+        document.querySelector(".cloud-server-div").style.display = "none"
         document.getElementById("logout-btn").style.display = "initial"
     }
 
@@ -414,10 +523,29 @@ export default function Settings(props) {
             elem.style.display = "initial"
         }
         document.getElementById("logout-btn").style.display = "none"
-
+        document.querySelector(".cloud-server-div").style.display = "initial"
         document.querySelector("#login-status").textContent =
             "Logged Out" + `- ${localStorage.getItem("cloudServer")}`
         document.querySelector("#login-status").style.color = "red"
+    }
+
+    function toggleDefaultTemplate() {
+        let defaultTemplate = localStorage.getItem("defaultTemplate")
+        let isChecked = document.querySelector(".default-template-cbox").checked
+
+        if (defaultTemplate === null || defaultTemplate === "") {
+            defaultTemplate = "Dark Prod Template (Read-only)"
+            localStorage.setItem("defaultTemplate", defaultTemplate)
+        }
+
+        if (isChecked) {
+            localStorage.setItem("useDefaultTemplate", "true")
+            handleCheckedDefaultBox(defaultTemplate, "true")
+        } else {
+            localStorage.setItem("useDefaultTemplate", "false")
+            let templateName = localStorage.getItem("templateName")
+            handleUncheckedDefaultBox(templateName, "false")
+        }
     }
 
     let serverList = []
@@ -452,22 +580,39 @@ export default function Settings(props) {
             <div id="create-container" className="settings-outer-container">
                 <div className="settings-inner-container">
                     <div className="settings-container">
-                        <div className="settings-label">
-                            <label className="template-label">
-                                <h4>Streambox Cloud Login</h4>
-                                <img
-                                    className="tooltip"
-                                    src="../../images/information.png"
-                                    data-tip="
-                            Login to Streambox Cloud to access session dashboard features
-                        "
-                                />
-                            </label>
-                        </div>
                         <form
                             onSubmit={attemptLoginSubmit}
                             className="settings-form template-form-padding"
                         >
+                            <div className="cloud-server-div">
+                                <div className="settings-label">
+                                    <label className="template-label">
+                                        <h4>Cloud Server</h4>
+                                        <img
+                                            className="tooltip"
+                                            src="../../images/information.png"
+                                            data-tip="
+                            Select which cloud server to pull data from
+                        "
+                                        />
+                                    </label>
+                                </div>
+                                <select className="server-select">
+                                    {serverOptions}
+                                </select>
+                            </div>
+                            <div className="settings-label">
+                                <label className="template-label">
+                                    <h4>Streambox Cloud Login</h4>
+                                    <img
+                                        className="tooltip"
+                                        src="../../images/information.png"
+                                        data-tip="
+                            Login to Streambox Cloud to access session dashboard features
+                        "
+                                    />
+                                </label>
+                            </div>
                             <input
                                 className="login-input"
                                 type="text"
@@ -508,7 +653,7 @@ export default function Settings(props) {
                             </div>
                             <input
                                 type="text"
-                                class="hostname-input"
+                                className="hostname-input"
                                 onChange={debounce(() => {
                                     localStorage.setItem(
                                         "hostName",
@@ -518,21 +663,6 @@ export default function Settings(props) {
                                     )
                                 })}
                             />
-                            <div className="settings-label">
-                                <label className="template-label">
-                                    <h4>Cloud Server</h4>
-                                    <img
-                                        className="tooltip"
-                                        src="../../images/information.png"
-                                        data-tip="
-                            Select which cloud server to pull data from
-                        "
-                                    />
-                                </label>
-                            </div>
-                            <select className="server-select">
-                                {serverOptions}
-                            </select>
                         </form>
                         <button
                             id="logout-btn"
@@ -544,29 +674,77 @@ export default function Settings(props) {
                         <hr className="custom-hr" />
                         <div className="settings-label">
                             <label className="template-label">
-                                <h4>Apply Template</h4>
+                                <h4>Use Default Template</h4>
                                 <img
                                     className="tooltip"
                                     src="../../images/information.png"
                                     data-tip="
-                            Choose and apply a template
+                            Use the default template (Saved per Chroma)
                         "
+                                />
+                                <input
+                                    className="default-template-cbox"
+                                    onClick={toggleDefaultTemplate}
+                                    type="checkbox"
                                 />
                             </label>
                         </div>
-                        <form
-                            className="settings-form template-form-padding"
-                            onSubmit={applyTemplate}
-                        >
-                            <select className="settings-select">
-                                {templateOptions}
-                            </select>
-                            <input type="submit" value="Apply Template" />
-                        </form>
+                        <div className="change-default-template-wrapper">
+                            <div className="settings-label">
+                                <label className="template-label">
+                                    <h4>Change Default Template</h4>
+                                    <img
+                                        className="tooltip"
+                                        src="../../images/information.png"
+                                        data-tip="
+                            Choose and apply a default template (Saved per Chroma)
+                        "
+                                    />
+                                </label>
+                            </div>
+                            <form
+                                className="settings-form template-form-padding"
+                                onSubmit={changeDefaultTemplateWrapper}
+                            >
+                                <select className="settings-select">
+                                    {templateOptions}
+                                </select>
+                                <input
+                                    className="change-default-template-submit"
+                                    type="submit"
+                                    value="Change Default Template"
+                                />
+                            </form>
+                        </div>
+                        <div className="change-custom-template-wrapper">
+                            <div className="settings-label">
+                                <label className="template-label">
+                                    <h4>Apply Template</h4>
+                                    <img
+                                        className="tooltip"
+                                        src="../../images/information.png"
+                                        data-tip="
+                            Choose and apply a template
+                        "
+                                    />
+                                </label>
+                            </div>
+                            <form
+                                className="settings-form template-form-padding"
+                                onSubmit={applyTemplate}
+                            >
+                                <select className="settings-select">
+                                    {templateOptions}
+                                </select>
+                                <input type="submit" value="Apply Template" />
+                            </form>
+                        </div>
                         <div className="current-template-readout template-form-padding">
                             <label>Current Template:</label>&nbsp;
                             <span style={{ color: "forestgreen" }}>
                                 {currentTemplateName}
+                                {useDefaultTemplateState === "true" &&
+                                    " (Default)"}
                             </span>
                         </div>
 
