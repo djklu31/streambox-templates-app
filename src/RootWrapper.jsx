@@ -48,9 +48,7 @@ export default function RootWrapper() {
             } else {
                 try {
                     let response = await fetch(
-                        `${endpoint}/REST/templates/${localStorage.getItem(
-                            "templateName"
-                        )}`
+                        `${endpoint}/REST/templates/${template}}`
                     )
                     let json = await response.json()
 
