@@ -140,6 +140,7 @@ export default function Settings(props) {
 
         let result = await response.text()
         setCurrentTemplateName(templateName)
+        localStorage.setItem("defaultTemplate", templateName)
         await props.handleChangeTemplate()
         alert(result)
     }
@@ -538,7 +539,7 @@ export default function Settings(props) {
         document.querySelector("#login-status").style.color = "red"
     }
 
-    function toggleDefaultTemplate() {
+    async function toggleDefaultTemplate() {
         let defaultTemplate = localStorage.getItem("defaultTemplate")
         let isChecked = document.querySelector(".default-template-cbox").checked
 
@@ -555,6 +556,8 @@ export default function Settings(props) {
             let templateName = localStorage.getItem("templateName")
             handleUncheckedDefaultBox(templateName, "false")
         }
+
+        await props.handleChangeTemplate()
     }
 
     let serverList = []
