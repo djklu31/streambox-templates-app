@@ -2,6 +2,10 @@
     "template": {
         "darkMode": true,
         "backgroundRefreshTime": 7000,
+        "templateVariables": {
+            "restAPI_host": "@JS_HOST@",
+            "restAPI_port": "1770"
+        },
         "navbar": {
             "routes": [
                 {
@@ -13,8 +17,8 @@
                         {
                             "title": "Video",
                             "apiSrc": [
-                                "/REST/encoder/status.json",
-                                "/REST/encoder/audio.json"
+                                "@JS_HOST@/REST/encoder/@JS_PORT@/status.json",
+                                "@JS_HOST@/REST/encoder/@JS_PORT@/audio.json"
                             ],
                             "containerStyle": {
                                 "stretchVertically": 2
@@ -23,8 +27,8 @@
                                 {
                                     "type": "video",
                                     "hasVUMeter": true,
-                                    "audioLevelEndpoint": "/REST/encoder/audiolevels.json",
-                                    "previewImageRoute": "/REST/encoder/preview/JPG.jpeg"
+                                    "audioLevelEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/audiolevels.json",
+                                    "previewImageRoute": "@JS_HOST@/REST/encoder/@JS_PORT@/preview/JPG.jpeg"
                                 },
                                 {
                                     "type": "mappedText",
@@ -75,12 +79,13 @@
                         {
                             "title": "Start Streaming",
                             "apiSrc": [
-                                "/REST/encoder/status.json",
-                                "/REST/encoder/presets.json"
+                                "@JS_HOST@/REST/encoder/@JS_PORT@/status.json",
+                                "@JS_HOST@/REST/encoder/@JS_PORT@/presets.json"
                             ],
                             "fields": [
                                 {
                                     "type": "button",
+                                    "host": "@restAPI_host@",
                                     "size": "giant",
                                     "mapping": "isStreaming",
                                     "action": "toggleStreaming"
@@ -88,7 +93,7 @@
                                 {
                                     "type": "presetSelect",
                                     "label": "Preset",
-                                    "btnPresetSrc": "/REST/encoder/presets.json",
+                                    "btnPresetSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/presets.json",
                                     "btnLabel": "Apply Preset",
                                     "btnAction": "applyPreset",
                                     "mapping": "none"
@@ -96,7 +101,9 @@
                             ]
                         },
                         {
-                            "type": "sessionsPanel"
+                            "type": "sessionsPanel",
+                            "host": "@JS_HOST@",
+                            "port": "@JS_PORT@"
                         }
                     ]
                 },
@@ -224,6 +231,7 @@
                                 {
                                     "type": "button",
                                     "size": "giant",
+                                    "btnPresetSrc": "/REST/encoder/presets.json",
                                     "mapping": "isStreaming",
                                     "action": "toggleStreaming"
                                 },

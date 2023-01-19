@@ -5,7 +5,6 @@ import Settings from "./Settings"
 import { isLocalDev, getRestEndpoint } from "./Utils"
 import testTemplate from "../public/DevTemplates/Dark Dev Template.json"
 const endpoint = getRestEndpoint()
-// import { jsVariables } from "http://localhost:3000/JSIncludes"
 
 export default function RootWrapper() {
     //set up initial state with template
@@ -34,7 +33,15 @@ export default function RootWrapper() {
     }
 
     async function replaceJSVarsInTemplate(template) {
-        const { jsVariables } = await import(`${location.origin}/JSIncludes`)
+        let response
+        let jsVariables
+        if (isLocalDev) {
+            response = await import(`${location.origin}/JSIncludes`)
+            jsVariables = response.jsVariables
+        } else {
+            response = await import(`${location.origin}/sbuiapp/JSIncludes.js`)
+            jsVariables = response.jsVariables
+        }
         let jsVarsObjEntries = Object.entries(jsVariables)
         let JSONString = JSON.stringify(template)
 

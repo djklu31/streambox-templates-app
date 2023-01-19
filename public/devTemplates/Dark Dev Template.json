@@ -15,40 +15,6 @@
                     },
                     "containers": [
                         {
-                            "title": "Bitrate and Buffer Settings",
-                            "apiSrc": [
-                                "@JS_HOST@/REST/encoder/@JS_PORT@/network.json",
-                                "@JS_HOST@/REST/encoder/@JS_PORT@/video.json"
-                            ],
-                            "type": "form",
-                            "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/video.json",
-                            "fields": [
-                                {
-                                    "type": "input",
-                                    "label": "Target Bitrate",
-                                    "mapping": "TargetBitrate",
-                                    "endLabel": "kbps"
-                                },
-                                {
-                                    "type": "input",
-                                    "label": "VBR Buffer",
-                                    "mapping": "VBR",
-                                    "endLabel": "seconds"
-                                },
-                                {
-                                    "type": "checkbox",
-                                    "label": "Packet Stuffing",
-                                    "mapping": "stuffing"
-                                },
-                                {
-                                    "type": "button",
-                                    "action": "submitLocalForm",
-                                    "size": "small",
-                                    "label": "Apply Changes"
-                                }
-                            ]
-                        },
-                        {
                             "title": "Video",
                             "apiSrc": [
                                 "@JS_HOST@/REST/encoder/@JS_PORT@/status.json",
@@ -61,8 +27,8 @@
                                 {
                                     "type": "video",
                                     "hasVUMeter": true,
-                                    "audioLevelEndpoint": "@JS_HOST@/REST/encoder/@restAPI_port@/audiolevels.json",
-                                    "previewImageRoute": "@JS_HOST@/REST/encoder/@restAPI_port@/preview/JPG.jpeg"
+                                    "audioLevelEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/audiolevels.json",
+                                    "previewImageRoute": "@JS_HOST@/REST/encoder/@JS_PORT@/preview/JPG.jpeg"
                                 },
                                 {
                                     "type": "mappedText",
@@ -119,7 +85,6 @@
                             "fields": [
                                 {
                                     "type": "button",
-                                    "port": "@restAPI_port@",
                                     "host": "@restAPI_host@",
                                     "size": "giant",
                                     "mapping": "isStreaming",

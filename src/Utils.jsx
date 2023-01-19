@@ -46,7 +46,7 @@ export async function setDecoderIPToServerIP(
     }
 
     await POSTData(
-        customHost !== undefined ? customHost : endpoint + tempEndpoint,
+        (customHost !== undefined ? customHost : endpoint) + tempEndpoint,
         {
             val_list: [{ cname: "decoderIP", val: sessionServerIP }],
         }
@@ -245,7 +245,7 @@ export async function setNetwork1Api(enc_key, customPort, customHost) {
     }
 
     await POSTData(
-        customHost !== undefined ? customHost : endpoint + tempEndpoint,
+        (customHost !== undefined ? customHost : endpoint) + tempEndpoint,
         {
             val_list: [{ cname: "Meta_Network1", val: enc_key }],
         }

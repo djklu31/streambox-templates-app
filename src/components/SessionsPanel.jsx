@@ -243,7 +243,8 @@ export default function SessionsPanel(props) {
                     }
 
                     response = await fetch(
-                        customHost !== undefined ? customHost : endpoint + route
+                        (customHost !== undefined ? customHost : endpoint) +
+                            route
                     )
                 } else {
                     if (customPort !== undefined) {
@@ -253,7 +254,8 @@ export default function SessionsPanel(props) {
                     }
 
                     response = await fetch(
-                        customHost !== undefined ? customHost : endpoint + route
+                        (customHost !== undefined ? customHost : endpoint) +
+                            route
                     )
                 }
                 let metadataResult = await response.json()
@@ -329,7 +331,7 @@ export default function SessionsPanel(props) {
                 }
 
                 await POSTData(
-                    customHost !== undefined ? customHost : endpoint + route,
+                    (customHost !== undefined ? customHost : endpoint) + route,
                     {
                         action_list: ["start"],
                     }

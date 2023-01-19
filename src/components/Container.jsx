@@ -47,7 +47,7 @@ export default function Container(props) {
     }
 
     async function applyPreset(pid, presetEndpoint) {
-        await POSTData(endpoint + presetEndpoint, {
+        await POSTData(presetEndpoint, {
             command: "apply",
             pid: pid,
         }).then((data) => {
@@ -214,12 +214,12 @@ export default function Container(props) {
             tempEndpoint2 = "/REST/encoder/action"
         }
 
-        await POSTData(
-            btnHost !== undefined ? btnHost : endpoint + tempEndpoint2,
-            {
-                action_list: ["start"],
-            }
-        ).then((data) => {
+        let tempFullEndpoint =
+            (btnHost !== undefined ? btnHost : endpoint) + tempEndpoint2
+
+        await POSTData(tempFullEndpoint, {
+            action_list: ["start"],
+        }).then((data) => {
             console.log("Streaming started" + JSON.stringify(data))
             props.triggerBackgroundFetch()
         })
@@ -235,7 +235,7 @@ export default function Container(props) {
         }
 
         await POSTData(
-            btnHost !== undefined ? btnHost : endpoint + tempEndpoint,
+            (btnHost !== undefined ? btnHost : endpoint) + tempEndpoint,
             {
                 action_list: ["stop"],
             }
