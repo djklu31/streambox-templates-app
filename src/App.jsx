@@ -21,7 +21,9 @@ export default function App(props) {
     const [backgroundFetchCount, setBackgroundFetchCount] = useState(0)
     const [sessionDashXML, setSessionDashXML] = useState("")
     const [templateVariables] = useState(
-        currentTemplate.template.templateVariables
+        currentTemplate.template.templateVariables !== undefined
+            ? currentTemplate.template.templateVariables
+            : {}
     )
 
     const combinedApiArray = []

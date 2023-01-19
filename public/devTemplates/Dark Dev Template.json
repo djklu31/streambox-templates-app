@@ -102,8 +102,7 @@
                         },
                         {
                             "type": "sessionsPanel",
-                            "host": "@JS_HOST@",
-                            "port": "@JS_PORT@"
+                            "host": "@JS_HOST@"
                         }
                     ]
                 },
