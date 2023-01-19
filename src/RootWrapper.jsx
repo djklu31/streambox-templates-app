@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar"
 import Settings from "./Settings"
 import { isLocalDev, getRestEndpoint } from "./Utils"
 import testTemplate from "../public/DevTemplates/Dark Dev Template.json"
+const endpoint = getRestEndpoint()
+// import { jsVariables } from "http://localhost:3000/JSIncludes"
 
 export default function RootWrapper() {
     //set up initial state with template
@@ -17,7 +19,6 @@ export default function RootWrapper() {
     const [isSettings, setIsSettings] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [currentPageName, setCurrentPageName] = useState("")
-    const endpoint = getRestEndpoint()
 
     async function handleChangeTemplate() {
         await getTemplate()
@@ -32,18 +33,37 @@ export default function RootWrapper() {
         setCurrentPageName("Settings")
     }
 
+    async function replaceJSVarsInTemplate(template) {
+        const { jsVariables } = await import(`${location.origin}/JSIncludes`)
+        let jsVarsObjEntries = Object.entries(jsVariables)
+        let JSONString = JSON.stringify(template)
+
+        for (let [key, val] of jsVarsObjEntries) {
+            let formattedKey = `@${key}@`
+
+            JSONString = JSONString.replaceAll(formattedKey, val)
+        }
+
+        return JSON.parse(JSONString)
+    }
+
     async function getTemplate() {
+        //TODO: probably preprocess js include file here before applying template
         let useDefaultTemplate = localStorage.getItem("useDefaultTemplate")
         let template =
             useDefaultTemplate === "true"
                 ? localStorage.getItem("defaultTemplate")
                 : localStorage.getItem("templateName")
+
         if (template) {
             if (isLocalDev) {
                 let json = testTemplate
-                setCurrentTemplate(JSON.stringify(testTemplate))
-                setNavBtns(json.template.navbar.routes)
-                setCurrentPageName(json.template.navbar.routes[0].routeName)
+                let formattedTemplate = await replaceJSVarsInTemplate(json)
+                setCurrentTemplate(JSON.stringify(formattedTemplate))
+                setNavBtns(formattedTemplate.template.navbar.routes)
+                setCurrentPageName(
+                    formattedTemplate.template.navbar.routes[0].routeName
+                )
                 setIsLoading(false)
             } else {
                 try {
@@ -51,15 +71,17 @@ export default function RootWrapper() {
                         `${endpoint}/REST/templates/${template}`
                     )
                     let json = await response.json()
+                    let formattedTemplate = await replaceJSVarsInTemplate(json)
 
-                    setCurrentTemplate(JSON.stringify(json))
-                    setNavBtns(json.template.navbar.routes)
+                    setCurrentTemplate(JSON.stringify(formattedTemplate))
+                    setNavBtns(formattedTemplate.template.navbar.routes)
 
                     if (isSettings) {
                         setCurrentPageName("Settings")
                     } else {
                         setCurrentPageName(
-                            json.template.navbar.routes[0].routeName
+                            formattedTemplate.template.navbar.routes[0]
+                                .routeName
                         )
                     }
                 } catch (err) {

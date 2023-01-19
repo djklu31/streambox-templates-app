@@ -1,6 +1,25 @@
 //set environment: true - local development, false - production
-export let isLocalDev = false
+export let isLocalDev = true
 const endpoint = location.origin
+
+// //JS Variables that template files will use
+// export const jsVariables = {
+//     JS_HOST: endpoint,
+//     JS_PORT: "1880",
+// }
+
+export function replaceJSONParams(endpoint, object) {
+    let objectEntries = Object.entries(object)
+    if (objectEntries.length > 0) {
+        for (let [key, val] of objectEntries) {
+            let searchKey = `@${key}@`
+            if (endpoint.indexOf(searchKey) !== -1) {
+                endpoint = endpoint.replace(searchKey, val)
+            }
+        }
+    }
+    return endpoint
+}
 
 export function debounce(callback, delay = 500) {
     let timeout
@@ -13,14 +32,29 @@ export function debounce(callback, delay = 500) {
     }
 }
 
-export async function setDecoderIPToServerIP(sessionServerIP) {
-    await POSTData(endpoint + "/REST/encoder/network", {
-        val_list: [{ cname: "decoderIP", val: sessionServerIP }],
-    }).then((data) => {
+export async function setDecoderIPToServerIP(
+    sessionServerIP,
+    customPort,
+    customHost
+) {
+    let tempEndpoint = ""
+
+    if (customPort !== undefined) {
+        tempEndpoint = `/REST/encoder/${customPort}/network`
+    } else {
+        tempEndpoint = "/REST/encoder/network"
+    }
+
+    await POSTData(
+        customHost !== undefined ? customHost : endpoint + tempEndpoint,
+        {
+            val_list: [{ cname: "decoderIP", val: sessionServerIP }],
+        }
+    ).then((data) => {
         console.log(
             "Data POSTED to " +
                 endpoint +
-                "/REST/encoder/network" +
+                tempEndpoint +
                 ": " +
                 JSON.stringify(data)
         )
@@ -28,14 +62,21 @@ export async function setDecoderIPToServerIP(sessionServerIP) {
 }
 
 //get decoder ip from api side
-export async function getPropertyFromAPI(cname, route) {
+export async function getPropertyFromAPI(cname, route, customHost) {
     let response = ""
     if (isLocalDev) {
-        response = await fetch(endpoint + route + ".json")
+        if (customHost !== undefined) {
+            response = await fetch(customHost + route + ".json")
+        } else {
+            response = await fetch(endpoint + route + ".json")
+        }
     } else {
-        response = await fetch(endpoint + route)
+        if (customHost !== undefined) {
+            response = await fetch(customHost + route)
+        } else {
+            response = await fetch(endpoint + route)
+        }
     }
-
     let result = await response.json()
 
     return result.current_stat.filter((obj) => obj.cname === cname)[0].val
@@ -194,14 +235,25 @@ export async function authenticate() {
     }
 }
 
-export async function setNetwork1Api(enc_key) {
-    await POSTData(endpoint + "/REST/encoder/metadata", {
-        val_list: [{ cname: "Meta_Network1", val: enc_key }],
-    }).then((data) => {
+export async function setNetwork1Api(enc_key, customPort, customHost) {
+    let tempEndpoint = ""
+
+    if (customPort !== undefined) {
+        tempEndpoint = `/REST/encoder/${customPort}/metadata`
+    } else {
+        tempEndpoint = "/REST/encoder/metadata"
+    }
+
+    await POSTData(
+        customHost !== undefined ? customHost : endpoint + tempEndpoint,
+        {
+            val_list: [{ cname: "Meta_Network1", val: enc_key }],
+        }
+    ).then((data) => {
         console.log(
             "Data POSTED to " +
                 endpoint +
-                "/REST/encoder/metadata" +
+                tempEndpoint +
                 ": " +
                 JSON.stringify(data)
         )

@@ -9,8 +9,7 @@ export default React.memo(function Video(props) {
     let videoTimer
     useEffect(() => {
         videoTimer = setInterval(() => {
-            previewEndpoint =
-                props.location + props.previewImageRoute + "?t=" + date++
+            previewEndpoint = props.previewImageRoute + "?t=" + date++
             img_tag.onload = function () {
                 document.getElementById(
                     "video-preview"

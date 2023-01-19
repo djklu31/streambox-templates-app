@@ -34,6 +34,9 @@ export default function SessionsPanel(props) {
         }
     }
 
+    let customHost = props.customHost
+    let customPort = props.customPort
+
     let opts = []
     if (localStorageEmails) {
         opts = localStorageEmails
@@ -231,11 +234,27 @@ export default function SessionsPanel(props) {
             ) {
                 let response = ""
                 if (isLocalDev) {
+                    let route = ""
+
+                    if (customPort !== undefined) {
+                        route = `/REST/encoder/${customPort}/metadata.json`
+                    } else {
+                        route = "/REST/encoder/metadata.json"
+                    }
+
                     response = await fetch(
-                        endpoint + "/REST/encoder/metadata.json"
+                        customHost !== undefined ? customHost : endpoint + route
                     )
                 } else {
-                    response = await fetch(endpoint + "/REST/encoder/metadata")
+                    if (customPort !== undefined) {
+                        route = `/REST/encoder/${customPort}/metadata`
+                    } else {
+                        route = "/REST/encoder/metadata"
+                    }
+
+                    response = await fetch(
+                        customHost !== undefined ? customHost : endpoint + route
+                    )
                 }
                 let metadataResult = await response.json()
 
@@ -245,9 +264,18 @@ export default function SessionsPanel(props) {
 
                 const apiDRM = networkObj[0]["val"]
 
+                let temporaryRoute = ""
+
+                if (customPort !== undefined) {
+                    temporaryRoute = `/REST/encoder/${customPort}/network`
+                } else {
+                    temporaryRoute = "/REST/encoder/network"
+                }
+
                 const apiServerIP = await getPropertyFromAPI(
                     "decoderIP",
-                    "/REST/encoder/network"
+                    temporaryRoute,
+                    customHost
                 )
                 const sessionServerIP = localStorage.getItem("sessionServerIP")
 
@@ -263,7 +291,9 @@ export default function SessionsPanel(props) {
                             ) == true
                         ) {
                             await setNetwork1Api(
-                                localStorage.getItem("sessionDRM")
+                                localStorage.getItem("sessionDRM"),
+                                customPort,
+                                customHost
                             )
                         }
                     }
@@ -281,14 +311,29 @@ export default function SessionsPanel(props) {
                                 `Decoder IP is not set to the correct server IP (${sessionServerIP}). Do you want to set this?`
                             ) == true
                         ) {
-                            await setDecoderIPToServerIP(sessionServerIP)
+                            await setDecoderIPToServerIP(
+                                sessionServerIP,
+                                customPort,
+                                customHost
+                            )
                         }
                     }
                 }
 
-                await POSTData(endpoint + "/REST/encoder/action", {
-                    action_list: ["start"],
-                }).then((data) => {
+                let route = ""
+
+                if (customPort !== undefined) {
+                    route = `/REST/encoder/${customPort}/action`
+                } else {
+                    route = "/REST/encoder/action"
+                }
+
+                await POSTData(
+                    customHost !== undefined ? customHost : endpoint + route,
+                    {
+                        action_list: ["start"],
+                    }
+                ).then((data) => {
                     console.log("Streaming started" + JSON.stringify(data))
                 })
             }
@@ -397,7 +442,7 @@ export default function SessionsPanel(props) {
             localStorage.setItem("sessionServerIP", sessionServerIP)
 
             //will always run whenever server refreshes
-            setDecoderIPToServerIP(sessionServerIP)
+            setDecoderIPToServerIP(sessionServerIP, customPort, customHost)
 
             if (decoderInfo) {
                 // for (let decoder of decoderInfo) {

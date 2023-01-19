@@ -13,6 +13,7 @@ import {
     getPropertyFromAPI,
     setDecoderIPToServerIP,
     setNetwork1Api,
+    replaceJSONParams,
 } from "../Utils"
 
 const endpoint = location.origin
@@ -32,23 +33,21 @@ export default function Container(props) {
         container.type === "multichannel-container" ? true : false
 
     //handle button presses with appropriate action
-    function buttonPressed(action) {
+    function buttonPressed(action, presetEndpoint, btnPort, btnHost) {
         if (action === "startStreaming") {
-            startStreaming()
+            startStreaming(btnPort, btnHost)
         } else if (action === "stopStreaming") {
-            stopStreaming()
+            stopStreaming(btnPort, btnHost)
         } else if (action === "applyPreset") {
             const pid = document.getElementById("preset-select").value
-            if (pid === "not-selected") {
-                alert("Please choose a preset from the preset select box")
-            } else {
-                applyPreset(parseInt(pid))
+            if (pid !== "not-selected") {
+                applyPreset(parseInt(pid), presetEndpoint)
             }
         }
     }
 
-    async function applyPreset(pid) {
-        await POSTData(endpoint + "/REST/encoder/presets", {
+    async function applyPreset(pid, presetEndpoint) {
+        await POSTData(endpoint + presetEndpoint, {
             command: "apply",
             pid: pid,
         }).then((data) => {
@@ -103,12 +102,49 @@ export default function Container(props) {
         )
     }
 
-    async function startStreaming() {
+    async function startStreaming(btnPort, btnHost) {
         let response = ""
+
         if (isLocalDev) {
-            response = await fetch(endpoint + "/REST/encoder/metadata.json")
+            if (btnPort !== undefined) {
+                if (btnHost !== undefined) {
+                    response = await fetch(
+                        btnHost + `/REST/encoder/${btnPort}/metadata.json`
+                    )
+                } else {
+                    response = await fetch(
+                        endpoint + `/REST/encoder/${btnPort}/metadata.json`
+                    )
+                }
+            } else {
+                if (btnHost !== undefined) {
+                    response = await fetch(
+                        btnHost + "/REST/encoder/metadata.json"
+                    )
+                } else {
+                    response = await fetch(
+                        endpoint + "/REST/encoder/metadata.json"
+                    )
+                }
+            }
         } else {
-            response = await fetch(endpoint + "/REST/encoder/metadata")
+            if (btnPort !== undefined) {
+                if (btnHost !== undefined) {
+                    response = await fetch(
+                        btnHost + `/REST/encoder/${btnPort}/metadata`
+                    )
+                } else {
+                    response = await fetch(
+                        endpoint + `/REST/encoder/${btnPort}/metadata`
+                    )
+                }
+            } else {
+                if (btnHost !== undefined) {
+                    response = await fetch(btnHost + "/REST/encoder/metadata")
+                } else {
+                    response = await fetch(endpoint + "/REST/encoder/metadata")
+                }
+            }
         }
         let metadataResult = await response.json()
 
@@ -116,10 +152,19 @@ export default function Container(props) {
             (res) => res.cname === "Meta_Network1"
         )
 
+        let tempEndpoint1 = ""
+
+        if (btnPort !== undefined) {
+            tempEndpoint1 = `/REST/encoder/${btnPort}/network`
+        } else {
+            tempEndpoint1 = "/REST/encoder/network"
+        }
+
         const apiDRM = networkObj[0]["val"]
         const apiServerIP = await getPropertyFromAPI(
             "decoderIP",
-            "/REST/encoder/network"
+            tempEndpoint1,
+            btnHost
         )
         const sessionServerIP = localStorage.getItem("sessionServerIP")
         const sessionDRM = localStorage.getItem("sessionDRM")
@@ -135,7 +180,7 @@ export default function Container(props) {
                         "There is a mismatch between the session DRM and DRM on the encoder.  Would you like to set the encoder DRM to the session DRM?"
                     ) == true
                 ) {
-                    await setNetwork1Api(sessionDRM)
+                    await setNetwork1Api(sessionDRM, btnPort, btnHost)
                 }
             }
         }
@@ -152,23 +197,49 @@ export default function Container(props) {
                         `Decoder IP is not set to the correct server IP (${sessionServerIP}). Do you want to set this?`
                     ) == true
                 ) {
-                    await setDecoderIPToServerIP(sessionServerIP)
+                    await setDecoderIPToServerIP(
+                        sessionServerIP,
+                        btnPort,
+                        btnHost
+                    )
                 }
             }
         }
 
-        await POSTData(endpoint + "/REST/encoder/action", {
-            action_list: ["start"],
-        }).then((data) => {
+        let tempEndpoint2 = ""
+
+        if (btnPort !== undefined) {
+            tempEndpoint2 = `/REST/encoder/${btnPort}/action`
+        } else {
+            tempEndpoint2 = "/REST/encoder/action"
+        }
+
+        await POSTData(
+            btnHost !== undefined ? btnHost : endpoint + tempEndpoint2,
+            {
+                action_list: ["start"],
+            }
+        ).then((data) => {
             console.log("Streaming started" + JSON.stringify(data))
             props.triggerBackgroundFetch()
         })
     }
 
-    async function stopStreaming() {
-        await POSTData(endpoint + "/REST/encoder/action", {
-            action_list: ["stop"],
-        }).then((data) => {
+    async function stopStreaming(btnPort, btnHost) {
+        let tempEndpoint = ""
+
+        if (btnPort !== undefined) {
+            tempEndpoint = `/REST/encoder/${btnPort}/action`
+        } else {
+            tempEndpoint = `/REST/encoder/action`
+        }
+
+        await POSTData(
+            btnHost !== undefined ? btnHost : endpoint + tempEndpoint,
+            {
+                action_list: ["stop"],
+            }
+        ).then((data) => {
             console.log("Streaming stopped" + JSON.stringify(data))
             props.triggerBackgroundFetch()
         })
@@ -315,12 +386,17 @@ export default function Container(props) {
                             <Video
                                 key={`video-section-${index}`}
                                 location={endpoint}
-                                previewImageRoute={field.previewImageRoute}
+                                previewImageRoute={replaceJSONParams(
+                                    field.previewImageRoute,
+                                    props.templateVariables
+                                )}
                             />
                             <AudioMeter
                                 key={`audio-section-${index}`}
-                                location={endpoint}
-                                audioLevelRoute={field.audioLevelEndpoint}
+                                audioLevelRoute={replaceJSONParams(
+                                    field.audioLevelEndpoint,
+                                    props.templateVariables
+                                )}
                                 numChannels={numChannels}
                             />
                         </div>
@@ -333,7 +409,6 @@ export default function Container(props) {
                         >
                             <Video
                                 key={`video-section-${index}`}
-                                location={endpoint}
                                 previewImageRoute={field.previewImageRoute}
                             />
                         </div>
@@ -364,11 +439,18 @@ export default function Container(props) {
             } else {
                 result = field.label
             }
+
+            let customPortExists = field.port !== undefined ? true : false
+            let customHostExists = field.host !== undefined ? true : false
+
             if (isForm) {
                 returnArr = (
                     <Button
                         key={`button-${index}`}
-                        postEndpoint={container.postEndpoint}
+                        postEndpoint={replaceJSONParams(
+                            container.postEndpoint,
+                            props.templateVariables
+                        )}
                         size={field.size}
                         backgroundColor={field.backgroundColor}
                         label={result}
@@ -382,6 +464,22 @@ export default function Container(props) {
                         key={`button-${index}`}
                         size={field.size}
                         label={result}
+                        port={
+                            customPortExists
+                                ? replaceJSONParams(
+                                      field.port,
+                                      props.templateVariables
+                                  )
+                                : undefined
+                        }
+                        host={
+                            customHostExists
+                                ? replaceJSONParams(
+                                      field.host,
+                                      props.templateVariables
+                                  )
+                                : undefined
+                        }
                         action={field.action}
                         backgroundColor={field.backgroundColor}
                         buttonPressed={buttonPressed}
@@ -448,6 +546,11 @@ export default function Container(props) {
                 returnArr
             }
         } else if (field.type === "presetSelect" && props.presetObj) {
+            let presetEndpoint = replaceJSONParams(
+                field.btnPresetSrc,
+                props.templateVariables
+            )
+
             returnArr = (
                 <div key={`preset-div-${index}`} className="preset-div">
                     <Select
@@ -460,11 +563,13 @@ export default function Container(props) {
                     />
                     <Button
                         key={`preset-btn-${index}`}
-                        presetSrc={field.btnPresetSrc}
+                        presetSrc={presetEndpoint}
                         size={field.btnSize}
                         label={field.btnLabel}
                         action={field.btnAction}
-                        buttonPressed={buttonPressed}
+                        buttonPressed={() => {
+                            buttonPressed(field.btnAction, presetEndpoint)
+                        }}
                     />
                 </div>
             )
@@ -523,9 +628,13 @@ export default function Container(props) {
         isModule = true
 
         if (containerType === "sessionsPanel") {
+            let customHost = container.host
+            let customPort = container.port
             mappedFields = (
                 <SessionsPanel
                     sessionDashXML={props.sessionDashXML}
+                    customHost={customHost}
+                    customPort={customPort}
                     handleCreateNewSessionBtn={props.handleCreateNewSessionBtn}
                 />
             )

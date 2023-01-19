@@ -3,11 +3,10 @@ import React from "react"
 export default function Button(props) {
     let button
     let action
-    let isSubmitLocalForm = false
     let styles = {}
 
     if (props.backgroundColor) {
-        styles = {backgroundColor: props.backgroundColor}
+        styles = { backgroundColor: props.backgroundColor }
     }
 
     if (props.action === "toggleStreaming") {
@@ -16,20 +15,77 @@ export default function Button(props) {
         } else if (props.label === "Stop Streaming") {
             action = "stopStreaming"
 
-            styles = {backgroundColor: "#b71c1c", color: "white"}
+            styles = { backgroundColor: "#b71c1c", color: "white" }
         }
-        button = <div className="giant-button-container"><button onClick={() => {props.buttonPressed(action)}} className="giant-button" style={styles}>{props.label}</button></div>
+        button = (
+            <div className="giant-button-container">
+                <button
+                    onClick={() => {
+                        props.buttonPressed(
+                            action,
+                            null,
+                            props.port,
+                            props.host
+                        )
+                    }}
+                    className="giant-button"
+                    style={styles}
+                >
+                    {props.label}
+                </button>
+            </div>
+        )
     } else if (props.action === "submitLocalForm") {
         if (props.postEndpoint) {
-            button = <p className="fields"><input data-postendpoint={props.postEndpoint} style={styles} type="submit" value={props.label}/></p>
+            button = (
+                <p className="fields">
+                    <input
+                        data-postendpoint={props.postEndpoint}
+                        style={styles}
+                        type="submit"
+                        value={props.label}
+                    />
+                </p>
+            )
         } else {
-            button = <p className="fields"><span className="error-text">Post endpoint is missing in template is required for forms</span></p>
+            button = (
+                <p className="fields">
+                    <span className="error-text">
+                        Post endpoint is missing in template is required for
+                        forms
+                    </span>
+                </p>
+            )
         }
     } else {
         if (props.size === "big") {
-            button = <p className="fields"><button style={styles} className="big-button" onClick={() => {props.buttonPressed(props.action)}}>{props.label}</button></p>
+            button = (
+                <p className="fields">
+                    <button
+                        style={styles}
+                        className="big-button"
+                        onClick={() => {
+                            props.buttonPressed(props.action)
+                        }}
+                    >
+                        {props.label}
+                    </button>
+                </p>
+            )
         } else {
-            button = <p className="fields"><button style={styles} className="small-button" onClick={() => {props.buttonPressed(props.action)}}>{props.label}</button></p>
+            button = (
+                <p className="fields">
+                    <button
+                        style={styles}
+                        className="small-button"
+                        onClick={() => {
+                            props.buttonPressed(props.action)
+                        }}
+                    >
+                        {props.label}
+                    </button>
+                </p>
+            )
         }
     }
 
@@ -42,7 +98,5 @@ export default function Button(props) {
     //         : <button className="small-button">{props.label}</button>}</p>
     // }
 
-    return (
-        button
-    )
+    return button
 }

@@ -1,0 +1,36 @@
+{
+    "preset_list": [
+        {
+            "pid": 0,
+            "pname": "SHOW MEEE THE 2Mbps HD Single Fld"
+        },
+        {
+            "pid": 1,
+            "pname": "4Mbps"
+        },
+        {
+            "pid": 2,
+            "pname": "8Mbps"
+        },
+        {
+            "pid": 3,
+            "pname": "15Mbps"
+        },
+        {
+            "pid": 4,
+            "pname": "35Mbps"
+        },
+        {
+            "pid": 5,
+            "pname": "35Mbps 4:2:2"
+        },
+        {
+            "pid": 6,
+            "pname": "2Mbps Dynamic 300"
+        },
+        {
+            "pid": 7,
+            "pname": "BAD-AUDIO"
+        }
+    ]
+}

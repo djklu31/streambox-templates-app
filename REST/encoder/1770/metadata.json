@@ -1,0 +1,39 @@
+{
+    "current_stat": [
+        {
+            "cname": "Meta_Network1",
+            "type": 0,
+            "label": "DRM\/Session",
+            "val": "$ADTJVS",
+            "read_only": 0
+        },
+        {
+            "cname": "Meta_Slug",
+            "type": 0,
+            "label": "Title",
+            "val": "CNN \/ Streambox 35Mbps Test",
+            "read_only": 0
+        },
+        {
+            "cname": "Meta_Location",
+            "type": 0,
+            "label": "Location",
+            "val": "Atlanta",
+            "read_only": 0
+        },
+        {
+            "cname": "Meta_Reporter",
+            "type": 0,
+            "label": "Reporter",
+            "val": "N\/A",
+            "read_only": 0
+        },
+        {
+            "cname": "Meta_Producer",
+            "type": 0,
+            "label": "Producer",
+            "val": "N\/A",
+            "read_only": 0
+        }
+    ]
+}

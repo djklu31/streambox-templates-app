@@ -1,0 +1,106 @@
+{
+    "current_stat": [
+        {
+            "cname": "decoderIP",
+            "type": 0,
+            "label": "Decoder IP",
+            "val": "52.25.129.48",
+            "read_only": 0
+        },
+        {
+            "cname": "VBR",
+            "type": 0,
+            "label": "VBR Buffer",
+            "val": "0.8",
+            "read_only": 0
+        },
+        {
+            "cname": "port",
+            "type": 5,
+            "label": "TCP Port",
+            "val": 1770,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 2000000
+        },
+        {
+            "cname": "packetsize",
+            "type": 5,
+            "label": "IP Packet size",
+
+            "val": 1392,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 2000000
+        },
+        {
+            "cname": "ttl",
+            "type": 5,
+            "label": "Multicast TTL",
+            "val": 175,
+            "read_only": 0,
+            "vmin": 1,
+            "vmax": 2000000
+        },
+        {
+            "cname": "FEC",
+            "type": 2,
+            "label": "FEC",
+            "val": 0,
+            "sub_values": [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
+            ],
+            "val_labels": [
+                "OFF",
+                "1%,100p",
+                "2%,50p",
+                "2.5%,40p",
+                "5%,20p",
+                "10%,10p",
+                "12.5%,8p",
+                "16%,6p",
+                "20%,5p",
+                "25%,4p",
+                "33%,3p",
+                "50%,2p",
+                "3% RS-64/2",
+                "6% RS-32/2",
+                "8% RS-24/2",
+                "11% RS-16/2",
+                "20% RS-8/2",
+                "25% RS-6/2",
+                "33% RS-4/2",
+                "7% RS-64/5",
+                "10% RS-48/5",
+                "14% RS-32/5",
+                "38% RS-8/5",
+                "45% RS-6/5",
+                "14% RS-64/10",
+                "18% RS-48/10",
+                "23% RS-32/10",
+                "38% RS-16/10",
+                "34% RS-64/32",
+                "40% RS-48/32",
+                "42% RS-64/48"
+            ],
+            "read_only": 0
+        },
+        {
+            "cname": "stuffing",
+            "type": 3,
+            "label": "Packet Stuffing",
+            "val": 1,
+            "read_only": 0
+        },
+        {
+            "cname": "shuffle",
+            "type": 2,
+            "label": "Shuffling",
+            "val": 0,
+            "sub_values": [0, 3, 5, 10, 20],
+            "val_labels": ["off", "3", "5", "10", "20"],
+            "read_only": 0
+        }
+    ]
+}

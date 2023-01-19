@@ -6,6 +6,7 @@ import {
     getStreamingStatus,
     isLocalDev,
     setNetwork1Api,
+    replaceJSONParams,
 } from "./Utils"
 import { POSTData } from "./Utils"
 
@@ -19,6 +20,9 @@ export default function App(props) {
     const containerStyles = useRef([navBtns[0].containersStyle])
     const [backgroundFetchCount, setBackgroundFetchCount] = useState(0)
     const [sessionDashXML, setSessionDashXML] = useState("")
+    const [templateVariables] = useState(
+        currentTemplate.template.templateVariables
+    )
 
     const combinedApiArray = []
     let presetObj
@@ -40,6 +44,10 @@ export default function App(props) {
         } else {
             document.body.classList.remove("dark-mode")
         }
+
+        // if (typeof currentTemplate.template.templateVariables !== undefined) {
+        //     setTemplateVariables(currentTemplate.template.templateVariables)
+        // }
     }, [])
 
     //watch for route changes or refreshes
@@ -47,10 +55,23 @@ export default function App(props) {
         const fullRouteObj = navBtns.filter(
             (navBtn) => navBtn.routeName === currentPageName
         )
+        // let customHost = ""
         //index of apiSrcs matches routeContainers
-        const apiSrcs = fullRouteObj[0].containers.map(
-            (container) => container.apiSrc
-        )
+        const apiSrcs = fullRouteObj[0].containers.map((container) => {
+            // if (container.host !== undefined) {
+            //     let objectEntries = Object.entries(templateVariables)
+
+            //     if (objectEntries.length > 0) {
+            //         for (let [key, val] of objectEntries) {
+            //             let searchKey = `@${key}@`
+            //             if (searchKey === container.host) {
+            //                 customHost = val
+            //             }
+            //         }
+            //     }
+            // }
+            return container.apiSrc
+        })
 
         containerStyles.current = fullRouteObj[0].containersStyle
 
@@ -77,8 +98,19 @@ export default function App(props) {
                         let tempObj = {
                             current_stat: [],
                         }
+
                         for (let source of sources) {
-                            fullEndpoint = endpoint + source
+                            source = replaceJSONParams(
+                                source,
+                                templateVariables
+                            )
+
+                            // if (customHost !== "") {
+                            //     fullEndpoint = "http://" + customHost + source
+                            // } else {
+                            fullEndpoint = source
+                            // }
+
                             response = await fetch(fullEndpoint)
                             jsonResult = await response.json()
 
@@ -94,7 +126,7 @@ export default function App(props) {
                         combinedApiArray.push(tempObj)
                     } else {
                         //if just a single string
-                        fullEndpoint = endpoint + sources
+                        fullEndpoint = sources
                         try {
                             response = await fetch(fullEndpoint)
                             jsonResult = await response.json()
@@ -129,6 +161,7 @@ export default function App(props) {
                                 triggerBackgroundFetch={triggerBackgroundFetch}
                                 apiObj={combinedApiArray[index]}
                                 container={container}
+                                templateVariables={templateVariables}
                                 sessionDashXML={sessionDashXML}
                                 handleCreateNewSessionBtn={
                                     handleCreateNewSessionBtn
@@ -144,6 +177,7 @@ export default function App(props) {
                                 startTimer={startTimer}
                                 triggerBackgroundFetch={triggerBackgroundFetch}
                                 apiObj={combinedApiArray[index]}
+                                templateVariables={templateVariables}
                                 container={container}
                             />
                         )
