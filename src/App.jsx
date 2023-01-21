@@ -128,7 +128,10 @@ export default function App(props) {
                         combinedApiArray.push(tempObj)
                     } else {
                         //if just a single string
-                        fullEndpoint = sources
+                        fullEndpoint = replaceJSONParams(
+                            sources,
+                            templateVariables
+                        )
                         try {
                             response = await fetch(fullEndpoint)
                             jsonResult = await response.json()

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import App from "./App"
 import Navbar from "./components/Navbar"
 import Settings from "./Settings"
-import { isLocalDev, getRestEndpoint } from "./Utils"
+import { isLocalDev, getRestEndpoint, appVersionNumber } from "./Utils"
 import testTemplate from "../public/DevTemplates/Dark Dev Template.json"
 const endpoint = getRestEndpoint()
 
@@ -18,6 +18,13 @@ export default function RootWrapper() {
     const [isSettings, setIsSettings] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [currentPageName, setCurrentPageName] = useState("")
+
+    if (localStorage.getItem("defaultTemplate") === undefined) {
+        localStorage.setItem(
+            "defaultTemplate",
+            "Dark Prod Template (Read-only)"
+        )
+    }
 
     async function handleChangeTemplate() {
         await getTemplate()
@@ -39,7 +46,9 @@ export default function RootWrapper() {
             response = await import(`${location.origin}/JSIncludes`)
             jsVariables = response.jsVariables
         } else {
-            response = await import(`${location.origin}/sbuiapp/JSIncludes.js`)
+            response = await import(
+                `${location.origin}/${location.pathname}/JSIncludes.js`
+            )
             jsVariables = response.jsVariables
         }
         let jsVarsObjEntries = Object.entries(jsVariables)

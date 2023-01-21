@@ -1,105 +1,112 @@
 {
   "template": {
-    "darkMode": true,
-    "backgroundRefreshTime": 7000,
-    "navbar": {
-      "routes": [
-        {
-          "routeName": "Session",
-          "containersStyle": {
-            "numberOfColumns": 2
-          },
-          "containers": [
-            {
-              "title": "Video",
-              "apiSrc": [
-                "/REST/encoder/status",
-                "/REST/encoder/audio"
-              ],
-              "containerStyle": {
-                "stretchVertically": 2
+      "darkMode": true,
+      "backgroundRefreshTime": 7000,
+      "templateVariables": {
+          "restAPI_host": "@JS_HOST@",
+          "restAPI_port": "1770"
+      },
+      "navbar": {
+          "routes": [
+              {
+                  "routeName": "Session",
+                  "containersStyle": {
+                      "numberOfColumns": 2
+                  },
+                  "containers": [
+                      {
+                          "title": "Video",
+                          "apiSrc": [
+                              "@JS_HOST@/REST/encoder/@JS_PORT@/status",
+                              "@JS_HOST@/REST/encoder/@JS_PORT@/audio"
+                          ],
+                          "containerStyle": {
+                              "stretchVertically": 2
+                          },
+                          "fields": [
+                              {
+                                  "type": "video",
+                                  "hasVUMeter": true,
+                                  "audioLevelEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/audiolevels",
+                                  "previewImageRoute": "@JS_HOST@/REST/encoder/@JS_PORT@/preview/JPG"
+                              },
+                              {
+                                  "type": "mappedText",
+                                  "label": "Source Video Format",
+                                  "mapping": "inputsignal",
+                                  "inlineElements": [
+                                      {
+                                          "type": "mappedText",
+                                          "label": "Network Mode",
+                                          "mapping": "cnetworkmode"
+                                      },
+                                      {
+                                          "type": "mappedText",
+                                          "label": "Bitrate",
+                                          "mapping": "cur_bitrate"
+                                      },
+                                      {
+                                          "type": "mappedText",
+                                          "label": "Quality",
+                                          "mapping": "vquality"
+                                      }
+                                  ]
+                              },
+                              {
+                                  "type": "mappedText",
+                                  "label": "Dropped Captured Frames",
+                                  "mapping": "dropCapture",
+                                  "inlineElements": [
+                                      {
+                                          "type": "mappedText",
+                                          "label": "Dropped Encoder Frames",
+                                          "mapping": "dropEnc"
+                                      },
+                                      {
+                                          "type": "mappedText",
+                                          "label": "SDI errors",
+                                          "mapping": "sdi_error"
+                                      },
+                                      {
+                                          "type": "mappedText",
+                                          "label": "Frame Delay",
+                                          "mapping": "frame_delay"
+                                      }
+                                  ]
+                              }
+                          ]
+                      },
+                      {
+                          "title": "Start Streaming",
+                          "apiSrc": [
+                              "@JS_HOST@/REST/encoder/@JS_PORT@/status",
+                              "@JS_HOST@/REST/encoder/@JS_PORT@/presets"
+                          ],
+                          "fields": [
+                              {
+                                  "type": "button",
+                                  "host": "@restAPI_host@",
+                                  "size": "giant",
+                                  "mapping": "isStreaming",
+                                  "action": "toggleStreaming"
+                              },
+                              {
+                                  "type": "presetSelect",
+                                  "label": "Preset",
+                                  "btnPresetSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/presets",
+                                  "btnLabel": "Apply Preset",
+                                  "btnAction": "applyPreset",
+                                  "mapping": "none"
+                              }
+                          ]
+                      },
+                      {
+                          "type": "sessionsPanel",
+                          "host": "@JS_HOST@",
+                          "port": "@JS_PORT@"
+                      }
+                  ]
               },
-              "fields": [
-                {
-                  "type": "video",
-                  "hasVUMeter": true,
-                  "audioLevelEndpoint": "/REST/encoder/audiolevels",
-                  "previewImageRoute": "/REST/encoder/preview/JPG"
-                },
-                {
-                  "type": "mappedText",
-                  "label": "Source Video Format",
-                  "mapping": "inputsignal",
-                  "inlineElements": [
-                    {
-                      "type": "mappedText",
-                      "label": "Network Mode",
-                      "mapping": "cnetworkmode"
-                    },
-                    {
-                      "type": "mappedText",
-                      "label": "Bitrate",
-                      "mapping": "cur_bitrate"
-                    },
-                    {
-                      "type": "mappedText",
-                      "label": "Quality",
-                      "mapping": "vquality"
-                    }
-                  ]
-                },
-                {
-                  "type": "mappedText",
-                  "label": "Dropped Captured Frames",
-                  "mapping": "dropCapture",
-                  "inlineElements": [
-                    {
-                      "type": "mappedText",
-                      "label": "Dropped Encoder Frames",
-                      "mapping": "dropEnc"
-                    },
-                    {
-                      "type": "mappedText",
-                      "label": "SDI errors",
-                      "mapping": "sdi_error"
-                    },
-                    {
-                      "type": "mappedText",
-                      "label": "Frame Delay",
-                      "mapping": "frame_delay"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "title": "Start Streaming",
-              "apiSrc": [
-                "/REST/encoder/status",
-                "/REST/encoder/presets"
-              ],
-              "fields": [
-                {
-                  "type": "button",
-                  "size": "giant",
-                  "mapping": "isStreaming",
-                  "action": "toggleStreaming"
-                },
-                {
-                  "type": "presetSelect",
-                  "label": "Preset",
-                  "btnPresetSrc": "/REST/encoder/presets",
-                  "btnLabel": "Apply Preset",
-                  "btnAction": "applyPreset",
-                  "mapping": "none"
-                }
-              ]
-            },
-            {
-              "type": "sessionsPanel"
-            }
-          ]
-        },
         {
           "routeName": "Info",
           "containersStyle": {
@@ -109,8 +116,8 @@
             {
               "title": "Video",
               "apiSrc": [
-                "/REST/encoder/status",
-                "/REST/encoder/audio"
+                "@JS_HOST@/REST/encoder/@JS_PORT@/status",
+                "@JS_HOST@/REST/encoder/@JS_PORT@/audio"
               ],
               "containerStyle": {
                 "stretchVertically": 2
@@ -119,8 +126,8 @@
                 {
                   "type": "video",
                   "hasVUMeter": true,
-                  "audioLevelEndpoint": "/REST/encoder/audiolevels",
-                  "previewImageRoute": "/REST/encoder/preview/JPG"
+                  "audioLevelEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/audiolevels",
+                  "previewImageRoute": "@JS_HOST@/REST/encoder/@JS_PORT@/preview/JPG"
                 },
                 {
                   "type": "mappedText",
@@ -170,7 +177,7 @@
             },
             {
               "title": "Network",
-              "apiSrc": "/REST/encoder/status",
+              "apiSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/status",
               "fields": [
                 {
                   "type": "mappedText",
@@ -217,8 +224,8 @@
             {
               "title": "Start Streaming",
               "apiSrc": [
-                "/REST/encoder/status",
-                "/REST/encoder/presets"
+                "@JS_HOST@/REST/encoder/@JS_PORT@/status",
+                "@JS_HOST@/REST/encoder/@JS_PORT@/presets"
               ],
               "fields": [
                 {
@@ -248,11 +255,11 @@
             {
               "title": "Bitrate and Buffer Settings",
               "apiSrc": [
-                "/REST/encoder/network",
-                "/REST/encoder/video"
+                "@JS_HOST@/REST/encoder/@JS_PORT@/network",
+                "@JS_HOST@/REST/encoder/@JS_PORT@/video"
               ],
               "type": "form",
-              "postEndpoint": "/REST/encoder/video",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/video",
               "fields": [
                 {
                   "type": "input",
@@ -281,8 +288,8 @@
             },
             {
               "title": "Transport Settings",
-              "apiSrc": "/REST/encoder/transport",
-              "postEndpoint": "/REST/encoder/transport",
+              "apiSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/transport",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/transport",
               "type": "form",
               "containerStyle": {
                 "stretchVertically": 2
@@ -344,10 +351,10 @@
             {
               "title": "Target Decoder",
               "apiSrc": [
-                "/REST/encoder/network",
-                "/REST/encoder/status"
+                "@JS_HOST@/REST/encoder/@JS_PORT@/network",
+                "@JS_HOST@/REST/encoder/@JS_PORT@/status"
               ],
-              "postEndpoint": "/REST/encoder/network",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/network",
               "type": "form",
               "fields": [
                 {
@@ -377,8 +384,8 @@
             },
             {
               "title": "Forward Error Correction",
-              "apiSrc": "/REST/encoder/network",
-              "postEndpoint": "/REST/encoder/network",
+              "apiSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/network",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/network",
               "type": "form",
               "fields": [
                 {
@@ -410,8 +417,8 @@
           "containers": [
             {
               "title": "Video Settings",
-              "apiSrc": "/REST/encoder/video",
-              "postEndpoint": "/REST/encoder/video",
+              "apiSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/video",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/video",
               "type": "form",
               "fields": [
                 {
@@ -471,9 +478,9 @@
             },
             {
               "title": "Audio Settings",
-              "apiSrc": "/REST/encoder/audio",
+              "apiSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/audio",
               "type": "form",
-              "postEndpoint": "/REST/encoder/audio",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/audio",
               "fields": [
                 {
                   "type": "select",
@@ -508,9 +515,9 @@
           "containers": [
             {
               "title": "Metadata Settings",
-              "apiSrc": "/REST/encoder/metadata",
+              "apiSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/metadata",
               "type": "form",
-              "postEndpoint": "/REST/encoder/metadata",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/metadata",
               "fields": [
                 {
                   "type": "input",
@@ -552,9 +559,9 @@
           "containers": [
             {
               "title": "Encryption",
-              "apiSrc": "/REST/encoder/encryption",
+              "apiSrc": "@JS_HOST@/REST/encoder/@JS_PORT@/encryption",
               "type": "form",
-              "postEndpoint": "/REST/encoder/encryption",
+              "postEndpoint": "@JS_HOST@/REST/encoder/@JS_PORT@/encryption",
               "fields": [
                 {
                   "type": "select",

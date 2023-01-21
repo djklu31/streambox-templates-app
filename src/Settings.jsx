@@ -577,7 +577,14 @@ export default function Settings(props) {
             "LiveDE",
         ]
     } else {
-        serverList = ["LiveUSEast", "LivePOST", "LiveJP", "LiveAU", "LiveEU"]
+        serverList = [
+            "LiveUSEast",
+            "LivePOST",
+            "LiveJP",
+            "LiveAU",
+            "LiveIN",
+            "LiveEU",
+        ]
     }
 
     let serverOptions = serverList.map((server, index) => (
