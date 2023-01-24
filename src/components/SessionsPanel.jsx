@@ -10,12 +10,14 @@ import {
     setNetwork1Api,
     getPropertyFromAPI,
 } from "../Utils"
+import Modal from "react-modal"
 
 export default function SessionsPanel(props) {
     let [showEmailPage, setShowEmailPage] = useState(false)
     let [selectedOptions, setSelectedOptions] = useState([])
     let localStorageEmails = JSON.parse(localStorage.getItem("storedEmails"))
     let [isFromClearSession, setIsFromClearSession] = useState(false)
+    const [modalIsOpen, setIsOpen] = React.useState(false)
 
     let sessionDashXML = props.sessionDashXML
 
@@ -45,6 +47,19 @@ export default function SessionsPanel(props) {
     let [emailOptions, setEmailOptions] = useState(opts)
 
     const endpoint = location.origin
+
+    //modal setting
+    Modal.setAppElement("#root")
+    const customStyles = {
+        content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+        },
+    }
 
     async function handleCreateNewSessionBtnWrapper() {
         let sessionIDElems =
@@ -192,6 +207,14 @@ export default function SessionsPanel(props) {
         } else if (text === "close") {
             setShowEmailPage(false)
         }
+    }
+
+    function openAdvancedSettings() {
+        setIsOpen(true)
+    }
+
+    function closeAdvancedSettngs() {
+        setIsOpen(false)
     }
 
     async function sendEmailsViaPHP(
@@ -364,6 +387,13 @@ export default function SessionsPanel(props) {
                     >
                         Create New Session
                     </button>
+                    <button
+                        className="sessions-panel-top-btns"
+                        onClick={openAdvancedSettings}
+                        disabled
+                    >
+                        Advanced
+                    </button>
                     <button className="sessions-panel-top-btns" disabled>
                         Invite to Session...
                     </button>
@@ -390,6 +420,13 @@ export default function SessionsPanel(props) {
                         onClick={handleCreateNewSessionBtnWrapper}
                     >
                         Create New Session
+                    </button>
+                    <button
+                        className="sessions-panel-top-btns"
+                        onClick={openAdvancedSettings}
+                        disabled
+                    >
+                        Advanced
                     </button>
                     <button className="sessions-panel-top-btns" disabled>
                         Invite to Session...
@@ -598,6 +635,52 @@ export default function SessionsPanel(props) {
                     >
                         Create New Session
                     </button>
+                    <button
+                        className="sessions-panel-top-btns"
+                        onClick={openAdvancedSettings}
+                    >
+                        Advanced
+                    </button>
+                    <Modal
+                        isOpen={modalIsOpen}
+                        // onAfterOpen={afterOpenModal}
+                        onRequestClose={closeAdvancedSettngs}
+                        style={customStyles}
+                        contentLabel="Example Modal"
+                    >
+                        <h2>Color Space</h2>
+                        <button onClick={closeAdvancedSettngs}>close</button>
+                        {/* <div>I am a modal</div>
+                        <form>
+                            <input />
+                            <button>tab navigation</button>
+                            <button>stays</button>
+                            <button>inside</button>
+                            <button>the modal</button>
+                        </form> */}
+                        <h2>LDMP Settings</h2>
+                        <button onClick={closeAdvancedSettngs}>close</button>
+                        <div>I am a modal</div>
+                        {/* <form>
+                            <input />
+                            <button>tab navigation</button>
+                            <button>stays</button>
+                            <button>inside</button>
+                            <button>the modal</button>
+                        </form> */}
+                        <h2>Chat</h2>
+                        <a
+                            href="http://google.com"
+                            // href={() =>
+                            //     `http://${localStorage.getItem(
+                            //         "cloudServer"
+                            //     )}/ls/slschat.php?sessionId=$${sessionID}`
+                            // }
+                            // target="_blank"
+                        >
+                            Open Chat
+                        </a>
+                    </Modal>
                     <button
                         className="sessions-panel-top-btns"
                         onClick={() => handleClick("openEmailPage")}
