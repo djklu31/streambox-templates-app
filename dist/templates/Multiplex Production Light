@@ -18,23 +18,23 @@
               "type": "multichannel-container",
               "fields": [
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Bitrate: 3020 Kbps"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Signal: 1080p23.98"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Title: CNN / Streambox 8Mbps Test"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Dest: 127.0.0.1"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Port: 1770"
                 },
                 {
@@ -55,23 +55,23 @@
               "type": "multichannel-container",
               "fields": [
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Bitrate: 3020 Kbps"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Signal: 1080p23.98"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Title: CNN / Streambox 8Mbps Test"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Dest: 127.0.0.1"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Port: 1770"
                 },
                 {
@@ -92,23 +92,23 @@
               "type": "multichannel-container",
               "fields": [
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Bitrate: 3020 Kbps"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Signal: 1080p23.98"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Title: CNN / Streambox 8Mbps Test"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Dest: 127.0.0.1"
                 },
                 {
-                  "type": "plaintext",
+                  "type": "plainText",
                   "text": "Port: 1770"
                 },
                 {
