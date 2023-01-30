@@ -87,13 +87,12 @@ export default function SessionsPanel(props) {
                         document.querySelector(
                             ".close-session-btn"
                         ).style.display = "initial"
+                        setChatPassExists("")
                     }, 7000)
                 }
             }
         }
-
         setIsFromClearSession(false)
-        setChatPassExists("")
     }
 
     function clearSession() {
