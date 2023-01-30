@@ -21,11 +21,11 @@ export default function SessionsPanel(props) {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [colorspaceOptions, setColorspaceOptions] = useState([])
     const [proto, setProto] = useState("0")
+    const [chatPassExists, setChatPassExists] = useState("")
 
     let sessionDashXML = props.sessionDashXML
     let selectedColorspaceId = "0"
     let session_id = ""
-    let chatPassExists = false
     let ldmpSettings = ""
     if (isFromClearSession) {
         if (sessionDashXML === "none" || sessionDashXML === "") {
@@ -93,6 +93,7 @@ export default function SessionsPanel(props) {
         }
 
         setIsFromClearSession(false)
+        setChatPassExists("")
     }
 
     function clearSession() {
@@ -103,6 +104,7 @@ export default function SessionsPanel(props) {
         localStorage.removeItem("sessionTitle")
         setShowEmailPage(false)
         setIsFromClearSession(true)
+        setChatPassExists("")
     }
 
     function sendInvites() {
@@ -579,8 +581,14 @@ export default function SessionsPanel(props) {
             }
             selectedColorspaceId = parsedXML.getAttribute("colorspace_id")
             session_id = parsedXML.getAttribute("session_id")
-            chatPassExists =
-                parsedXML.getAttribute("chat_pass") !== "" ? true : false
+
+            if (chatPassExists === "") {
+                setChatPassExists(
+                    parsedXML.getAttribute("chat_pass") !== ""
+                        ? "true"
+                        : "false"
+                )
+            }
 
             ldmpSettings = JSON.parse(
                 parsedXML.getAttribute("session_ldmp_params") !== ""
@@ -700,6 +708,7 @@ export default function SessionsPanel(props) {
                 '<?xml version="1.0" encoding="UTF-8"?>\n<body result="success"/>\n'
             ) {
                 alert("Chat password set")
+                setChatPassExists("true")
             } else {
                 alert("Something went wrong setting chat password")
             }
@@ -971,7 +980,10 @@ export default function SessionsPanel(props) {
                         <h2>Chat Password</h2>
                         <label>
                             Chat Password (
-                            <span>{chatPassExists ? "NOT SET" : "SET"}</span>):
+                            <span>
+                                {chatPassExists === "true" ? "SET" : "NOT SET"}
+                            </span>
+                            ):
                         </label>
                         <input
                             className="input-box-modal"
