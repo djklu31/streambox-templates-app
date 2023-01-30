@@ -678,7 +678,7 @@ export default function SessionsPanel(props) {
             ) {
                 alert("LDMP Parameters set")
             } else {
-                alert("Something went wrong setting LDMP parameters")
+                alert("LDMP Parameters not set")
             }
         }
 
