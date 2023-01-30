@@ -32,7 +32,6 @@ export default function Settings(props) {
     //if there are, then check against the 'db'
     //if they match, then set local storage with these vals
     //logout should destroy local storage for userid and pass
-
     useEffect(() => {
         initializeLoginSection()
         initializeTemplateSection()

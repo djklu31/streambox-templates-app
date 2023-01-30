@@ -1,7 +1,6 @@
 //set environment: true - local development, false - production
 export let isLocalDev = false
 const endpoint = location.origin
-export const appVersionNumber = "1.09"
 
 // //JS Variables that template files will use
 // export const jsVariables = {

@@ -9,6 +9,7 @@ import {
     POSTData,
     setNetwork1Api,
     getPropertyFromAPI,
+    md5,
 } from "../Utils"
 import Modal from "react-modal"
 
@@ -17,10 +18,15 @@ export default function SessionsPanel(props) {
     let [selectedOptions, setSelectedOptions] = useState([])
     let localStorageEmails = JSON.parse(localStorage.getItem("storedEmails"))
     let [isFromClearSession, setIsFromClearSession] = useState(false)
-    const [modalIsOpen, setIsOpen] = React.useState(false)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [colorspaceOptions, setColorspaceOptions] = useState([])
+    const [proto, setProto] = useState("0")
 
     let sessionDashXML = props.sessionDashXML
-
+    let selectedColorspaceId = "0"
+    let session_id = ""
+    let chatPassExists = false
+    let ldmpSettings = ""
     if (isFromClearSession) {
         if (sessionDashXML === "none" || sessionDashXML === "") {
             setIsFromClearSession(false)
@@ -56,6 +62,9 @@ export default function SessionsPanel(props) {
             left: "50%",
             right: "auto",
             bottom: "auto",
+            padding: "50px",
+            backgroundColor: "rgb(28, 28, 30)",
+            color: "rgb(240, 240, 240)",
             marginRight: "-50%",
             transform: "translate(-50%, -50%)",
         },
@@ -90,6 +99,7 @@ export default function SessionsPanel(props) {
         let sessionDRM = localStorage.getItem("sessionDRM")
         localStorage.setItem("lastSessionFromClear", sessionDRM)
         localStorage.removeItem("sessionDRM")
+        // localStorage.removeItem("sessionId")
         localStorage.removeItem("sessionTitle")
         setShowEmailPage(false)
         setIsFromClearSession(true)
@@ -126,6 +136,51 @@ export default function SessionsPanel(props) {
         var re = /\S+@\S+\.\S+/
         return re.test(email)
     }
+
+    useEffect(() => {
+        // let login = localStorage.getItem("cloudLogin")
+        // let hashedPass = localStorage.getItem("cloudPass")
+
+        async function getColorspaceOptions() {
+            let response = await fetch(
+                "http://tl1.streambox.com/ls/GetColorspaceListXML.php"
+            )
+
+            const xmlResponse = await response.text()
+
+            let parser = new DOMParser()
+            let xmlDoc = parser.parseFromString(xmlResponse, "text/xml")
+            let parsedXML = xmlDoc.getElementsByTagName("body")[0].childNodes
+            let options = []
+            let childNodes = parsedXML[0].childNodes
+
+            for (let node of childNodes) {
+                let option = (
+                    <option value={node.getAttribute("id")}>
+                        {node.getAttribute("name")}
+                    </option>
+                )
+                options.push(option)
+            }
+
+            setColorspaceOptions(options)
+        }
+
+        //setColorspaceForSessionID("100815", "8")
+        // setSessionLdmpParams("100815", {
+        //     proto: 1,
+        //     MPUDP_ACK_TO: "69",
+        //     codecPacketSize: "969",
+        //     MPUDP_SND_TO: "69696",
+        //     MPUDP_CWND: "700;8000",
+        //     MPUDP_CWND_MIN: "+60",
+        //     MPUDP_CWND_MAX: "+5",
+        // })
+
+        // setChatPass("$Z8VU38", "YOOOOOOOOOOO")
+
+        getColorspaceOptions()
+    }, [])
 
     useEffect(() => {
         if (document.querySelector(".email-page-body-select")) {
@@ -210,11 +265,11 @@ export default function SessionsPanel(props) {
     }
 
     function openAdvancedSettings() {
-        setIsOpen(true)
+        setModalIsOpen(true)
     }
 
     function closeAdvancedSettngs() {
-        setIsOpen(false)
+        setModalIsOpen(false)
     }
 
     async function sendEmailsViaPHP(
@@ -462,6 +517,7 @@ export default function SessionsPanel(props) {
         ) {
             if (localStorageSessionDRM === "Invalid Login") {
                 localStorage.removeItem("sessionDRM")
+                // localStorage.removeItem("sessionId")
             }
             wrongLogin = true
         } else {
@@ -519,10 +575,132 @@ export default function SessionsPanel(props) {
                     }
                 }
             }
+            selectedColorspaceId = parsedXML.getAttribute("colorspace_id")
+            session_id = parsedXML.getAttribute("session_id")
+            chatPassExists =
+                parsedXML.getAttribute("chat_pass") !== "" ? true : false
+
+            ldmpSettings = JSON.parse(
+                parsedXML.getAttribute("session_ldmp_params") !== ""
+                    ? parsedXML.getAttribute("session_ldmp_params")
+                    : parsedXML.getAttribute("user_ldmp_params")
+            )
+        }
+
+        function setupProtoRadios() {
+            if (ldmpSettings.proto == 1) {
+                handleLDMPClick()
+            } else {
+                handleUDPClick()
+            }
+            document.getElementById("MPUDP_ACK_TO").value =
+                ldmpSettings.MPUDP_ACK_TO
+            document.getElementById("MPUDP_SND_TO").value =
+                ldmpSettings.MPUDP_SND_TO
+            document.getElementById("MPUDP_CWND").value =
+                ldmpSettings.MPUDP_CWND
+            document.getElementById("MPUDP_CWND_MIN").value =
+                ldmpSettings.MPUDP_CWND_MIN
+            document.getElementById("MPUDP_CWND_MAX").value =
+                ldmpSettings.MPUDP_CWND_MAX
+            document.getElementById("codecPacketSize").value =
+                ldmpSettings.codecPacketSize
+        }
+
+        function handleUDPClick() {
+            document.getElementById("proto_udp").checked = true
+            document.getElementById("proto_ldmp").checked = false
+            document.querySelector(".ldmp-settings-body").style.display = "none"
+            setProto("0")
+        }
+
+        function handleLDMPClick() {
+            document.getElementById("proto_ldmp").checked = true
+            document.getElementById("proto_udp").checked = false
+            document.querySelector(".ldmp-settings-body").style.display =
+                "initial"
+            setProto("1")
+        }
+
+        async function setColorspaceForSessionID() {
+            let login = localStorage.getItem("cloudLogin")
+            let hashedPass = localStorage.getItem("cloudPass")
+            const sessionId = session_id
+            const colorspaceId = document.getElementById(
+                "set-colorspace-select"
+            ).selectedOptions[0].value
+
+            let response = await fetch(
+                `http://tl1.streambox.com/ls/SetColorspaceXML.php?colorspace_id=${colorspaceId}&session_id=${sessionId}&login=${login}&hashedPass=${hashedPass}`
+            )
+            let result = await response.text()
+
+            if (
+                result ===
+                '<?xml version="1.0" encoding="UTF-8"?>\n<body result="success"/>\n'
+            ) {
+                alert("Colorspace set")
+            } else {
+                alert("Something went wrong setting colorspace")
+            }
+        }
+
+        async function setSessionLdmpParams() {
+            let login = localStorage.getItem("cloudLogin")
+            let hashedPass = localStorage.getItem("cloudPass")
+            const sessionId = session_id
+            let sessionLdmpParams = {
+                proto: proto,
+                MPUDP_ACK_TO: document.getElementById("MPUDP_ACK_TO").value,
+                codecPacketSize:
+                    document.getElementById("codecPacketSize").value,
+                MPUDP_SND_TO: document.getElementById("MPUDP_SND_TO").value,
+                MPUDP_CWND: document.getElementById("MPUDP_CWND").value,
+                MPUDP_CWND_MIN: document.getElementById("MPUDP_CWND_MIN").value,
+                MPUDP_CWND_MAX: document.getElementById("MPUDP_CWND_MAX").value,
+            }
+
+            sessionLdmpParams = JSON.stringify(sessionLdmpParams)
+            let response = await fetch(
+                `http://tl1.streambox.com/ls/SetSessionLdmpXML.php?session_ldmp_params=${sessionLdmpParams}&session_id=${sessionId}&login=${login}&hashedPass=${hashedPass}`
+            )
+            let result = await response.text()
+
+            if (
+                result ===
+                '<?xml version="1.0" encoding="UTF-8"?>\n<body session_ldmp_update_result="Updated LDMP parameters for session."/>\n'
+            ) {
+                alert("LDMP Parameters set")
+            } else {
+                alert("Something went wrong setting LDMP parameters")
+            }
+        }
+
+        async function setChatPass() {
+            const sessionDRM = localStorage.getItem("sessionDRM")
+            const chatPass = document.getElementById("set-chatpass-input").value
+            let login = localStorage.getItem("cloudLogin")
+            let hashedPass = localStorage.getItem("cloudPass")
+            const hashedChatPass = md5(chatPass)
+            let response = await fetch(
+                `http://tl1.streambox.com/ls/SetChatPassXML.php?hashed_chat_pass=${hashedChatPass}&enc_key=${sessionDRM}&login=${login}&hashedPass=${hashedPass}`
+            )
+            let result = await response.text()
+
+            if (
+                result ===
+                '<?xml version="1.0" encoding="UTF-8"?>\n<body result="success"/>\n'
+            ) {
+                alert("Chat password set")
+            } else {
+                alert("Something went wrong setting chat password")
+            }
         }
 
         return wrongLogin ? (
-            <div class="wrong-login-msg">Invalid API Call Login/Password</div>
+            <div className="wrong-login-msg">
+                Invalid API Call Login/Password
+            </div>
         ) : showEmailPage ? (
             <div>
                 <div className="sessions-panel-top">
@@ -643,24 +821,11 @@ export default function SessionsPanel(props) {
                     </button>
                     <Modal
                         isOpen={modalIsOpen}
-                        // onAfterOpen={afterOpenModal}
+                        onAfterOpen={setupProtoRadios}
                         onRequestClose={closeAdvancedSettngs}
                         style={customStyles}
-                        contentLabel="Example Modal"
+                        contentLabel="Advanced Settings"
                     >
-                        <h2>Color Space</h2>
-                        <button onClick={closeAdvancedSettngs}>close</button>
-                        {/* <div>I am a modal</div>
-                        <form>
-                            <input />
-                            <button>tab navigation</button>
-                            <button>stays</button>
-                            <button>inside</button>
-                            <button>the modal</button>
-                        </form> */}
-                        <h2>LDMP Settings</h2>
-                        <button onClick={closeAdvancedSettngs}>close</button>
-                        <div>I am a modal</div>
                         {/* <form>
                             <input />
                             <button>tab navigation</button>
@@ -668,18 +833,151 @@ export default function SessionsPanel(props) {
                             <button>inside</button>
                             <button>the modal</button>
                         </form> */}
-                        <h2>Chat</h2>
-                        <a
-                            href="http://google.com"
-                            // href={() =>
-                            //     `http://${localStorage.getItem(
-                            //         "cloudServer"
-                            //     )}/ls/slschat.php?sessionId=$${sessionID}`
-                            // }
-                            // target="_blank"
+                        <button
+                            id="close-btn-modal"
+                            className="sessions-panel-top-btns"
+                            onClick={closeAdvancedSettngs}
                         >
-                            Open Chat
-                        </a>
+                            close
+                        </button>
+                        <h2>Color Space</h2>
+                        <div>
+                            <select
+                                id="set-colorspace-select"
+                                defaultValue={selectedColorspaceId}
+                            >
+                                {colorspaceOptions}
+                            </select>
+                        </div>
+                        <div>
+                            <button
+                                className="sessions-panel-top-btns modal-btn"
+                                onClick={setColorspaceForSessionID}
+                            >
+                                Save Colorspace
+                            </button>
+                        </div>
+                        <hr />
+                        <h2>LDMP Settings</h2>
+                        <div>
+                            <p>
+                                <label for="proto_udp">
+                                    <input
+                                        type="radio"
+                                        id="proto_udp"
+                                        value="0"
+                                        onClick={handleUDPClick}
+                                    />
+                                    UDP (Default)
+                                </label>
+
+                                <label for="proto_ldmp">
+                                    <input
+                                        type="radio"
+                                        id="proto_ldmp"
+                                        value="1"
+                                        onClick={handleLDMPClick}
+                                    />{" "}
+                                    LDMP
+                                </label>
+                            </p>
+                            <div className="ldmp-settings-body">
+                                <p>
+                                    <label for="MPUDP_ACK_TO">
+                                        ACK Timeout:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="MPUDP_ACK_TO"
+                                        className="ldmp_params input-box-modal"
+                                        placeholder="300"
+                                    />
+                                </p>
+                                <p>
+                                    <label for="codecPacketSize">
+                                        Echo Packets Size:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="codecPacketSize"
+                                        className="ldmp_params input-box-modal"
+                                        placeholder="1200"
+                                    />
+                                </p>
+                                <p>
+                                    <label for="MPUDP_SND_TO">
+                                        Interface Timeout:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="MPUDP_SND_TO"
+                                        className="ldmp_params input-box-modal"
+                                        placeholder="10000"
+                                    />
+                                </p>
+                                <p>
+                                    <label for="MPUDP_CWND">
+                                        Buffer Size Packets:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="MPUDP_CWND"
+                                        className="ldmp_params input-box-modal"
+                                        placeholder="400"
+                                    />
+                                </p>
+
+                                <p>
+                                    <label for="MPUDP_CWND_MIN">
+                                        Jitter 1:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="MPUDP_CWND_MIN"
+                                        className="ldmp_params input-box-modal"
+                                        placeholder="5"
+                                    />
+                                </p>
+                                <p>
+                                    <label for="MPUDP_CWND_MAX">
+                                        Jitter 2:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="MPUDP_CWND_MAX"
+                                        className="ldmp_params input-box-modal"
+                                        placeholder="400"
+                                    />
+                                </p>
+                            </div>
+                            <div>
+                                <button
+                                    className="sessions-panel-top-btns modal-btn"
+                                    onClick={setSessionLdmpParams}
+                                >
+                                    Save LDMP Settings
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <h2>Chat Password</h2>
+                        <label>
+                            Chat Password (
+                            <span>{chatPassExists ? "NOT SET" : "SET"}</span>):
+                        </label>
+                        <input
+                            className="input-box-modal"
+                            id="set-chatpass-input"
+                            type="password"
+                        />
+                        <div>
+                            <button
+                                className="sessions-panel-top-btns modal-btn"
+                                onClick={setChatPass}
+                            >
+                                Save Chat Password
+                            </button>
+                        </div>
                     </Modal>
                     <button
                         className="sessions-panel-top-btns"

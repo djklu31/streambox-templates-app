@@ -320,8 +320,10 @@ export default function App(props) {
 
                 if (parsedXML.getAttributeNames().length !== 0) {
                     let enc_key = parsedXML.getAttribute("enc_key")
+                    let dec_key = parsedXML.getAttribute("dec_key")
 
                     localStorage.setItem("sessionDRM", enc_key)
+                    // localStorage.setItem("sessionId", dec_key)
                     localStorage.setItem("sessionTitle", sessionName)
 
                     setNetwork1Api(enc_key)
@@ -329,6 +331,7 @@ export default function App(props) {
                     return enc_key
                 } else {
                     localStorage.setItem("sessionDRM", "Invalid Login")
+                    // localStorage.setItem("sessionId", "Invalid Login")
                     return "Invalid Login"
                 }
             }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import App from "./App"
 import Navbar from "./components/Navbar"
 import Settings from "./Settings"
-import { isLocalDev, getRestEndpoint, appVersionNumber } from "./Utils"
+import { isLocalDev, getRestEndpoint } from "./Utils"
 import testTemplate from "../public/DevTemplates/Dark Dev Template.json"
 // import testTemplate from "../public/devTemplates/Multiplex Light Dev Template.json"
 const endpoint = getRestEndpoint()

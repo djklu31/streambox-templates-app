@@ -35,6 +35,10 @@ body {
     color: rgb(240, 240, 240);
 }
 
+.ReactModal__Overlay--after-open {
+    background-color: rgb(10, 10, 12, 0.7) !important;
+}
+
 .containers {
     display: grid;
     margin: 3em 3em;
@@ -316,6 +320,18 @@ footer {
     grid-template-columns: 0.65fr 1fr;
 }
 
+/* #chatpass-div {
+    display: flex;
+    flex-direction: column;
+} */
+
+#close-btn-modal {
+    margin-left: auto;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 .host-name-input {
     border-radius: 5px;
 }
@@ -448,8 +464,18 @@ input[name="decoderIP"] {
     height: 30px;
 }
 
+.input-box-modal {
+    height: 30px;
+    margin-left: 10px;
+}
+
 .input-div {
     padding: 0.75em;
+}
+
+.modal-btn {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 select,
