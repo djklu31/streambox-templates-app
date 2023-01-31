@@ -898,70 +898,70 @@ export default function SessionsPanel(props) {
                                 </label>
                             </p>
                             <div className="ldmp-settings-body">
-                                <p>
+                                <p class="ldmp-paragraph">
                                     <label for="MPUDP_ACK_TO">
                                         ACK Timeout:
                                     </label>
                                     <input
                                         type="text"
                                         id="MPUDP_ACK_TO"
-                                        className="ldmp_params input-box-modal"
+                                        className="input-box-modal"
                                         placeholder="300"
                                     />
                                 </p>
-                                <p>
+                                <p class="ldmp-paragraph">
                                     <label for="codecPacketSize">
                                         Echo Packets Size:
                                     </label>
                                     <input
                                         type="text"
                                         id="codecPacketSize"
-                                        className="ldmp_params input-box-modal"
+                                        className="input-box-modal"
                                         placeholder="1200"
                                     />
                                 </p>
-                                <p>
+                                <p class="ldmp-paragraph">
                                     <label for="MPUDP_SND_TO">
                                         Interface Timeout:
                                     </label>
                                     <input
                                         type="text"
                                         id="MPUDP_SND_TO"
-                                        className="ldmp_params input-box-modal"
+                                        className="input-box-modal"
                                         placeholder="10000"
                                     />
                                 </p>
-                                <p>
+                                <p class="ldmp-paragraph">
                                     <label for="MPUDP_CWND">
                                         Buffer Size Packets:
                                     </label>
                                     <input
                                         type="text"
                                         id="MPUDP_CWND"
-                                        className="ldmp_params input-box-modal"
+                                        className="input-box-modal"
                                         placeholder="400"
                                     />
                                 </p>
 
-                                <p>
+                                <p class="ldmp-paragraph">
                                     <label for="MPUDP_CWND_MIN">
                                         Jitter 1:
                                     </label>
                                     <input
                                         type="text"
                                         id="MPUDP_CWND_MIN"
-                                        className="ldmp_params input-box-modal"
+                                        className="input-box-modal"
                                         placeholder="5"
                                     />
                                 </p>
-                                <p>
+                                <p class="ldmp-paragraph">
                                     <label for="MPUDP_CWND_MAX">
                                         Jitter 2:
                                     </label>
                                     <input
                                         type="text"
                                         id="MPUDP_CWND_MAX"
-                                        className="ldmp_params input-box-modal"
+                                        className="input-box-modal"
                                         placeholder="400"
                                     />
                                 </p>
@@ -977,26 +977,28 @@ export default function SessionsPanel(props) {
                         </div>
                         <hr />
                         <h2>Chat Password</h2>
-                        <label>
-                            Chat Password (
-                            {/* <span>
+                        <p className="ldmp-paragraph">
+                            <label>
+                                Chat Password:
+                                {/* (
+                            <span>
                                 {chatPassExists === "true" ? "SET" : "NOT SET"}
-                            </span> */}
-                            ):
-                        </label>
-                        <input
-                            className="input-box-modal"
-                            id="set-chatpass-input"
-                            type="password"
-                        />
-                        <div>
-                            <button
-                                className="sessions-panel-top-btns modal-btn"
-                                onClick={setChatPass}
-                            >
-                                Save Chat Password
-                            </button>
-                        </div>
+                            </span>
+                            ): */}
+                            </label>
+                            <input
+                                className="input-box-modal"
+                                id="set-chatpass-input"
+                                type="password"
+                            />
+                            <div></div>
+                        </p>
+                        <button
+                            className="sessions-panel-top-btns modal-btn"
+                            onClick={setChatPass}
+                        >
+                            Save Chat Password
+                        </button>
                     </Modal>
                     <button
                         className="sessions-panel-top-btns"

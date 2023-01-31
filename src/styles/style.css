@@ -14,6 +14,14 @@ body {
     text-align: center;
 }
 
+#set-colorspace-select {
+    width: 100%;
+}
+
+.ldmp-paragraph {
+    display: flex;
+}
+
 .container {
     border-radius: 5px;
     padding: 0.5em;
@@ -467,6 +475,7 @@ input[name="decoderIP"] {
 .input-box-modal {
     height: 30px;
     margin-left: 10px;
+    flex-grow: 1;
 }
 
 .input-div {
