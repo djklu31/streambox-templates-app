@@ -1,0 +1,664 @@
+{
+  "template": {
+    "darkMode": true,
+    "backgroundRefreshTime": 7000,
+    "navbar": {
+      "routes": [
+        {
+          "routeName": "Multichannel Selection",
+          "isMultichannelPage": true,
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "DAB_CX-1",
+              "apiSrc": "/REST/encoder/status.json",
+              "postEndpoint": "/REST/encoder/metadata.json",
+              "backgroundColor": "gainsboro",
+              "type": "multichannel-container",
+              "fields": [
+                {
+                  "type": "plainText",
+                  "text": "Bitrate: 3020 Kbps"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Signal: 1080p23.98"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Title: CNN / Streambox 8Mbps Test"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Dest: 127.0.0.1"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Port: 1770"
+                },
+                {
+                  "type": "button",
+                  "presetSrc": "/REST/encoder/presets.json",
+                  "action": "applyPreset",
+                  "size": "big",
+                  "backgroundColor": "#333",
+                  "label": "Turn Off"
+                }
+              ]
+            },
+            {
+              "title": "DAB_CX-2",
+              "apiSrc": "/REST/encoder/status.json",
+              "postEndpoint": "/REST/encoder/metadata.json",
+              "backgroundColor": "gainsboro",
+              "type": "multichannel-container",
+              "fields": [
+                {
+                  "type": "plainText",
+                  "text": "Bitrate: 3020 Kbps"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Signal: 1080p23.98"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Title: CNN / Streambox 8Mbps Test"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Dest: 127.0.0.1"
+                },
+                {
+                  "type": "plainText",
+                  "text": "Port: 1770"
+                },
+                {
+                  "type": "button",
+                  "presetSrc": "/REST/encoder/presets.json",
+                  "action": "applyPreset",
+                  "size": "big",
+                  "backgroundColor": "#333",
+                  "label": "Turn Off"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Session @JS_ENC@",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "Video",
+              "apiSrc": [
+                "/REST/encoder/@JS_PORT@/status.json",
+                "/REST/encoder/@JS_PORT@/audio.json"
+              ],
+              "containerStyle": {
+                "stretchVertically": 2
+              },
+              "fields": [
+                {
+                  "type": "video",
+                  "hasVUMeter": true,
+                  "audioLevelEndpoint": "/REST/encoder/@JS_PORT@/audiolevels.json",
+                  "previewImageRoute": "/REST/encoder/@JS_PORT@/preview/JPG.jpeg"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Source Video Format",
+                  "mapping": "inputsignal",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Network Mode",
+                      "mapping": "cnetworkmode"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Bitrate",
+                      "mapping": "cur_bitrate"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Quality",
+                      "mapping": "vquality"
+                    }
+                  ]
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Dropped Captured Frames",
+                  "mapping": "dropCapture",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Dropped Encoder Frames",
+                      "mapping": "dropEnc"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "SDI errors",
+                      "mapping": "sdi_error"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Frame Delay",
+                      "mapping": "frame_delay"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Start Streaming",
+              "apiSrc": [
+                "/REST/encoder/@JS_PORT@/status.json",
+                "/REST/encoder/@JS_PORT@/presets.json"
+              ],
+              "fields": [
+                {
+                  "type": "button",
+                  "size": "giant",
+                  "mapping": "isStreaming",
+                  "action": "toggleStreaming"
+                },
+                {
+                  "type": "presetSelect",
+                  "label": "Preset",
+                  "btnPresetSrc": "/REST/encoder/@JS_PORT@/presets.json",
+                  "btnLabel": "Apply Preset",
+                  "btnAction": "applyPreset",
+                  "mapping": "none"
+                }
+              ]
+            },
+            {
+              "type": "sessionsPanel"
+            }
+          ]
+        },
+        {
+          "routeName": "Info",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "Video",
+              "apiSrc": [
+                "/REST/encoder/@JS_PORT@/status.json",
+                "/REST/encoder/@JS_PORT@/audio.json"
+              ],
+              "containerStyle": {
+                "stretchVertically": 2
+              },
+              "fields": [
+                {
+                  "type": "video",
+                  "hasVUMeter": true,
+                  "audioLevelEndpoint": "/REST/encoder/@JS_PORT@/audiolevels.json",
+                  "previewImageRoute": "/REST/encoder/@JS_PORT@/preview/JPG.jpeg"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Source Video Format",
+                  "mapping": "inputsignal",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Network Mode",
+                      "mapping": "cnetworkmode"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Bitrate",
+                      "mapping": "cur_bitrate"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Quality",
+                      "mapping": "vquality"
+                    }
+                  ]
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Dropped Captured Frames",
+                  "mapping": "dropCapture",
+                  "inlineElements": [
+                    {
+                      "type": "mappedText",
+                      "label": "Dropped Encoder Frames",
+                      "mapping": "dropEnc"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "SDI errors",
+                      "mapping": "sdi_error"
+                    },
+                    {
+                      "type": "mappedText",
+                      "label": "Frame Delay",
+                      "mapping": "frame_delay"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Network",
+              "apiSrc": "/REST/encoder/@JS_PORT@/status.json",
+              "fields": [
+                {
+                  "type": "mappedText",
+                  "label": "Encoder IP",
+                  "mapping": "c_encoderIP"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Decoder IP",
+                  "mapping": "c_decoderIP"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Packet Size",
+                  "mapping": "c_packetsize"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Shuffle",
+                  "mapping": "cshuffle"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Buffer",
+                  "mapping": "cbuffer"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Bytes",
+                  "mapping": "cbytes"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Packets Sent",
+                  "mapping": "sent_packets"
+                },
+                {
+                  "type": "mappedText",
+                  "label": "Transmission",
+                  "mapping": "is_ldmp"
+                }
+              ]
+            },
+            {
+              "title": "Start Streaming",
+              "apiSrc": [
+                "/REST/encoder/@JS_PORT@/status.json",
+                "/REST/encoder/@JS_PORT@/presets.json"
+              ],
+              "fields": [
+                {
+                  "type": "button",
+                  "size": "giant",
+                  "mapping": "isStreaming",
+                  "action": "toggleStreaming"
+                },
+                {
+                  "type": "presetSelect",
+                  "label": "Preset",
+                  "btnPresetSrc": "/REST/encoder/@JS_PORT@/presets.json",
+                  "btnLabel": "Apply Preset",
+                  "btnAction": "applyPreset",
+                  "mapping": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Network",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "Bitrate and Buffer Settings",
+              "apiSrc": [
+                "/REST/encoder/@JS_PORT@/network.json",
+                "/REST/encoder/@JS_PORT@/video.json"
+              ],
+              "type": "form",
+              "postEndpoint": "/REST/encoder/@JS_PORT@/video.json",
+              "fields": [
+                {
+                  "type": "input",
+                  "label": "Target Bitrate",
+                  "mapping": "TargetBitrate",
+                  "endLabel": "kbps"
+                },
+                {
+                  "type": "input",
+                  "label": "VBR Buffer",
+                  "mapping": "VBR",
+                  "endLabel": "seconds"
+                },
+                {
+                  "type": "checkbox",
+                  "label": "Packet Stuffing",
+                  "mapping": "stuffing"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Transport Settings",
+              "apiSrc": "/REST/encoder/@JS_PORT@/transport.json",
+              "postEndpoint": "/REST/encoder/@JS_PORT@/transport.json",
+              "type": "form",
+              "containerStyle": {
+                "stretchVertically": 2
+              },
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "Protocol",
+                  "mapping": "ldmp-use"
+                },
+                {
+                  "type": "input",
+                  "label": "CWND",
+                  "mapping": "ldmp-cwnd"
+                },
+                {
+                  "type": "input",
+                  "label": "CWND MIN",
+                  "mapping": "ldmp-cwndmin"
+                },
+                {
+                  "type": "input",
+                  "label": "CWND MAX",
+                  "mapping": "ldmp-cwndmax"
+                },
+                {
+                  "type": "input",
+                  "label": "ACK Timeout",
+                  "mapping": "ldmp-ackto"
+                },
+                {
+                  "type": "input",
+                  "label": "Send Timeout",
+                  "mapping": "ldmp-sndto"
+                },
+                {
+                  "type": "input",
+                  "label": "RTT Multiplier",
+                  "mapping": "ldmp-rttm"
+                },
+                {
+                  "type": "input",
+                  "label": "Pre-buffer for packet delay (jitter)",
+                  "mapping": "ldmp-jitter2p"
+                },
+                {
+                  "type": "input",
+                  "label": "Shaping Percent",
+                  "mapping": "ldmp-maxbrt"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Target Decoder",
+              "apiSrc": [
+                "/REST/encoder/@JS_PORT@/network.json",
+                "/REST/encoder/@JS_PORT@/status.json"
+              ],
+              "postEndpoint": "/REST/encoder/@JS_PORT@/network.json",
+              "type": "form",
+              "fields": [
+                {
+                  "type": "input",
+                  "label": "Destination IP",
+                  "mapping": "decoderIP"
+                },
+                {
+                  "type": "input",
+                  "label": "Destination Port",
+                  "mapping": "port",
+                  "endLabel": "UDP (default: 1770)"
+                },
+                {
+                  "type": "input",
+                  "label": "IP Packet Size",
+                  "mapping": "packetsize",
+                  "endLabel": "bytes (default: 1392)"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Forward Error Correction",
+              "apiSrc": "/REST/encoder/@JS_PORT@/network.json",
+              "postEndpoint": "/REST/encoder/@JS_PORT@/network.json",
+              "type": "form",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "FEC",
+                  "mapping": "FEC"
+                },
+                {
+                  "type": "select",
+                  "label": "Shuffle",
+                  "mapping": "shuffle"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Config",
+          "containersStyle": {
+            "numberOfColumns": 2
+          },
+          "containers": [
+            {
+              "title": "Video Settings",
+              "apiSrc": "/REST/encoder/video.json",
+              "postEndpoint": "/REST/encoder/@JS_PORT@/video.json",
+              "type": "form",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "Video Resolution",
+                  "mapping": "Resolution"
+                },
+                {
+                  "type": "select",
+                  "label": "Color Profile",
+                  "mapping": "ColorSpace",
+                  "endLabel": "(default: 4:2:2)"
+                },
+                {
+                  "type": "select",
+                  "label": "Framerate",
+                  "mapping": "FrameRate",
+                  "endLabel": "(default: Full)"
+                },
+                {
+                  "type": "input",
+                  "label": "Key Frames",
+                  "mapping": "KeyFrame",
+                  "endLabel": "(default: 300 frames)"
+                },
+                {
+                  "type": "checkbox",
+                  "label": "Advanced Profile",
+                  "mapping": "RecycleIntra",
+                  "endLabel": "(Default: Off)"
+                },
+                {
+                  "type": "select",
+                  "label": "Bit Depth",
+                  "mapping": "BitDepth",
+                  "endLabel": "(Default: 10-bit)"
+                },
+                {
+                  "type": "select",
+                  "label": "Color Space",
+                  "mapping": "NativeColorSpace",
+                  "endLabel": "For RGB 4:4:4 only"
+                },
+                {
+                  "type": "input",
+                  "label": "Dynamic Resolution Quality",
+                  "mapping": "DynamicRes",
+                  "endLabel": "set to 0 to turn off"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            },
+            {
+              "title": "Audio Settings",
+              "apiSrc": "/REST/encoder/@JS_PORT@/audio.json",
+              "type": "form",
+              "postEndpoint": "/REST/encoder/@JS_PORT@/audio.json",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "Codec",
+                  "mapping": "AudioCodec",
+                  "endLabel": "(default: AAC)"
+                },
+                {
+                  "type": "select",
+                  "label": "Channels",
+                  "mapping": "AudioChannels",
+                  "endLabel": "(default: 2-ch)"
+                },
+                {
+                  "type": "select",
+                  "label": "Sample Rate",
+                  "mapping": "SampleRate",
+                  "endLabel": "(default: 48000 Hz)"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Metadata",
+          "containers": [
+            {
+              "title": "Metadata Settings",
+              "apiSrc": "/REST/encoder/@JS_PORT@/metadata.json",
+              "type": "form",
+              "postEndpoint": "/REST/encoder/@JS_PORT@/metadata.json",
+              "fields": [
+                {
+                  "type": "input",
+                  "label": "Title",
+                  "mapping": "Meta_Slug"
+                },
+                {
+                  "type": "input",
+                  "label": "Location",
+                  "mapping": "Meta_Location"
+                },
+                {
+                  "type": "input",
+                  "label": "Reporter",
+                  "mapping": "Meta_Reporter"
+                },
+                {
+                  "type": "input",
+                  "label": "Producer",
+                  "mapping": "Meta_Producer"
+                },
+                {
+                  "type": "input",
+                  "label": "DRM",
+                  "mapping": "Meta_Network1"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "routeName": "Encryption",
+          "containers": [
+            {
+              "title": "Encryption",
+              "apiSrc": "/REST/encoder/@JS_PORT@/encryption.json",
+              "type": "form",
+              "postEndpoint": "/REST/encoder/@JS_PORT@/encryption.json",
+              "fields": [
+                {
+                  "type": "select",
+                  "label": "AES-128 Encryption",
+                  "mapping": "crypt_mode"
+                },
+                {
+                  "type": "input",
+                  "label": "Encryption Key",
+                  "mapping": "crypt_key"
+                },
+                {
+                  "type": "button",
+                  "action": "submitLocalForm",
+                  "size": "small",
+                  "label": "Apply Changes"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

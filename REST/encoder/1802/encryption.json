@@ -1,0 +1,46 @@
+{
+    "current_stat": [
+        {
+            "cname": "EnableAES",
+            "type": 3,
+            "label": "AES Enabled?",
+            "val": 1,
+            "read_only": 1
+        },
+        {
+            "cname": "crypt_limit",
+            "type": 1,
+            "label": "Encryption Limit",
+            "val": 4,
+            "read_only": 1
+        },
+        {
+            "cname": "crypt_mode",
+            "type": 2,
+            "label": "Encryption Mode",
+            "val": 4,
+            "sub_values": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "val_labels": [
+                "No",
+                "AES-128",
+                "AES-192",
+                "AES-256",
+                "GOST-15"
+            ],
+            "read_only": 0
+        },
+        {
+            "cname": "crypt_key",
+            "type": 0,
+            "label": "Encryption Key",
+            "val": "1",
+            "read_only": 0
+        }
+    ]
+}

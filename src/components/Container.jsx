@@ -328,7 +328,7 @@ export default function Container(props) {
             returnArr = (
                 <p
                     className="fields"
-                    key="${field.type}-${index}"
+                    key={`${field.type}-${index}`}
                     style={fieldStyle}
                 >
                     <span className="plain-text">{field.text}</span>
@@ -353,7 +353,7 @@ export default function Container(props) {
             returnArr = (
                 <p
                     className="fields"
-                    key={`${field.label}-${index}`}
+                    key={`${field.label}-${index}-${field.mapping}`}
                     style={fieldStyle}
                 >
                     <span className="field-label">{field.label}</span>: {result}
@@ -491,7 +491,7 @@ export default function Container(props) {
                 if (filteredStat) {
                     returnArr = (
                         <Input
-                            key={`input-${index}`}
+                            key={`input-${index}-${filteredStat[0].cname}`}
                             name={filteredStat[0].cname}
                             endLabel={field.endLabel}
                             label={field.label}
@@ -511,7 +511,7 @@ export default function Container(props) {
                 if (filteredStat) {
                     returnArr = (
                         <Checkbox
-                            key={`checkbox-${index}`}
+                            key={`checkbox-${index}-${filteredStat[0].cname}`}
                             name={filteredStat[0].cname}
                             label={field.label}
                             checked={filteredStat[0].val}
@@ -532,7 +532,7 @@ export default function Container(props) {
                 if (filteredStat) {
                     returnArr = (
                         <Select
-                            key={`select-${index}`}
+                            key={`select-${index}-${field.mapping}`}
                             name={filteredStat[0].cname}
                             subValues={filteredStat[0].sub_values}
                             value={filteredStat[0].val}
@@ -577,7 +577,10 @@ export default function Container(props) {
 
         if (inlineElementsArray && inlineElementsArray.length > 0) {
             return (
-                <div className="inline-field" key={`inline-${index}`}>
+                <div
+                    className="inline-field"
+                    key={`inline-${index}-${field.mapping}`}
+                >
                     {returnArr}
                     {inlineElementsArray}
                 </div>
