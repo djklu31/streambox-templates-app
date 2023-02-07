@@ -328,6 +328,8 @@ export default function SessionsPanel(props) {
                             route
                     )
                 } else {
+                    let route = ""
+
                     if (customPort !== undefined) {
                         route = `/REST/encoder/${customPort}/metadata`
                     } else {
