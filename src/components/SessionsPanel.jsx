@@ -24,6 +24,10 @@ export default function SessionsPanel(props) {
     // const [chatPassExists, setChatPassExists] = useState("")
 
     let sessionDashXML = props.sessionDashXML
+    let buttons = props.buttons
+
+    buttons = buttons.map((button) => button.toLowerCase())
+
     let selectedColorspaceId = "0"
     let session_id = ""
     let ldmpSettings = ""
@@ -440,23 +444,36 @@ export default function SessionsPanel(props) {
                             <span className="session-id-readout">none</span>
                         </span>
                     </div>
-                    <button
-                        className="sessions-panel-top-btns"
-                        onClick={handleCreateNewSessionBtnWrapper}
-                        disabled
-                    >
-                        Create New Session
-                    </button>
-                    <button
-                        className="sessions-panel-top-btns"
-                        onClick={openAdvancedSettings}
-                        disabled
-                    >
-                        Advanced
-                    </button>
-                    <button className="sessions-panel-top-btns" disabled>
-                        Invite to Session...
-                    </button>
+
+                    {buttons.includes("create") ? (
+                        <button
+                            className="sessions-panel-top-btns"
+                            onClick={handleCreateNewSessionBtnWrapper}
+                            disabled
+                        >
+                            Create New Session
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    {buttons.includes("advanced") ? (
+                        <button
+                            className="sessions-panel-top-btns"
+                            onClick={openAdvancedSettings}
+                            disabled
+                        >
+                            Advanced
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    {buttons.includes("invite") ? (
+                        <button className="sessions-panel-top-btns" disabled>
+                            Invite to Session...
+                        </button>
+                    ) : (
+                        ""
+                    )}
                 </div>
                 <hr />
                 <div className="msg-wrapper">
@@ -475,22 +492,34 @@ export default function SessionsPanel(props) {
                             <span className="session-id-readout">none</span>
                         </span>
                     </div>
-                    <button
-                        className="sessions-panel-top-btns"
-                        onClick={handleCreateNewSessionBtnWrapper}
-                    >
-                        Create New Session
-                    </button>
-                    <button
-                        className="sessions-panel-top-btns"
-                        onClick={openAdvancedSettings}
-                        disabled
-                    >
-                        Advanced
-                    </button>
-                    <button className="sessions-panel-top-btns" disabled>
-                        Invite to Session...
-                    </button>
+                    {buttons.includes("create") ? (
+                        <button
+                            className="sessions-panel-top-btns"
+                            onClick={handleCreateNewSessionBtnWrapper}
+                        >
+                            Create New Session
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    {buttons.includes("advanced") ? (
+                        <button
+                            className="sessions-panel-top-btns"
+                            onClick={openAdvancedSettings}
+                            disabled
+                        >
+                            Advanced
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    {buttons.includes("invite") ? (
+                        <button className="sessions-panel-top-btns" disabled>
+                            Invite to Session...
+                        </button>
+                    ) : (
+                        ""
+                    )}
                 </div>
                 <hr />
                 <div className="msg-wrapper">
@@ -825,18 +854,38 @@ export default function SessionsPanel(props) {
                             )}
                         </span>
                     </div>
-                    <button
-                        className="sessions-panel-top-btns"
-                        onClick={handleCreateNewSessionBtnWrapper}
-                    >
-                        Create New Session
-                    </button>
-                    <button
-                        className="sessions-panel-top-btns"
-                        onClick={openAdvancedSettings}
-                    >
-                        Advanced
-                    </button>
+
+                    {buttons.includes("create") ? (
+                        <button
+                            className="sessions-panel-top-btns"
+                            onClick={handleCreateNewSessionBtnWrapper}
+                        >
+                            Create New Session
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    {buttons.includes("advanced") ? (
+                        <button
+                            className="sessions-panel-top-btns"
+                            onClick={openAdvancedSettings}
+                        >
+                            Advanced
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    {buttons.includes("invite") ? (
+                        <button
+                            className="sessions-panel-top-btns"
+                            onClick={() => handleClick("openEmailPage")}
+                        >
+                            Invite to Session...
+                        </button>
+                    ) : (
+                        ""
+                    )}
+
                     <Modal
                         isOpen={modalIsOpen}
                         onAfterOpen={setupProtoRadios}
@@ -1002,12 +1051,6 @@ export default function SessionsPanel(props) {
                             Save Chat Password
                         </button>
                     </Modal>
-                    <button
-                        className="sessions-panel-top-btns"
-                        onClick={() => handleClick("openEmailPage")}
-                    >
-                        Invite to Session...
-                    </button>
                 </div>
                 <hr />
                 {decInfoArray.length > 0 ? (

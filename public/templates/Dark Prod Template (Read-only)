@@ -96,7 +96,8 @@
               ]
             },
             {
-              "type": "sessionsPanel"
+              "type": "sessionsPanel",
+              "buttons": ["create", "advanced", "invite"]
             }
           ]
         },

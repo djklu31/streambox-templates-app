@@ -633,9 +633,11 @@ export default function Container(props) {
         if (containerType === "sessionsPanel") {
             let customHost = container.host
             let customPort = container.port
+            let buttons = container.buttons
             mappedFields = (
                 <SessionsPanel
                     sessionDashXML={props.sessionDashXML}
+                    buttons={buttons}
                     customHost={customHost}
                     customPort={customPort}
                     handleCreateNewSessionBtn={props.handleCreateNewSessionBtn}
