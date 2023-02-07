@@ -112,7 +112,7 @@ export async function getStreamingStatus() {
 
 export function getRestEndpoint() {
     if (isLocalDev) {
-        const hostname = "10.0.1.240"
+        const hostname = "10.0.3.219"
         //moving port number
         const port = "80"
         return `http://${hostname}:${port}`

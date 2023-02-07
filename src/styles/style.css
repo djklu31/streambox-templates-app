@@ -679,3 +679,12 @@ Multichannel Page Styles
     width: initial;
     margin-right: 95px;
 }
+
+#down-arrow {
+    position: relative;
+    bottom: -85px;
+    width: 95px;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}

@@ -373,6 +373,7 @@ export default function Settings(props) {
             }
             const prettyJson = JSON.stringify(json, undefined, 2)
             document.getElementById("template-area").style.display = "flex"
+            document.getElementById("down-arrow").style.display = "initial"
             // document.querySelector(".edit-template-area").value = prettyJson
 
             setCodeValue(prettyJson)
@@ -882,6 +883,13 @@ export default function Settings(props) {
                         <button id="edit-btn" onClick={openApplyPage}>
                             ←&nbsp;&nbsp;Go Back
                         </button>
+                        <img
+                            id="down-arrow"
+                            src="../../images/down-arrow.png"
+                            onClick={() => {
+                                scrollBy(0, 800)
+                            }}
+                        />
                     </div>
                 </div>
                 {/* <div id="template-area" style={{ display: "none" }}>

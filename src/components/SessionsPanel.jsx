@@ -24,9 +24,11 @@ export default function SessionsPanel(props) {
     // const [chatPassExists, setChatPassExists] = useState("")
 
     let sessionDashXML = props.sessionDashXML
-    let buttons = props.buttons
+    let buttons = props.buttons || []
 
-    buttons = buttons.map((button) => button.toLowerCase())
+    if (buttons.length > 0) {
+        buttons = buttons.map((button) => button.toLowerCase())
+    }
 
     let selectedColorspaceId = "0"
     let session_id = ""
