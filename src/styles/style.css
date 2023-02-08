@@ -126,6 +126,16 @@ input[type="submit"],
     box-shadow: 2px 1px #555;
 }
 
+.small-button {
+    padding: 3px 7px;
+    border-radius: 7px;
+    border: 0px;
+    background-color: #4d84c4;
+    color: white;
+    letter-spacing: 0.05rem;
+    box-shadow: 2px 1px #555;
+}
+
 .outer-container {
     max-width: 1500px;
     margin-left: auto;
@@ -417,7 +427,7 @@ footer {
 
 .inline-field {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .logout-btn:hover,
@@ -687,4 +697,8 @@ Multichannel Page Styles
     margin-left: auto;
     margin-right: auto;
     display: none;
+}
+
+a {
+    text-decoration: none;
 }

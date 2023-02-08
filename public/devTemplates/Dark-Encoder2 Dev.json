@@ -20,7 +20,16 @@
                             "fields": [
                                 {
                                     "type": "plainText",
-                                    "text": "Bitrate: 3020 Kbps"
+                                    "text": "Bitrate: 3020 Kbps",
+                                    "inlineElements": [
+                                        {
+                                            "type": "button",
+                                            "action": "redirect",
+                                            "redirectURL": "https://streambox.com/",
+                                            "label": "Open",
+                                            "size": "big"
+                                        }
+                                    ]
                                 },
                                 {
                                     "type": "plainText",
@@ -57,7 +66,16 @@
                             "fields": [
                                 {
                                     "type": "plainText",
-                                    "text": "Bitrate: 3020 Kbps"
+                                    "text": "Bitrate: 3020 Kbps",
+                                    "inlineElements": [
+                                        {
+                                            "type": "button",
+                                            "action": "redirect",
+                                            "redirectURL": "https://streambox.com/",
+                                            "label": "Open",
+                                            "size": "big"
+                                        }
+                                    ]
                                 },
                                 {
                                     "type": "plainText",

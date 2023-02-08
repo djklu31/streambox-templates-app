@@ -303,7 +303,7 @@ export default function Container(props) {
                     field.type !== "video" &&
                     field.type !== "presetSelect")
             ) {
-                return (
+                returnArr = (
                     <p className="fields" style={fieldStyle}>
                         <span className="field-label">{field.label}</span>:
                         {result}
@@ -481,6 +481,7 @@ export default function Container(props) {
                                 : undefined
                         }
                         action={field.action}
+                        redirectURL={field.redirectURL}
                         backgroundColor={field.backgroundColor}
                         buttonPressed={buttonPressed}
                     />
@@ -661,11 +662,11 @@ export default function Container(props) {
         >
             <h4 className="container-title">
                 {title}
-                {isMultiChannelSelection && (
+                {/* {isMultiChannelSelection && (
                     <button className="big-button multichannel-title-btn">
                         Open
                     </button>
-                )}
+                )} */}
             </h4>
             <hr />
 

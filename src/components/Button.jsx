@@ -4,6 +4,17 @@ export default function Button(props) {
     let button
     let action
     let styles = {}
+    let size = ""
+
+    if (props.size) {
+        if (props.size === "big") {
+            size = "big-button"
+        } else if (props.size === "giant") {
+            size = "giant-button"
+        } else if (props.size === "small") {
+            size = "small-button"
+        }
+    }
 
     if (props.backgroundColor) {
         styles = { backgroundColor: props.backgroundColor }
@@ -57,46 +68,43 @@ export default function Button(props) {
                 </p>
             )
         }
-    } else {
-        if (props.size === "big") {
+    } else if (props.action === "redirect") {
+        if (props.redirectURL !== undefined) {
             button = (
                 <p className="fields">
-                    <button
+                    <a
                         style={styles}
-                        className="big-button"
-                        onClick={() => {
-                            props.buttonPressed(props.action)
-                        }}
+                        className={size}
+                        target="_blank"
+                        href={props.redirectURL}
                     >
                         {props.label}
-                    </button>
+                    </a>
                 </p>
             )
         } else {
             button = (
-                <p className="fields">
-                    <button
-                        style={styles}
-                        className="small-button"
-                        onClick={() => {
-                            props.buttonPressed(props.action)
-                        }}
-                    >
-                        {props.label}
-                    </button>
-                </p>
+                <span style={{ color: "red", marginLeft: "30px" }}>
+                    A redirectURL parameter in the template is required for
+                    button redirect.
+                </span>
             )
         }
+    } else {
+        button = (
+            <p className="fields">
+                <button
+                    style={styles}
+                    className={size}
+                    onClick={() => {
+                        props.buttonPressed(props.action)
+                    }}
+                >
+                    {props.label}
+                </button>
+            </p>
+        )
     }
-
-    // if (props.size === "giant") {
-    //     button = <div className="giant-button-container"><button onClick={() => props.buttonPressed(action)}  className="giant-button">{props.label}</button></div>
-    // } else if (props.size === "big") {
-    //     button = <div className="big-button-container"><button className="big-button">{props.label}</button></div>
-    // } else if (props.size === "small") {
-    //     button = <p className="fields">{action === "submitLocalForm" ? <input type="submit" value={props.label}/>
-    //         : <button className="small-button">{props.label}</button>}</p>
-    // }
 
     return button
 }
